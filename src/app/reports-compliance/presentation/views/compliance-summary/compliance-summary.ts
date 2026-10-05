@@ -3,9 +3,11 @@ import { RouterLink } from '@angular/router';
 import { ProjectReport } from '../../../domain/model/project-report';
 import { ComplianceStore } from '../../../application/compliance.store';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { NavigationItem } from '../../../../shared/model/navigation-item';
 
 @Component({ selector: 'app-compliance-summary', imports: [RouterLink, AppShell], styleUrl: './compliance-summary.scss', templateUrl: './compliance-summary.html' })
 export class ComplianceSummary {
+  protected readonly navigation: NavigationItem[] = [{ label: 'Reportes', route: '/reports', icon: 'description' }, { label: 'Generar auditoría', route: '/reports/audit', icon: 'note_add' }, { label: 'Cumplimiento', route: '/reports/compliance', icon: 'verified_user' }, { label: 'Documentos', route: '/documents/normative', icon: 'folder_open' }];
   protected readonly store = inject(ComplianceStore);
   protected readonly selectedFilter = signal<'all' | 'pending' | 'critical'>('all');
   protected readonly notification = signal('');
