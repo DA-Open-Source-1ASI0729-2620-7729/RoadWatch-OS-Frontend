@@ -1,10 +1,17 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { NavigationItem } from '../../../../shared/model/navigation-item';
 
 interface EvidenceRecord { id: string; name: string; relation: string; type: 'Fotografía' | 'Documento'; author: string; date: string; status: 'Cargada' | 'En revisión'; }
 
-@Component({ selector: 'app-evidence-library', imports: [RouterLink], styleUrl: './evidence-library.scss', templateUrl: './evidence-library.html' })
+@Component({ selector: 'app-evidence-library', imports: [AppShell], styleUrl: './evidence-library.scss', templateUrl: './evidence-library.html' })
 export class EvidenceLibrary {
+  protected readonly navigation: NavigationItem[] = [
+    { label: 'Documentos normativos', route: '/documents/normative', icon: 'folder_open' },
+    { label: 'Evidencias', route: '/documents/evidence', icon: 'photo_library' },
+    { label: 'Documentos requeridos', route: '/documents/required', icon: 'fact_check' },
+    { label: 'Reportes', route: '/reports', icon: 'description' },
+  ];
   protected readonly notification = signal('');
   protected readonly evidence = signal<EvidenceRecord[]>([
     { id: 'EV-104', name: 'Foto frente de obra N-04.jpg', relation: 'Incidencia INC-0142', type: 'Fotografía', author: 'Jorge Ramos', date: '12/09/2026', status: 'Cargada' },
