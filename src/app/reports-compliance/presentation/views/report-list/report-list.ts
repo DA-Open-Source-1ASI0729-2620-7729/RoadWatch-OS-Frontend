@@ -3,16 +3,11 @@ import { RouterLink } from '@angular/router';
 import { ReportsStore } from '../../../application/reports.store';
 import { AuditReport, AuditReportStatus } from '../../../domain/model/audit-report';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
-import { NavigationItem } from '../../../../shared/model/navigation-item';
+import { AppNavigation } from '../../../../app-navigation';
 
 @Component({ selector: 'app-report-list', imports: [RouterLink, AppShell], styleUrl: './report-list.scss', templateUrl: './report-list.html' })
 export class ReportList {
-  protected readonly navigation: NavigationItem[] = [
-    { label: 'Reportes', route: '/reports', icon: 'description' },
-    { label: 'Generar auditoría', route: '/reports/audit', icon: 'note_add' },
-    { label: 'Cumplimiento', route: '/reports/compliance', icon: 'verified_user' },
-    { label: 'Documentos', route: '/documents/normative', icon: 'folder_open' },
-  ];
+  protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(ReportsStore);
   protected readonly selectedReport = signal<AuditReport | null>(null);
   protected readonly notification = signal('');

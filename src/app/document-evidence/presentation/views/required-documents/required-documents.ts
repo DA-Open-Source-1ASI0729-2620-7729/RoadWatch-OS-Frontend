@@ -1,17 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
-import { NavigationItem } from '../../../../shared/model/navigation-item';
+import { AppNavigation } from '../../../../app-navigation';
 
 interface RequiredDocument { name: string; milestone: string; type: string; status: 'Cargado' | 'Pendiente'; dueDate: string; }
 
 @Component({ selector: 'app-required-documents', imports: [AppShell], styleUrl: './required-documents.scss', templateUrl: './required-documents.html' })
 export class RequiredDocuments {
-  protected readonly navigation: NavigationItem[] = [
-    { label: 'Documentos normativos', route: '/documents/normative', icon: 'folder_open' },
-    { label: 'Evidencias', route: '/documents/evidence', icon: 'photo_library' },
-    { label: 'Documentos requeridos', route: '/documents/required', icon: 'fact_check' },
-    { label: 'Reportes', route: '/reports', icon: 'description' },
-  ];
+  protected readonly navigation = inject(AppNavigation).items;
   protected readonly filter = signal<'Todos' | 'Pendiente'>('Todos');
   protected readonly documents = signal<RequiredDocument[]>([
     { name: 'Certificado calibración N-08.pdf', milestone: 'Auditoría mensual - Septiembre', type: 'Certificado', status: 'Pendiente', dueDate: '30/09/2026' },
