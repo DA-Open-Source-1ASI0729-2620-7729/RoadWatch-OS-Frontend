@@ -8,6 +8,7 @@ export class NormativeDocuments {
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal('');
+  protected readonly selectedDocument = signal<NormativeDocument | null>(null);
   protected readonly milestones = [
     { name: 'Línea base ambiental', progress: '5/5 documentos', complete: true },
     { name: 'Auditoría mensual - Septiembre', progress: '4/5 documentos', complete: false },
@@ -26,5 +27,7 @@ export class NormativeDocuments {
   protected onFileSelected(event: Event): void { const file = (event.target as HTMLInputElement).files?.[0]; if (file) { this.selectedFile.set(file.name); this.notification.set(`Archivo “${file.name}” listo para registrar.`); } }
   protected uploadMissing(document: NormativeDocument): void { this.documents.update(items => items.map(item => item.name === document.name ? { ...item, version: 'v1', uploadedBy: 'EcoAudit · hoy', status: 'Cargado' } : item)); this.notification.set(`${document.name} fue cargado correctamente.`); }
   protected download(document: NormativeDocument): void { this.notification.set(`Preparando la descarga de ${document.name}.`); }
+  protected openDocument(document: NormativeDocument): void { this.selectedDocument.set(document); }
+  protected closeDocument(): void { this.selectedDocument.set(null); }
   protected closeMilestone(): void { this.notification.set('Completa los documentos requeridos antes de cerrar este hito.'); }
 }
