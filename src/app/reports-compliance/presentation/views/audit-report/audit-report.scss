@@ -3,6 +3,7 @@
   min-height: 100dvh;
   color: #1e3844;
 }
+.shell > .sidebar, .shell > main > header { display: none; }
 .shell {
   display: flex;
   min-height: 100dvh;

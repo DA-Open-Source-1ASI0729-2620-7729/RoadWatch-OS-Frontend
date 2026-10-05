@@ -2,10 +2,11 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { AuditReport as AuditReportModel } from '../../../domain/model/audit-report';
 import { ReportExportRequest } from '../../../domain/model/report-export-request';
 import { ReportsStore } from '../../../application/reports.store';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 
 interface ReportSection { id: string; label: string; checked: boolean; }
 
-@Component({ selector: 'app-audit-report', styleUrl: './audit-report.scss', templateUrl: './audit-report.html' })
+@Component({ selector: 'app-audit-report', imports: [AppShell], styleUrl: './audit-report.scss', templateUrl: './audit-report.html' })
 export class AuditReport {
   private readonly reportsStore = inject(ReportsStore);
 

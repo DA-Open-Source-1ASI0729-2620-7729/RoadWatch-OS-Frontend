@@ -1,4 +1,4 @@
-<div class="shell">
+<app-shell breadcrumb="Fiscalización › Documentos normativos"><div class="shell">
   <aside class="sidebar">
     <div class="brand"><span class="brand-mark">⌁</span><span><strong>RoadWatch OS</strong><small>by VíaNexo</small></span></div>
     <div class="account">Módulo de Fiscalización<strong>EcoAudit Consultores</strong></div>
@@ -23,4 +23,4 @@
       @if (selectedDocument(); as document) { <div class="detail-backdrop" (click)="closeDocument()"><aside class="document-detail" (click)="$event.stopPropagation()"><div class="detail-title"><div><span>DETALLE DEL DOCUMENTO</span><h2>{{ document.name }}</h2></div><button (click)="closeDocument()"><span class="material-symbols-outlined">close</span></button></div><div class="document-preview"><span class="material-symbols-outlined">description</span><p>Vista previa del archivo</p></div><dl><div><dt>Tipo</dt><dd>{{ document.type }}</dd></div><div><dt>Estado</dt><dd>{{ document.status }}</dd></div><div><dt>Versión actual</dt><dd>{{ document.version }}</dd></div><div><dt>Registrado por</dt><dd>{{ document.uploadedBy }}</dd></div></dl><section class="detail-versions"><h3>Historial de versiones</h3><p><strong>{{ document.version }}</strong> · versión actual · 12/09/2026</p><p>v2 · documento reemplazado · 28/08/2026</p><p>v1 · primera carga · 10/08/2026</p></section><app-evidence-panel [evidence]="evidence()" (uploadRequested)="addEvidence($event)" (downloadRequested)="downloadEvidence($event)" /><button class="detail-download" (click)="download(document)"><span class="material-symbols-outlined">download</span>Descargar documento</button></aside></div> }
     </section>
   </main>
-</div>
+</div></app-shell>
