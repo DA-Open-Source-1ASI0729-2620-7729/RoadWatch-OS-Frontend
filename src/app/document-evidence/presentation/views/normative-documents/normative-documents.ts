@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { EvidenceItem, EvidencePanel } from '../../components/evidence-panel/evidence-panel';
 
 type DocumentStatus = 'Cargado' | 'Falta';
 interface NormativeDocument { name: string; type: string; version: string; uploadedBy: string; required: boolean; status: DocumentStatus; }
 
-@Component({ selector: 'app-normative-documents', imports: [EvidencePanel], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
+@Component({ selector: 'app-normative-documents', imports: [EvidencePanel, RouterLink, RouterLinkActive], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
 export class NormativeDocuments {
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
