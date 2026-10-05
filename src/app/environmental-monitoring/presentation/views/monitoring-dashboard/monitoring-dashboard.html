@@ -1,0 +1,16 @@
+<app-shell [navigation]="navigation()" breadcrumb="Operación › Monitoreo">
+  <div class="page">
+    <div class="heading"><div><p class="eyebrow">MONITOREO AMBIENTAL</p><h1>Dashboard operativo</h1><p>Estado reciente de mediciones y alertas ambientales.</p></div><a routerLink="/monitoring/measurements/new" class="primary">Registrar medición</a></div>
+    <div class="metrics">
+      <article><span class="icon">✓</span><small>En rango</small><strong>{{ store.statusCounts().COMPLIANT }}</strong><p>mediciones recientes</p></article>
+      <article class="warning"><span class="icon">!</span><small>Advertencias</small><strong>{{ store.statusCounts().WARNING }}</strong><p>requieren seguimiento</p></article>
+      <article class="danger"><span class="icon">!</span><small>Críticas</small><strong>{{ store.statusCounts().NON_COMPLIANT }}</strong><p>sobre referencia mock</p></article>
+      <article><span class="icon">↗</span><small>Alertas activas</small><strong>{{ store.alerts().length }}</strong><p>condiciones ambientales</p></article>
+    </div>
+    <div class="grid">
+      <section class="card"><div class="card-title"><div><h2>Últimas mediciones</h2><p>Registro operativo reciente</p></div><a routerLink="/monitoring/measurements">Ver todas</a></div><table><thead><tr><th>PUNTO</th><th>INDICADOR</th><th>VALOR</th><th>ESTADO</th></tr></thead><tbody>@for (measurement of store.recentMeasurements(); track measurement.id) {<tr><td>{{ measurement.monitoringPointId }}</td><td>{{ measurement.indicatorName }}</td><td>{{ measurement.value }} {{ measurement.unit }}</td><td><span class="status" [class.warning]="measurement.status === 'WARNING'" [class.danger]="measurement.status === 'NON_COMPLIANT'">{{ store.labelFor(measurement.status) }}</span></td></tr>}</tbody></table></section>
+      <section class="card"><div class="card-title"><div><h2>Alertas recientes</h2><p>Sin gestión de incidencias</p></div><a routerLink="/monitoring/alerts">Ver alertas</a></div><div class="alerts">@for (alert of store.alerts(); track alert.id) {<div [class.critical]="alert.status === 'NON_COMPLIANT'"><span>{{ alert.status === 'NON_COMPLIANT' ? 'Crítico' : 'Advertencia' }}</span><strong>{{ alert.indicatorName }} · {{ alert.monitoringPointId }}</strong><p>{{ alert.message }}</p></div>}@empty {<p>No hay alertas activas.</p>}</div></section>
+    </div>
+    <section class="reference"><strong>Referencia mock de demostración</strong><span>Los valores mostrados son datos simulados de frontend; no representan límites normativos oficiales.</span></section>
+  </div>
+</app-shell>

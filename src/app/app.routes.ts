@@ -8,10 +8,13 @@ const identityAccessRoutes = () =>
   import('./identity-access/identity-access.routes').then(m => m.identityAccessRoutes);
 const subscriptionRoutes = () =>
   import('./subscription/subscription.routes').then(m => m.subscriptionRoutes);
+const environmentalMonitoringRoutes = () =>
+  import('./environmental-monitoring/environmental-monitoring.routes').then(m => m.environmentalMonitoringRoutes);
 
 export const routes: Routes = [
   { path: 'auth', loadChildren: identityAccessRoutes },
   { path: 'subscription', loadChildren: subscriptionRoutes },
+  { path: 'monitoring', loadChildren: environmentalMonitoringRoutes },
   { path: 'documents', loadChildren: documentEvidenceRoutes },
   { path: 'reports', loadChildren: reportsComplianceRoutes },
   { path: '', pathMatch: 'full', redirectTo: 'documents' },
