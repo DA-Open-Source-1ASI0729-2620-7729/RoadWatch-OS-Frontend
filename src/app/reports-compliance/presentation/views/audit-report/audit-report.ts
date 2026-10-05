@@ -1,12 +1,19 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { AuditReport as AuditReportModel } from '../../../domain/model/audit-report';
+import { ReportExportRequest } from '../../../domain/model/report-export-request';
+import { ReportsApi } from '../../../infrastructure/reports-api';
 
 interface ReportSection { id: string; label: string; checked: boolean; }
 
 @Component({ selector: 'app-audit-report', styleUrl: './audit-report.scss', templateUrl: './audit-report.html' })
 export class AuditReport {
+  private readonly reportsApi = inject(ReportsApi);
+
   protected readonly project = signal('Carretera Central – Tramo 2');
   protected readonly period = signal('01/09/2026 — 30/09/2026');
   protected readonly generated = signal(false);
+  protected readonly loading = signal(false);
+  protected readonly generatedReport = signal<AuditReportModel | null>(null);
   protected readonly notification = signal('');
   protected readonly sections = signal<ReportSection[]>([
     { id: 'summary', label: 'Resumen ejecutivo y salud ambiental', checked: true },
@@ -19,5 +26,29 @@ export class AuditReport {
   protected readonly selectedCount = computed(() => this.sections().filter(section => section.checked).length);
 
   protected toggleSection(id: string): void { this.sections.update(items => items.map(item => item.id === id ? { ...item, checked: !item.checked } : item)); }
-  protected generate(): void { this.generated.set(true); this.notification.set('Expediente generado en formato PDF.'); }
+  protected generate(): void {
+    const request: ReportExportRequest = {
+      projectId: 'p-01',
+      periodStart: '2026-09-01',
+      periodEnd: '2026-09-30',
+      sections: this.sections().filter(section => section.checked).map(section => section.id),
+      format: 'PDF',
+    };
+
+    this.loading.set(true);
+    this.notification.set('');
+
+    this.reportsApi.generateReport(request).subscribe({
+      next: report => {
+        this.generatedReport.set(report);
+        this.generated.set(true);
+        this.loading.set(false);
+        this.notification.set('Expediente generado en formato PDF.');
+      },
+      error: () => {
+        this.loading.set(false);
+        this.notification.set('No se pudo generar el expediente. Inténtalo nuevamente.');
+      },
+    });
+  }
 }

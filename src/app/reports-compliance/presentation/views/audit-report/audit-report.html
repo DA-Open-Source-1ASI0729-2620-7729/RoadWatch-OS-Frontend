@@ -103,9 +103,13 @@
               <p>Certificado de calibración N-08</p>
             </div>
           </div>
-          <button class="generate" (click)="generate()">
-            <span class="material-symbols-outlined">file_download</span>Generar y descargar
-            PDF
+          <button class="generate" [disabled]="loading()" (click)="generate()">
+            <span class="material-symbols-outlined">file_download</span>
+            @if (loading()) {
+              Generando expediente...
+            } @else {
+              Generar y descargar PDF
+            }
           </button>
         </section>
         <section class="preview-card">
@@ -120,6 +124,9 @@
                 <p>{{ period() }}</p>
                 <div class="paper-rule"></div>
                 <p>{{ selectedCount() }} secciones incluidas</p>
+                @if (generatedReport(); as report) {
+                  <p>{{ report.id }} · {{ report.status }}</p>
+                }
                 <div class="paper-lines"><i></i><i></i><i></i><i></i></div>
               </div>
             } @else {
