@@ -3,13 +3,13 @@ import { AuditReport as AuditReportModel } from '../../../domain/model/audit-rep
 import { ReportExportRequest } from '../../../domain/model/report-export-request';
 import { ReportsStore } from '../../../application/reports.store';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
-import { NavigationItem } from '../../../../shared/model/navigation-item';
+import { AppNavigation } from '../../../../app-navigation';
 
 interface ReportSection { id: string; label: string; checked: boolean; }
 
 @Component({ selector: 'app-audit-report', imports: [AppShell], styleUrl: './audit-report.scss', templateUrl: './audit-report.html' })
 export class AuditReport {
-  protected readonly navigation: NavigationItem[] = [{ label: 'Reportes', route: '/reports', icon: 'description' }, { label: 'Generar auditoría', route: '/reports/audit', icon: 'note_add' }, { label: 'Cumplimiento', route: '/reports/compliance', icon: 'verified_user' }, { label: 'Documentos', route: '/documents/normative', icon: 'folder_open' }];
+  protected readonly navigation = inject(AppNavigation).items;
   private readonly reportsStore = inject(ReportsStore);
 
   protected readonly project = signal('Carretera Central – Tramo 2');

@@ -1,1 +1,29 @@
-import{Component,inject,signal}from'@angular/core';import{DecimalPipe}from'@angular/common';import{SubscriptionStore}from'../../../application/subscription.store';import{AppShell}from'../../../../shared/layout/app-shell/app-shell';import{NavigationItem}from'../../../../shared/model/navigation-item';import{BillingCycle,Plan}from'../../../domain/model/plan';@Component({selector:'app-plan-list',imports:[AppShell,DecimalPipe],styleUrl:'./plan-list.scss',templateUrl:'./plan-list.html'})export class PlanList{protected readonly store=inject(SubscriptionStore);protected readonly billing=signal<BillingCycle>('MONTHLY');protected readonly navigation:NavigationItem[]=[{label:'Suscripción',route:'/subscription',icon:'card_membership'},{label:'Planes',route:'/subscription/plans',icon:'workspace_premium'}];protected select(plan:Plan){this.store.change(plan.type);}protected price(plan:Plan){return this.billing()==='MONTHLY'?plan.monthlyPrice:plan.annualMonthlyPrice;}}
+import { Component, computed, inject, signal } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { SubscriptionStore } from '../../../application/subscription.store';
+import { AuthStore } from '../../../../identity-access/application/auth.store';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { AppNavigation } from '../../../../app-navigation';
+import { BillingCycle, Plan } from '../../../domain/model/plan';
+
+@Component({
+  selector: 'app-plan-list',
+  imports: [AppShell, DecimalPipe],
+  styleUrl: './plan-list.scss',
+  templateUrl: './plan-list.html',
+})
+export class PlanList {
+  protected readonly store = inject(SubscriptionStore);
+  protected readonly billing = signal<BillingCycle>('MONTHLY');
+  protected readonly navigation = inject(AppNavigation).items;
+  private readonly auth = inject(AuthStore);
+  protected readonly canChangePlan = computed(() => this.auth.user()?.role.type === 'ADMIN');
+
+  protected select(plan: Plan): void {
+    if (this.canChangePlan()) this.store.change(plan.type);
+  }
+
+  protected price(plan: Plan): number {
+    return this.billing() === 'MONTHLY' ? plan.monthlyPrice : plan.annualMonthlyPrice;
+  }
+}
