@@ -27,7 +27,8 @@ export class IncidentStore {
   loadIncidents(): void {
     this.loading.set(true);
     this.incidentGateway.getAllIncidents().subscribe({
-      next: (data) => {
+      // Se agregó el tipo : EnvironmentalIncident[]
+      next: (data: EnvironmentalIncident[]) => {
         this.incidents.set(data);
         this.loading.set(false);
       },
@@ -44,7 +45,8 @@ export class IncidentStore {
   loadIncidentById(id: string): void {
     this.loading.set(true);
     this.incidentGateway.getIncidentById(id).subscribe({
-      next: (data) => {
+      // Se agregó el tipo : EnvironmentalIncident | undefined
+      next: (data: EnvironmentalIncident | undefined) => {
         this.selectedIncident.set(data);
         this.loading.set(false);
       },
@@ -62,10 +64,11 @@ export class IncidentStore {
    */
   updateStatus(id: string, newStatus: IncidentStatus): void {
     this.incidentGateway.updateIncidentStatus(id, newStatus).subscribe({
-      next: (updatedIncident) => {
+      // Se agregaron los tipos a los parámetros del callback
+      next: (updatedIncident: EnvironmentalIncident) => {
         // Update list
-        this.incidents.update(current => 
-          current.map(inc => inc.id === id ? updatedIncident : inc)
+        this.incidents.update((current: EnvironmentalIncident[]) => 
+          current.map((inc: EnvironmentalIncident) => inc.id === id ? updatedIncident : inc)
         );
         // Update detail view if it's currently selected
         if (this.selectedIncident()?.id === id) {

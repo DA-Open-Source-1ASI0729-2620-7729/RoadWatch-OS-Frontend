@@ -1,13 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AppShellComponent } from './components/app-shell.component';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.scss',
-  templateUrl: './app.html',
+  standalone: true,
+  imports: [AppShellComponent],
+  template: `<app-shell></app-shell>`
 })
 export class App {
   protected readonly title = signal('roadwatch-os-frontend');
 }
-
