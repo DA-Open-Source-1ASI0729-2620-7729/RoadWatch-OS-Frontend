@@ -1,14 +1,19 @@
 import { Component, signal } from '@angular/core';
+import { EvidenceItem, EvidencePanel } from '../../components/evidence-panel/evidence-panel';
 
 type DocumentStatus = 'Cargado' | 'Falta';
 interface NormativeDocument { name: string; type: string; version: string; uploadedBy: string; required: boolean; status: DocumentStatus; }
 
-@Component({ selector: 'app-normative-documents', styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
+@Component({ selector: 'app-normative-documents', imports: [EvidencePanel], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
 export class NormativeDocuments {
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal('');
   protected readonly selectedDocument = signal<NormativeDocument | null>(null);
+  protected readonly evidence = signal<EvidenceItem[]>([
+    { id: 'ev-01', name: 'Foto frente de obra N-04.jpg', type: 'image', author: 'Jorge Ramos', createdAt: '12/09', status: 'Cargada' },
+    { id: 'ev-02', name: 'Acta de verificación.pdf', type: 'document', author: 'EcoAudit', createdAt: '12/09', status: 'En revisión' },
+  ]);
   protected readonly milestones = [
     { name: 'Línea base ambiental', progress: '5/5 documentos', complete: true },
     { name: 'Auditoría mensual - Septiembre', progress: '4/5 documentos', complete: false },
@@ -29,5 +34,10 @@ export class NormativeDocuments {
   protected download(document: NormativeDocument): void { this.notification.set(`Preparando la descarga de ${document.name}.`); }
   protected openDocument(document: NormativeDocument): void { this.selectedDocument.set(document); }
   protected closeDocument(): void { this.selectedDocument.set(null); }
+  protected addEvidence(file: File): void {
+    this.evidence.update(items => [...items, { id: crypto.randomUUID(), name: file.name, type: file.type.startsWith('image/') ? 'image' : 'document', author: 'EcoAudit', createdAt: 'hoy', status: 'En revisión' }]);
+    this.notification.set(`Evidencia “${file.name}” agregada para revisión.`);
+  }
+  protected downloadEvidence(item: EvidenceItem): void { this.notification.set(`Preparando la descarga de ${item.name}.`); }
   protected closeMilestone(): void { this.notification.set('Completa los documentos requeridos antes de cerrar este hito.'); }
 }
