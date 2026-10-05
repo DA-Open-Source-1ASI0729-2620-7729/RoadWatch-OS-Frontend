@@ -16,7 +16,20 @@ export class ReportsApi extends ReportsGateway {
   ];
   listReports(): Observable<AuditReport[]> { return of(this.reports); }
   getReport(id: string): Observable<AuditReport> { return of(this.reports.find(report => report.id === id) ?? this.reports[0]); }
-  generateReport(request: ReportExportRequest): Observable<AuditReport> { return of({ id: crypto.randomUUID(), projectId: request.projectId, projectName: 'Carretera Central – Tramo 2', periodStart: request.periodStart, periodEnd: request.periodEnd, status: 'Borrador', sections: request.sections }); }
+  generateReport(request: ReportExportRequest): Observable<AuditReport> {
+    const report: AuditReport = {
+      id: crypto.randomUUID(),
+      projectId: request.projectId,
+      projectName: 'Carretera Central – Tramo 2',
+      periodStart: request.periodStart,
+      periodEnd: request.periodEnd,
+      status: 'Borrador',
+      sections: request.sections,
+    };
+
+    this.reports.unshift(report);
+    return of(report);
+  }
   getComplianceSummary(): Observable<ComplianceSummary> { return of({ compliancePercentage: 82, requiredDocuments: 24, pendingDocuments: 4, openIncidents: 6, criticalIncidents: 1, averageResolutionHours: 6.4 }); }
   getEnvironmentalKpis(): Observable<EnvironmentalKpi[]> { return of([{ code: 'compliance', label: 'Cumplimiento ambiental', value: '82%', detail: 'promedio de proyectos supervisados', icon: 'verified_user', tone: 'success' }, { code: 'documents', label: 'Documentos obligatorios', value: '20 / 24', detail: '4 documentos pendientes', icon: 'folder_open', tone: 'warning' }, { code: 'incidents', label: 'Hallazgos abiertos', value: '4', detail: '1 requiere atención inmediata', icon: 'fact_check', tone: 'danger' }, { code: 'reports', label: 'Reportes emitidos', value: '14', detail: 'durante septiembre', icon: 'description', tone: 'neutral' }]); }
   getProjectReports(): Observable<ProjectReport[]> { return of([{ projectId: 'p-01', projectName: 'Carretera Central – Tramo 2', contractor: 'Consorcio Vial Andino', compliancePercentage: 87, requiredDocuments: 8, pendingDocuments: 1, openIncidents: 1, criticalIncidents: 0 }, { projectId: 'p-02', projectName: 'Vía de Evitamiento Norte', contractor: 'Constructora Pacífico SAC', compliancePercentage: 96, requiredDocuments: 8, pendingDocuments: 0, openIncidents: 0, criticalIncidents: 0 }, { projectId: 'p-03', projectName: 'Panamericana Sur – Chilca', contractor: 'Obras del Sur SA', compliancePercentage: 64, requiredDocuments: 8, pendingDocuments: 3, openIncidents: 3, criticalIncidents: 2 }]); }

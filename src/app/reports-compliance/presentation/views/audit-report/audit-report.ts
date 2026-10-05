@@ -1,13 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { AuditReport as AuditReportModel } from '../../../domain/model/audit-report';
 import { ReportExportRequest } from '../../../domain/model/report-export-request';
-import { ReportsApi } from '../../../infrastructure/reports-api';
+import { ReportsStore } from '../../../application/reports.store';
 
 interface ReportSection { id: string; label: string; checked: boolean; }
 
 @Component({ selector: 'app-audit-report', styleUrl: './audit-report.scss', templateUrl: './audit-report.html' })
 export class AuditReport {
-  private readonly reportsApi = inject(ReportsApi);
+  private readonly reportsStore = inject(ReportsStore);
 
   protected readonly project = signal('Carretera Central – Tramo 2');
   protected readonly period = signal('01/09/2026 — 30/09/2026');
@@ -38,7 +38,7 @@ export class AuditReport {
     this.loading.set(true);
     this.notification.set('');
 
-    this.reportsApi.generateReport(request).subscribe({
+    this.reportsStore.generateReport(request).subscribe({
       next: report => {
         this.generatedReport.set(report);
         this.generated.set(true);
