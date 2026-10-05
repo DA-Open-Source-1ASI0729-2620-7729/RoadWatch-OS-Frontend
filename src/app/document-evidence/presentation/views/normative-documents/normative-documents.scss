@@ -293,6 +293,19 @@ h2 {
   cursor: pointer;
   font-size: 17px;
 }
+.file-ready .register-file {
+  margin-left: auto;
+  border: 1px solid #23a277;
+  border-radius: 6px;
+  background: #fff;
+  padding: 5px 8px;
+  color: #187a59;
+  font-size: 11px;
+  font-weight: 700;
+}
+.file-ready .register-file + button {
+  margin-left: 0;
+}
 .documents-layout {
   display: grid;
   grid-template-columns: 270px minmax(0, 1fr);
