@@ -1,1 +1,134 @@
-<div class="shell"><aside class="sidebar"><div class="brand"><span class="brand-mark">⌁</span><span><strong>RoadWatch OS</strong><small>by VíaNexo</small></span></div><div class="account">Módulo de Fiscalización<strong>EcoAudit Consultores</strong></div><p class="nav-label">FISCALIZACIÓN</p><nav><a><span class="material-symbols-outlined">dashboard</span>Portafolio</a><a><span class="material-symbols-outlined">crisis_alert</span>Incidencias críticas <b>3</b></a><a><span class="material-symbols-outlined">monitoring</span>Historial de mediciones</a><a class="active"><span class="material-symbols-outlined">description</span>Reportes de auditoría</a><a><span class="material-symbols-outlined">folder_open</span>Documentos normativos</a></nav><p class="nav-label">CUENTA</p><nav><a><span class="material-symbols-outlined">settings</span>Configuración</a></nav><div class="profile"><span>GC</span><div><strong>Gisela Chávez</strong><small>Directora de Operaciones</small></div><i class="material-symbols-outlined">logout</i></div></aside><main><header><div class="breadcrumb"><span>Fiscalización</span><b>›</b><span>Reportes de auditoría</span><b>›</b><strong>Nuevo reporte</strong></div><div class="header-actions"><label class="search"><span class="material-symbols-outlined">search</span><input placeholder="Buscar proyecto, nodo o incidencia..." /></label><button class="icon-button"><span class="material-symbols-outlined">notifications</span><em>3</em></button><button class="icon-button"><span class="material-symbols-outlined">help</span></button></div></header><section class="content">@if(notification()){<div class="toast"><span class="material-symbols-outlined">check_circle</span>{{ notification() }}</div>}<div class="page-title"><h1>Generar expediente de auditoría</h1><p>Consolida lecturas, incidencias y evidencias del periodo en un PDF con estructura normativa.</p></div><div class="workspace"><section class="form-card"><div class="step"><span>1</span><div><h2>Proyecto</h2><button class="select-control"><span class="material-symbols-outlined">route</span>{{ project() }}<span class="material-symbols-outlined">expand_more</span></button></div></div><div class="step"><span>2</span><div><h2>Periodo</h2><button class="select-control"><span class="material-symbols-outlined">calendar_month</span>{{ period() }}</button></div></div><div class="step content-step"><span>3</span><div><h2>Contenido del expediente</h2>@for(section of sections();track section.id){<label class="check-row"><input type="checkbox" [checked]="section.checked" (change)="toggleSection(section.id)" /><span>{{ section.label }}</span></label>}</div></div><div class="step"><span>4</span><div><h2>Formato</h2><div class="format-toggle"><button [class.selected]="format()==='PDF'" (click)="selectFormat('PDF')"><span class="material-symbols-outlined">picture_as_pdf</span>PDF</button><button [class.selected]="format()==='Excel'" (click)="selectFormat('Excel')"><span class="material-symbols-outlined">table_view</span>Excel</button></div></div></div><div class="missing-document"><span class="material-symbols-outlined">warning</span><div><strong>Falta 1 documento obligatorio del hito</strong><p>Certificado de calibración N-08</p></div></div><button class="generate" (click)="generate()"><span class="material-symbols-outlined">file_download</span>Generar y descargar {{ format() }}</button></section><section class="preview-card"><div class="preview-label">Vista previa del {{ format() }}</div><div class="paper" [class.generated]="generated()"><div class="paper-head"><span>RoadWatch OS</span><strong>Expediente de auditoría</strong></div>@if(generated()){<div class="paper-content"><h2>{{ project() }}</h2><p>{{ period() }}</p><div class="paper-rule"></div><p>{{ selectedCount() }} secciones incluidas</p><div class="paper-lines"><i></i><i></i><i></i><i></i></div></div>}@else{<span class="material-symbols-outlined">description</span><p>Configura el contenido para previsualizar tu reporte.</p>}</div></section></div></section></main></div>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">⌁</span
+      ><span><strong>RoadWatch OS</strong><small>by VíaNexo</small></span>
+    </div>
+    <div class="account">Módulo de Fiscalización<strong>EcoAudit Consultores</strong></div>
+    <p class="nav-label">FISCALIZACIÓN</p>
+    <nav>
+      <a><span class="material-symbols-outlined">dashboard</span>Portafolio</a
+      ><a
+        ><span class="material-symbols-outlined">crisis_alert</span>Incidencias críticas <b>3</b></a
+      ><a><span class="material-symbols-outlined">monitoring</span>Historial de mediciones</a
+      ><a class="active"
+        ><span class="material-symbols-outlined">description</span>Reportes de auditoría</a
+      ><a><span class="material-symbols-outlined">folder_open</span>Documentos normativos</a>
+    </nav>
+    <p class="nav-label">CUENTA</p>
+    <nav>
+      <a><span class="material-symbols-outlined">settings</span>Configuración</a>
+    </nav>
+    <div class="profile">
+      <span>GC</span>
+      <div><strong>Gisela Chávez</strong><small>Directora de Operaciones</small></div>
+      <i class="material-symbols-outlined">logout</i>
+    </div>
+  </aside>
+  <main>
+    <header>
+      <div class="breadcrumb">
+        <span>Fiscalización</span><b>›</b><span>Reportes de auditoría</span><b>›</b
+        ><strong>Nuevo reporte</strong>
+      </div>
+      <div class="header-actions">
+        <label class="search"
+          ><span class="material-symbols-outlined">search</span
+          ><input placeholder="Buscar proyecto, nodo o incidencia..." /></label
+        ><button class="icon-button">
+          <span class="material-symbols-outlined">notifications</span><em>3</em></button
+        ><button class="icon-button"><span class="material-symbols-outlined">help</span></button>
+      </div>
+    </header>
+    <section class="content">
+      @if (notification()) {
+        <div class="toast">
+          <span class="material-symbols-outlined">check_circle</span>{{ notification() }}
+        </div>
+      }
+      <div class="page-title">
+        <h1>Generar expediente de auditoría</h1>
+        <p>
+          Consolida lecturas, incidencias y evidencias del periodo en un PDF con estructura
+          normativa.
+        </p>
+      </div>
+      <div class="workspace">
+        <section class="form-card">
+          <div class="step">
+            <span>1</span>
+            <div>
+              <h2>Proyecto</h2>
+              <button class="select-control">
+                <span class="material-symbols-outlined">route</span>{{ project()
+                }}<span class="material-symbols-outlined">expand_more</span>
+              </button>
+            </div>
+          </div>
+          <div class="step">
+            <span>2</span>
+            <div>
+              <h2>Periodo</h2>
+              <button class="select-control">
+                <span class="material-symbols-outlined">calendar_month</span>{{ period() }}
+              </button>
+            </div>
+          </div>
+          <div class="step content-step">
+            <span>3</span>
+            <div>
+              <h2>Contenido del expediente</h2>
+              @for (section of sections(); track section.id) {
+                <label class="check-row"
+                  ><input
+                    type="checkbox"
+                    [checked]="section.checked"
+                    (change)="toggleSection(section.id)"
+                  /><span>{{ section.label }}</span></label
+                >
+              }
+            </div>
+          </div>
+          <div class="step">
+            <span>4</span>
+            <div>
+              <h2>Formato</h2>
+              <div class="format-toggle"><button class="selected"><span class="material-symbols-outlined">picture_as_pdf</span>PDF</button></div>
+            </div>
+          </div>
+          <div class="missing-document">
+            <span class="material-symbols-outlined">warning</span>
+            <div>
+              <strong>Falta 1 documento obligatorio del hito</strong>
+              <p>Certificado de calibración N-08</p>
+            </div>
+          </div>
+          <button class="generate" (click)="generate()">
+            <span class="material-symbols-outlined">file_download</span>Generar y descargar
+            PDF
+          </button>
+        </section>
+        <section class="preview-card">
+          <div class="preview-label">Vista previa del PDF</div>
+          <div class="paper" [class.generated]="generated()">
+            <div class="paper-head">
+              <span>RoadWatch OS</span><strong>Expediente de auditoría</strong>
+            </div>
+            @if (generated()) {
+              <div class="paper-content">
+                <h2>{{ project() }}</h2>
+                <p>{{ period() }}</p>
+                <div class="paper-rule"></div>
+                <p>{{ selectedCount() }} secciones incluidas</p>
+                <div class="paper-lines"><i></i><i></i><i></i><i></i></div>
+              </div>
+            } @else {
+              <span class="material-symbols-outlined">description</span>
+              <p>Configura el contenido para previsualizar tu reporte.</p>
+            }
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>

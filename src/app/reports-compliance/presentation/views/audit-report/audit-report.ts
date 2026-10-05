@@ -6,7 +6,6 @@ interface ReportSection { id: string; label: string; checked: boolean; }
 export class AuditReport {
   protected readonly project = signal('Carretera Central – Tramo 2');
   protected readonly period = signal('01/09/2026 — 30/09/2026');
-  protected readonly format = signal<'PDF' | 'Excel'>('PDF');
   protected readonly generated = signal(false);
   protected readonly notification = signal('');
   protected readonly sections = signal<ReportSection[]>([
@@ -20,6 +19,5 @@ export class AuditReport {
   protected readonly selectedCount = computed(() => this.sections().filter(section => section.checked).length);
 
   protected toggleSection(id: string): void { this.sections.update(items => items.map(item => item.id === id ? { ...item, checked: !item.checked } : item)); }
-  protected selectFormat(format: 'PDF' | 'Excel'): void { this.format.set(format); }
-  protected generate(): void { this.generated.set(true); this.notification.set(`Expediente generado en formato ${this.format()}.`); }
+  protected generate(): void { this.generated.set(true); this.notification.set('Expediente generado en formato PDF.'); }
 }
