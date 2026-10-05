@@ -314,6 +314,21 @@ header button {
   color: #69767c;
   font-size: 10px;
 }
+.table-head button.selected {
+  border-color: #23a277;
+  background: #e4f5ed;
+  color: #187a59;
+  font-weight: 700;
+}
+.notice {
+  margin: 0 0 14px;
+  border: 1px solid #23a277;
+  border-radius: 8px;
+  background: #e4f5ed;
+  padding: 10px 13px;
+  color: #187a59;
+  font-size: 12px;
+}
 .table-scroll {
   overflow: auto;
 }

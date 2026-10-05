@@ -56,6 +56,25 @@ td button {
   padding: 8px 11px;
   color: #1e3844;
 }
+.filter-menu {
+  display: flex;
+  gap: 8px;
+  margin: -8px 0 14px;
+}
+.filter-menu button {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  padding: 5px 10px;
+  color: #64748b;
+  font-size: 11px;
+}
+.filter-menu button.selected {
+  border-color: #23a277;
+  background: #e4f5ed;
+  color: #187a59;
+  font-weight: 700;
+}
 .card {
   overflow: auto;
   border: 1px solid #e2e8f0;

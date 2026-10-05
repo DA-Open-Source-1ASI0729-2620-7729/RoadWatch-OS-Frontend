@@ -1,7 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReportsStore } from '../../../application/reports.store';
-import { AuditReport } from '../../../domain/model/audit-report';
+import { AuditReport, AuditReportStatus } from '../../../domain/model/audit-report';
 
 @Component({ selector: 'app-report-list', imports: [RouterLink], styleUrl: './report-list.scss', templateUrl: './report-list.html' })
 export class ReportList {
@@ -9,6 +9,20 @@ export class ReportList {
   protected readonly selectedReport = signal<AuditReport | null>(null);
   protected readonly notification = signal('');
   protected readonly exportingReportId = signal<string | null>(null);
+  protected readonly filtersOpen = signal(false);
+  protected readonly statusFilter = signal<AuditReportStatus | 'Todos'>('Todos');
+  protected readonly reportStatuses: Array<AuditReportStatus | 'Todos'> = [
+    'Todos',
+    'Borrador',
+    'Emitido',
+    'Observado',
+  ];
+  protected readonly filteredReports = computed(() => {
+    const status = this.statusFilter();
+    return status === 'Todos'
+      ? this.store.reports()
+      : this.store.reports().filter(report => report.status === status);
+  });
 
   protected open(report: AuditReport): void {
     this.notification.set('');
@@ -19,6 +33,11 @@ export class ReportList {
   }
 
   protected close(): void { this.selectedReport.set(null); }
+
+  protected setStatusFilter(status: AuditReportStatus | 'Todos'): void {
+    this.statusFilter.set(status);
+    this.filtersOpen.set(false);
+  }
 
   protected exportPdf(report: AuditReport): void {
     this.exportingReportId.set(report.id);
