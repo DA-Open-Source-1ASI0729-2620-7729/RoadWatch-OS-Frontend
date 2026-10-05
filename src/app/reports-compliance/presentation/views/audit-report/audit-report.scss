@@ -484,3 +484,6 @@ header {
     padding: 20px 12px;
   }
 }
+
+/* RoadWatch OS palette: wireframes were neutral; these are the production visual states. */
+.sidebar { background: #1e3844; color: #ffffff; }.brand, .brand small, .account, .account strong, .nav-label, nav a, .profile, .profile small { color: #ffffff; }.account, .profile { background: rgba(255,255,255,.11); }.brand-mark, .profile > span { background: #23a277; }.sidebar nav a.active { background: #23a277; }.missing-document { background: #fff4d8; border-left: 4px solid #e5a93c; }.missing-document span { color: #e5a93c; }.generate { background: #23a277; }.generate:hover { background: #1d8b68; }.paper-head { background: #1e3844; }
