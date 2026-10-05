@@ -1,14 +1,16 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { EvidenceItem, EvidencePanel } from '../../components/evidence-panel/evidence-panel';
 
 type DocumentStatus = 'Cargado' | 'Falta';
 interface NormativeDocument { name: string; type: string; version: string; uploadedBy: string; required: boolean; status: DocumentStatus; }
 
-@Component({ selector: 'app-normative-documents', imports: [EvidencePanel], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
+@Component({ selector: 'app-normative-documents', imports: [EvidencePanel, RouterLink, RouterLinkActive], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
 export class NormativeDocuments {
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal('');
+  protected readonly pendingCount = computed(() => this.documents().filter(document => document.status === 'Falta').length);
   protected readonly selectedDocument = signal<NormativeDocument | null>(null);
   protected readonly evidence = signal<EvidenceItem[]>([
     { id: 'ev-01', name: 'Foto frente de obra N-04.jpg', type: 'image', author: 'Jorge Ramos', createdAt: '12/09', status: 'Cargada' },
@@ -30,6 +32,13 @@ export class NormativeDocuments {
   ]);
   protected chooseMilestone(name: string): void { this.selectedMilestone.set(name); }
   protected onFileSelected(event: Event): void { const file = (event.target as HTMLInputElement).files?.[0]; if (file) { this.selectedFile.set(file.name); this.notification.set(`Archivo “${file.name}” listo para registrar.`); } }
+  protected registerSelectedFile(): void {
+    const name = this.selectedFile();
+    if (!name) return;
+    this.documents.update(items => [{ name, type: 'Documento', version: 'v1', uploadedBy: 'EcoAudit · hoy', required: false, status: 'Cargado' }, ...items]);
+    this.selectedFile.set('');
+    this.notification.set(`${name} fue registrado correctamente.`);
+  }
   protected uploadMissing(document: NormativeDocument): void { this.documents.update(items => items.map(item => item.name === document.name ? { ...item, version: 'v1', uploadedBy: 'EcoAudit · hoy', status: 'Cargado' } : item)); this.notification.set(`${document.name} fue cargado correctamente.`); }
   protected download(document: NormativeDocument): void { this.notification.set(`Preparando la descarga de ${document.name}.`); }
   protected openDocument(document: NormativeDocument): void { this.selectedDocument.set(document); }
@@ -39,5 +48,5 @@ export class NormativeDocuments {
     this.notification.set(`Evidencia “${file.name}” agregada para revisión.`);
   }
   protected downloadEvidence(item: EvidenceItem): void { this.notification.set(`Preparando la descarga de ${item.name}.`); }
-  protected closeMilestone(): void { this.notification.set('Completa los documentos requeridos antes de cerrar este hito.'); }
+  protected closeMilestone(): void { this.notification.set(this.pendingCount() ? 'Completa los documentos requeridos antes de cerrar este hito.' : 'El hito está listo para cerrarse.'); }
 }

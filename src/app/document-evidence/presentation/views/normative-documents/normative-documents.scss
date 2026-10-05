@@ -233,6 +233,27 @@ h2 {
   color: #77858b;
   margin-top: 6px;
 }
+.module-links {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
+.module-links a {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #fff;
+  padding: 6px 10px;
+  color: #64748b;
+  font-size: 11px;
+  text-decoration: none;
+}
+.module-links a.active,
+.module-links a:hover {
+  border-color: #23a277;
+  background: #e4f5ed;
+  color: #187a59;
+  font-weight: 700;
+}
 .primary-button {
   display: flex;
   align-items: center;
@@ -271,6 +292,19 @@ h2 {
   color: inherit;
   cursor: pointer;
   font-size: 17px;
+}
+.file-ready .register-file {
+  margin-left: auto;
+  border: 1px solid #23a277;
+  border-radius: 6px;
+  background: #fff;
+  padding: 5px 8px;
+  color: #187a59;
+  font-size: 11px;
+  font-weight: 700;
+}
+.file-ready .register-file + button {
+  margin-left: 0;
 }
 .documents-layout {
   display: grid;
