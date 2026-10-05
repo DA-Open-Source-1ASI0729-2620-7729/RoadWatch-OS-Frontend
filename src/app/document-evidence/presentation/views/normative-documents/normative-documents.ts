@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { NavigationItem } from '../../../../shared/model/navigation-item';
 import { EvidenceItem, EvidencePanel } from '../../components/evidence-panel/evidence-panel';
 
 type DocumentStatus = 'Cargado' | 'Falta';
@@ -8,6 +9,7 @@ interface NormativeDocument { name: string; type: string; version: string; uploa
 
 @Component({ selector: 'app-normative-documents', imports: [EvidencePanel, RouterLink, RouterLinkActive, AppShell], styleUrl: './normative-documents.scss', templateUrl: './normative-documents.html' })
 export class NormativeDocuments {
+  protected readonly navigation: NavigationItem[] = [{ label: 'Documentos normativos', route: '/documents/normative', icon: 'folder_open' }, { label: 'Evidencias', route: '/documents/evidence', icon: 'photo_library' }, { label: 'Documentos requeridos', route: '/documents/required', icon: 'fact_check' }, { label: 'Reportes', route: '/reports', icon: 'description' }];
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal('');
