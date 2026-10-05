@@ -1,1 +1,49 @@
-<main><header><span>Fiscalización › Reportes</span><a routerLink="/reports/audit">Generar reporte</a></header><section><div class="heading"><div><h1>Reportes emitidos</h1><p>Expedientes de auditoría y reportes por proyecto.</p></div><button>Filtrar</button></div><div class="card">@if(store.loading()){<p class="empty">Cargando reportes...</p>} @else {<table><thead><tr><th>REPORTE</th><th>PERÍODO</th><th>EMITIDO</th><th>ESTADO</th><th></th></tr></thead><tbody>@for(report of store.reports();track report.id){<tr><td><strong>{{report.projectName}}</strong><small>Expediente {{report.id}}</small></td><td>{{report.periodStart}} — {{report.periodEnd}}</td><td>{{report.issuedAt ?? 'Pendiente'}}</td><td><span [class]="report.status.toLowerCase()">{{report.status}}</span></td><td><button>Ver detalle</button></td></tr>}</tbody></table>}</div></section></main>
+<main>
+  <header>
+    <span>Fiscalización › Reportes</span><a routerLink="/reports/audit">Generar reporte</a>
+  </header>
+  <section>
+    <div class="heading">
+      <div>
+        <h1>Reportes emitidos</h1>
+        <p>Expedientes de auditoría y reportes por proyecto.</p>
+      </div>
+      <button>Filtrar</button>
+    </div>
+      @if(notification()){<p class="notice">{{notification()}}</p>}
+      <div class="card">
+      @if (store.loading()) {
+        <p class="empty">Cargando reportes...</p>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>REPORTE</th>
+              <th>PERÍODO</th>
+              <th>EMITIDO</th>
+              <th>ESTADO</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (report of store.reports(); track report.id) {
+              <tr>
+                <td>
+                  <strong>{{ report.projectName }}</strong
+                  ><small>Expediente {{ report.id }}</small>
+                </td>
+                <td>{{ report.periodStart }} — {{ report.periodEnd }}</td>
+                <td>{{ report.issuedAt ?? 'Pendiente' }}</td>
+                <td>
+                  <span [class]="report.status.toLowerCase()">{{ report.status }}</span>
+                </td>
+                <td><button (click)="open(report)">Ver detalle</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+      </div>
+      @if(selectedReport();as report){<div class="backdrop" (click)="close()"><aside class="drawer" (click)="$event.stopPropagation()"><button class="close" (click)="close()">×</button><small>REPORTE DE AUDITORÍA</small><h2>{{report.projectName}}</h2><p>{{report.periodStart}} — {{report.periodEnd}}</p><div class="state">{{report.status}}</div><h3>Contenido incluido</h3><ul>@for(section of report.sections;track section){<li>{{section}}</li>}</ul><button class="export" (click)="exportPdf(report)">Descargar PDF</button></aside></div>}
+  </section>
+</main>
