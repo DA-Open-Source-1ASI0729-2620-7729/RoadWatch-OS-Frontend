@@ -14,6 +14,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { ProjectManagementStore } from '../../../application/project-management.store';
 import { Proyecto } from '../../../domain/model/proyecto.model';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { AppNavigation } from '../../../../app-navigation';
 
 @Component({
   selector: 'app-portafolio-lista',
@@ -32,6 +34,7 @@ import { Proyecto } from '../../../domain/model/proyecto.model';
     MatTooltipModule,
     MatSelectModule,
     MatProgressBarModule,
+    AppShell,
   ],
   templateUrl: './portafolio-lista.html',
   styleUrl: './portafolio-lista.scss',
@@ -41,6 +44,7 @@ export class PortafolioLista implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   private store = inject(ProjectManagementStore);
+  protected readonly navigation = inject(AppNavigation).items;
 
   displayedColumns = [
     'id',

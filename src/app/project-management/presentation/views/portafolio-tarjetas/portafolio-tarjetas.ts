@@ -11,6 +11,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { ProjectManagementStore } from '../../../application/project-management.store';
 import { Proyecto } from '../../../domain/model/proyecto.model';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { AppNavigation } from '../../../../app-navigation';
 
 @Component({
   selector: 'app-portafolio-tarjetas',
@@ -26,12 +28,14 @@ import { Proyecto } from '../../../domain/model/proyecto.model';
     MatInputModule,
     MatFormFieldModule,
     MatDividerModule,
+    AppShell,
   ],
   templateUrl: './portafolio-tarjetas.html',
   styleUrl: './portafolio-tarjetas.scss',
 })
 export class PortafolioTarjetas implements OnInit {
   private store = inject(ProjectManagementStore);
+  protected readonly navigation = inject(AppNavigation).items;
 
   readonly proyectos = this.store.proyectos;
   readonly loading = this.store.loading;

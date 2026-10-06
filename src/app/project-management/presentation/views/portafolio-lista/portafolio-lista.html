@@ -1,3 +1,4 @@
+<app-shell [navigation]="navigation()" breadcrumb="Operación › Proyectos">
 <div class="portafolio-lista-container">
 
   <!-- Header -->
@@ -33,7 +34,7 @@
       }
 
       <div class="view-toggle">
-        <button mat-icon-button routerLink="/project-management/portafolio-tarjetas" matTooltip="Vista tarjetas">
+        <button mat-icon-button routerLink="/projects/cards" matTooltip="Vista tarjetas">
           <mat-icon>grid_view</mat-icon>
         </button>
         <button mat-icon-button class="toggle-active" matTooltip="Vista lista">
@@ -119,7 +120,7 @@
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let p">
-          <button mat-icon-button matTooltip="Ver detalle">
+          <button mat-icon-button [routerLink]="['/projects', p.id]" matTooltip="Ver detalle">
             <mat-icon>open_in_new</mat-icon>
           </button>
         </td>
@@ -142,3 +143,4 @@
   </div>
 
 </div>
+</app-shell>
