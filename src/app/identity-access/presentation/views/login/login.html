@@ -1,1 +1,35 @@
-<main><section><img src="/brand/RoadWatchLogo.jpeg" alt="RoadWatch OS"/><p class="eyebrow">MONITOREO AMBIENTAL</p><h1>Detecta la desviación antes de la multa.</h1><p>Gestiona proyectos, evidencias y cumplimiento ambiental desde un solo lugar.</p></section><form (submit)="$event.preventDefault();submit()"><h2>Iniciar sesión</h2><p>Ingresa con tu correo corporativo.</p><label>Correo electrónico<input type="email" [value]="email()" (input)="email.set($any($event.target).value)"/></label><label>Contraseña<input type="password" [value]="password()" (input)="password.set($any($event.target).value)"/></label>@if(store.error()){<small class="error">{{store.error()}}</small>}<button [disabled]="store.loading()">{{store.loading()?'Ingresando...':'Ingresar'}}</button><small>Acceso protegido por roles y permisos.</small></form></main>
+<main>
+  <section>
+    <img src="/brand/RoadWatchLogo.jpeg" alt="RoadWatch OS"/>
+    <p class="eyebrow">MONITOREO AMBIENTAL</p>
+    <h1>Detecta la desviación antes de la multa.</h1>
+    <p>Gestiona proyectos, evidencias y cumplimiento ambiental desde un solo lugar.</p>
+  </section>
+
+  <form (submit)="$event.preventDefault(); submit()">
+    <h2>Iniciar sesión</h2>
+    <p>Ingresa con tu correo corporativo.</p>
+
+    <label class="demo-profile">
+      Perfil de demostración
+      <select [value]="selectedProfileId()" (change)="selectProfile($any($event.target).value)">
+        <optgroup label="Empresa constructora">
+          @for (profile of profilesFor('CONSTRUCTION_COMPANY'); track profile.id) {
+            <option [value]="profile.id">{{ profile.code }}</option>
+          }
+        </optgroup>
+        <optgroup label="Supervisora / consultora">
+          @for (profile of profilesFor('SUPERVISORY_CONSULTANCY'); track profile.id) {
+            <option [value]="profile.id">{{ profile.code }}</option>
+          }
+        </optgroup>
+      </select>
+    </label>
+
+    <label>Correo electrónico<input type="email" [value]="email()" (input)="email.set($any($event.target).value)"/></label>
+    <label>Contraseña<input type="password" [value]="password()" (input)="password.set($any($event.target).value)"/></label>
+    @if(store.error()){<small class="error">{{store.error()}}</small>}
+    <button [disabled]="store.loading()">{{store.loading() ? 'Ingresando...' : 'Ingresar'}}</button>
+    <small class="demo-note">Acceso de demostración · datos simulados</small>
+  </form>
+</main>
