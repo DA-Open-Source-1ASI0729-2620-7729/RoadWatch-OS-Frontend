@@ -1,19 +1,10 @@
-export type IndicadorAmbiental = 'aire' | 'ruido' | 'agua';
-export type EstadoPunto = 'optimo' | 'advertencia' | 'critico' | 'sin_conexion';
-
+/** Project-owned location referenced by Environmental Monitoring. It does not represent a device. */
 export interface PuntoMonitoreo {
   id: string;
   proyectoId: string;
+  nombre: string;
   progresiva: string;
-  indicador: IndicadorAmbiental;
-  parametro: string;
-  lmp: string;
-  nodoEnLinea: boolean;
-  calibrado: string;
-  ultimaLectura: string | null;
-  estado: EstadoPunto;
   latitud: number;
   longitud: number;
-  norma: string;
-  advertenciaPct: number;
+  descripcion?: string;
 }

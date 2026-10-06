@@ -4,6 +4,7 @@ import { RoleType } from './identity-access/domain/model/role-type';
 import { AuthStore } from './identity-access/application/auth.store';
 
 export const APP_NAVIGATION: NavigationItem[] = [
+  { label: 'Proyectos', route: '/projects', icon: 'account_tree', section: 'OPERACIÓN' },
   { label: 'Monitoreo', route: '/monitoring', icon: 'monitoring', section: 'OPERACIÓN' },
   { label: 'Incidencias', route: '/incidents', icon: 'crisis_alert', section: 'OPERACIÓN' },
   { label: 'Documentos', route: '/documents/normative', icon: 'folder_open', section: 'OPERACIÓN' },

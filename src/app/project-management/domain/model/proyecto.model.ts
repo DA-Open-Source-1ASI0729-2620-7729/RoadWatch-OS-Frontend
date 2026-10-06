@@ -14,7 +14,4 @@ export interface Proyecto {
   estado: EstadoProyecto;
   fechaInicio: string;
   fechaFin: string;
-  sensoresActivos: number;
-  totalSensores: number;
-  ultimaLectura: string;
 }
