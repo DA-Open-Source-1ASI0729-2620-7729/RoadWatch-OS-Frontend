@@ -27,6 +27,14 @@ export class ProjectManagementStore {
     });
   }
 
+  getProyecto(id: string) {
+    return this.gateway.getProyectoById(id);
+  }
+
+  getResponsables(id: string) {
+    return this.gateway.getResponsables(id);
+  }
+
   updatePunto(punto: PuntoMonitoreo): void {
     this.puntos.update((lista) => lista.map((p) => (p.id === punto.id ? punto : p)));
   }
