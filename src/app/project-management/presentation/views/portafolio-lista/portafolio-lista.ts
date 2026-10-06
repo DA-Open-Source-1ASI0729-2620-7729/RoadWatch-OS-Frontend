@@ -49,7 +49,6 @@ export class PortafolioLista implements OnInit, AfterViewInit {
     'saludAmbiental',
     'alertasActivas',
     'incidentes',
-    'sensores',
     'estado',
     'acciones',
   ];
