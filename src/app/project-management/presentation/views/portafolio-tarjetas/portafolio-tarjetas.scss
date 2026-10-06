@@ -1,0 +1,241 @@
+.portafolio-tarjetas-container {
+  padding: 24px;
+  font-family: 'Rubik', sans-serif;
+  background: #f6f5ee;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: #23a277;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e3844;
+}
+
+.page-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  width: 280px;
+  max-width: 100%;
+}
+
+.view-toggle {
+  display: flex;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+
+  button {
+    color: #64748b;
+    border-radius: 0;
+  }
+
+  .toggle-active {
+    background: #1e3844;
+    color: #fff;
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.proyecto-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-top: 4px solid #23a277; // se sobrescribe con el color de salud
+  border-radius: 12px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+
+  &.card-completado {
+    background: #f8fafc;
+  }
+  &.card-pausado {
+    opacity: 0.85;
+  }
+}
+
+.proyecto-card mat-card-header {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  padding: 16px 16px 0;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.proyecto-id {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.estado-chip {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 999px;
+
+  &.estado-en_progreso {
+    background: rgba(35, 162, 119, 0.14);
+    color: #1a7a59;
+  }
+  &.estado-pausado {
+    background: rgba(229, 169, 60, 0.18);
+    color: #9a6b0f;
+  }
+  &.estado-completado {
+    background: #e2e8f0;
+    color: #475569;
+  }
+}
+
+.proyecto-card mat-card-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #1e3844;
+  line-height: 1.3;
+}
+
+.proyecto-card mat-card-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  color: #64748b;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.proyecto-card mat-card-content {
+  padding: 16px;
+  flex: 1;
+}
+
+.salud-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.donut {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.salud-label {
+  margin: 0 0 2px;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.proyecto-card mat-divider {
+  border-top-color: #e2e8f0;
+}
+
+.metricas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.metrica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #64748b;
+  }
+
+  b {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e3844;
+  }
+
+  small {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+}
+
+
+.proyecto-card mat-card-actions {
+  padding: 0 16px 16px;
+  justify-content: flex-end;
+}
+
+
+@media (max-width: 600px) {
+  .portafolio-tarjetas-container {
+    padding: 16px;
+  }
+  .search-field {
+    width: 100%;
+  }
+  .header-actions {
+    width: 100%;
+  }
+}

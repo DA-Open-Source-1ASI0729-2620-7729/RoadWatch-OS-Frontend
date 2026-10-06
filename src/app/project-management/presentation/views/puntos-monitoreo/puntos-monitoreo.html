@@ -1,0 +1,137 @@
+<div class="puntos-container">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Puntos de monitoreo</h1>
+      <p class="page-subtitle">
+        {{ puntos().length }} puntos geolocalizados con su nodo IoT y umbral normativo.
+      </p>
+    </div>
+    <button mat-flat-button class="btn-primary">
+      <mat-icon>add_location_alt</mat-icon> Nuevo punto
+    </button>
+  </div>
+
+  <div class="layout" [class.con-panel]="seleccionado()">
+    <!-- Tabla -->
+    <div class="card tabla-card">
+      <table class="tabla">
+        <thead>
+        <tr>
+          <th>Punto</th>
+          <th>Indicador y LMP</th>
+          <th>Nodo IoT</th>
+          <th>Última lectura</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (p of puntos(); track p.id) {
+            <tr [class.fila-activa]="seleccionado()?.id === p.id" (click)="editar(p)">
+              <td>
+                <strong>{{ p.id }}</strong>
+                <small>{{ p.progresiva }}</small>
+              </td>
+              <td>
+                <span class="indicador">
+                  <mat-icon>{{ indicadorIcon(p.indicador) }}</mat-icon>
+                  {{ indicadorLabel(p.indicador) }}
+                </span>
+                <small>{{ detalle(p) }}</small>
+              </td>
+              <td>
+                <span class="nodo" [class.nodo-off]="!p.nodoEnLinea">
+                  <i class="dot"></i>{{ p.nodoEnLinea ? 'En línea' : 'Sin conexión' }}
+                </span>
+                <small>Calibrado {{ p.calibrado }}</small>
+              </td>
+              <td class="lectura">{{ p.ultimaLectura ?? '—' }}</td>
+              <td>
+                <span class="estado-chip" [attr.data-estado]="p.estado">
+                  <mat-icon>{{ estadoIcon(p.estado) }}</mat-icon>
+                  {{ estadoLabel(p.estado) }}
+                </span>
+              </td>
+              <td>
+                <button
+                  mat-icon-button
+                  class="btn-edit"
+                  [attr.aria-label]="'Editar punto ' + p.id"
+                  (click)="editar(p); $event.stopPropagation()"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Panel de edición -->
+    @if (seleccionado(); as sel) {
+      <aside class="card panel">
+        <div class="panel-header">
+          <h2>Editar punto {{ sel.id }}</h2>
+          <button mat-icon-button aria-label="Cerrar" (click)="cancelar()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Mapa de referencia (placeholder) -->
+        <svg class="mapa" viewBox="0 0 320 130" role="img" aria-label="Ubicación de los puntos">
+          <rect width="320" height="130" fill="#EAF1E6" />
+          <path d="M0 95 C80 60, 160 110, 320 40" stroke="#BFD3C4" stroke-width="10" fill="none" />
+          <path d="M0 95 C80 60, 160 110, 320 40" stroke="#fff" stroke-width="2" stroke-dasharray="6 5" fill="none" />
+          @for (p of puntos(); track p.id; let i = $index) {
+            <circle
+              [attr.cx]="24 + i * 38"
+              [attr.cy]="i % 2 ? 62 : 84"
+              [attr.r]="p.id === sel.id ? 11 : 7"
+              [attr.fill]="estadoColor(p.estado)"
+              stroke="#fff"
+              stroke-width="2"
+            />
+          }
+        </svg>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Latitud</mat-label>
+            <input matInput type="number" step="0.0001" [(ngModel)]="draft.latitud" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Longitud</mat-label>
+            <input matInput type="number" step="0.0001" [(ngModel)]="draft.longitud" />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full">
+          <mat-label>Norma aplicable</mat-label>
+          <mat-select [(ngModel)]="draft.norma">
+            @for (n of normas; track n) {
+              <mat-option [value]="n">{{ n }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>LMP</mat-label>
+            <input matInput [(ngModel)]="draft.lmp" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Advertencia</mat-label>
+            <input matInput type="number" min="1" max="100" [(ngModel)]="draft.advertenciaPct" />
+            <span matTextSuffix>%</span>
+          </mat-form-field>
+        </div>
+
+        <div class="panel-actions">
+          <button mat-button (click)="cancelar()">Cancelar</button>
+          <button mat-flat-button class="btn-primary" (click)="guardar()">Guardar cambios</button>
+        </div>
+      </aside>
+    }
+  </div>
+</div>
