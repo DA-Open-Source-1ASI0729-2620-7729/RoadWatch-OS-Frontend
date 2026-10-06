@@ -1,1 +1,1 @@
-<div class="shell"><app-sidebar [items]="navigation()" /><main><app-topbar [breadcrumb]="breadcrumb()" /><section class="content"><ng-content /></section></main></div>
+<div class="shell"><app-sidebar [items]="navigation()" [organization]="profile().organization" [moduleName]="profile().moduleName" [profileName]="profile().name" [profileRole]="profile().role" [profileInitials]="profile().initials" /><main><app-topbar [breadcrumb]="breadcrumb()" /><section class="content"><ng-content /></section></main></div>

@@ -6,6 +6,9 @@ import { NavigationItem } from '../../model/navigation-item';
 export class AppSidebar {
   readonly organization = input('EcoAudit Consultores');
   readonly moduleName = input('Módulo de Fiscalización');
+  readonly profileName = input('Usuario RoadWatch');
+  readonly profileRole = input('Sesión no iniciada');
+  readonly profileInitials = input('RW');
   readonly items = input<NavigationItem[]>([]);
   readonly sections = computed(() => [...new Set(this.items().map(item => item.section ?? 'NAVEGACIÓN'))]);
 }
