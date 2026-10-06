@@ -22,6 +22,6 @@ export const routes: Routes = [
   { path: 'projects/cards', loadComponent: projectCards },
   { path: 'projects/:id/monitoring-points', loadComponent: monitoringPoints },
   { path: 'projects/:id', loadComponent: projectDetail },
-  { path: '', pathMatch: 'full', redirectTo: 'documents' },
+  { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
   { path: '**', redirectTo: 'documents' },
 ];
