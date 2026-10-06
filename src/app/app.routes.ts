@@ -6,6 +6,10 @@ const identityAccessRoutes = () => import('./identity-access/identity-access.rou
 const subscriptionRoutes = () => import('./subscription/subscription.routes').then(m => m.subscriptionRoutes);
 const incidentMitigationRoutes = () => import('./incident-mitigation/incident-mitigation.routes').then(m => m.INCIDENT_MITIGATION_ROUTES);
 const environmentalMonitoringRoutes = () => import('./environmental-monitoring/environmental-monitoring.routes').then(m => m.environmentalMonitoringRoutes);
+const projectList = () => import('./project-management/presentation/views/portafolio-lista/portafolio-lista').then(m => m.PortafolioLista);
+const projectCards = () => import('./project-management/presentation/views/portafolio-tarjetas/portafolio-tarjetas').then(m => m.PortafolioTarjetas);
+const monitoringPoints = () => import('./project-management/presentation/views/puntos-monitoreo/puntos-monitoreo').then(m => m.PuntosMonitoreo);
+const projectDetail = () => import('./project-management/presentation/views/project-detail/project-detail').then(m => m.ProjectDetail);
 
 export const routes: Routes = [
   { path: 'auth', loadChildren: identityAccessRoutes },
@@ -14,6 +18,10 @@ export const routes: Routes = [
   { path: 'documents', loadChildren: documentEvidenceRoutes },
   { path: 'reports', loadChildren: reportsComplianceRoutes },
   { path: 'incidents', loadChildren: incidentMitigationRoutes },
+  { path: 'projects', loadComponent: projectList },
+  { path: 'projects/cards', loadComponent: projectCards },
+  { path: 'projects/:id/monitoring-points', loadComponent: monitoringPoints },
+  { path: 'projects/:id', loadComponent: projectDetail },
   { path: '', pathMatch: 'full', redirectTo: 'documents' },
   { path: '**', redirectTo: 'documents' },
 ];

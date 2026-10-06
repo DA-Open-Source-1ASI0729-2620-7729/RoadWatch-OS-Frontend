@@ -1,0 +1,146 @@
+<app-shell [navigation]="navigation()" breadcrumb="Operación › Proyectos">
+<div class="portafolio-lista-container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-title">
+      <mat-icon class="header-icon">view_list</mat-icon>
+      <div>
+        <h1 class="page-title">Portafolio de Proyectos</h1>
+        <p class="page-subtitle">{{ dataSource.filteredData.length }} proyectos</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [(ngModel)]="searchQuery" (ngModelChange)="applyFilter()" placeholder="Nombre, supervisor, ubicación...">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-estado">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="filterEstado" (ngModelChange)="applyFilter()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="en_progreso">En progreso</mat-option>
+          <mat-option value="pausado">Pausado</mat-option>
+          <mat-option value="completado">Completado</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      @if (searchQuery || filterEstado) {
+        <button mat-stroked-button (click)="clearFilters()">
+          <mat-icon>close</mat-icon> Limpiar
+        </button>
+      }
+
+      <div class="view-toggle">
+        <button mat-icon-button routerLink="/projects/cards" matTooltip="Vista tarjetas">
+          <mat-icon>grid_view</mat-icon>
+        </button>
+        <button mat-icon-button class="toggle-active" matTooltip="Vista lista">
+          <mat-icon>view_list</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="table-wrapper mat-elevation-z2">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="proyecto-id">{{ p.id }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proyecto</th>
+        <td mat-cell *matCellDef="let p">
+          <div class="nombre-cell">
+            <span class="nombre-text">{{ p.nombre }}</span>
+            <span class="ubicacion-text">
+              <mat-icon class="loc-icon">location_on</mat-icon>{{ p.ubicacion }}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Supervisor -->
+      <ng-container matColumnDef="supervisor">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supervisor</th>
+        <td mat-cell *matCellDef="let p">{{ p.supervisor }}</td>
+      </ng-container>
+
+      <!-- Salud ambiental -->
+      <ng-container matColumnDef="saludAmbiental">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Salud ambiental</th>
+        <td mat-cell *matCellDef="let p">
+          <div class="salud-cell">
+            <mat-progress-bar mode="determinate" [value]="p.saludAmbiental"
+                              [style.--mdc-linear-progress-active-indicator-color]="getSaludColor(p.saludAmbiental)">
+            </mat-progress-bar>
+            <span class="salud-valor" [style.color]="getSaludColor(p.saludAmbiental)">
+              {{ p.saludAmbiental }}%
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Alertas -->
+      <ng-container matColumnDef="alertasActivas">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Alertas</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="badge" [class.badge-danger]="p.alertasActivas > 3">
+            {{ p.alertasActivas }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Incidentes -->
+      <ng-container matColumnDef="incidentes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Incidentes</th>
+        <td mat-cell *matCellDef="let p">{{ p.incidentes }}</td>
+      </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="estado-chip" [ngClass]="'estado-' + p.estado">
+            {{ getEstadoLabel(p.estado) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let p">
+          <button mat-icon-button [routerLink]="['/projects', p.id]" matTooltip="Ver detalle">
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="proyecto-row"></tr>
+    </table>
+
+    <!-- Empty state -->
+    @if (dataSource.filteredData.length === 0) {
+      <div class="empty-state">
+        <mat-icon>search_off</mat-icon>
+        <p>No se encontraron proyectos</p>
+        <button mat-stroked-button (click)="clearFilters()">Limpiar filtros</button>
+      </div>
+    }
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" pageSize="10" showFirstLastButtons></mat-paginator>
+  </div>
+
+</div>
+</app-shell>

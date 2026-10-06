@@ -1,0 +1,8 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AppNavigation } from '../../../../app-navigation';
+import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
+import { ProjectManagementStore } from '../../../application/project-management.store';
+
+@Component({selector:'app-puntos-monitoreo',imports:[AppShell],template:`<app-shell [navigation]="navigation()" breadcrumb="Proyectos › Puntos de monitoreo"><div class="page"><h1>Puntos de monitoreo</h1><p>Ubicaciones de referencia del proyecto. Las mediciones y umbrales se gestionan en Monitoreo Ambiental.</p><section>@for(point of store.puntos();track point.id){<article><strong>{{point.id}} · {{point.nombre}}</strong><span>{{point.progresiva}}</span><small>{{point.descripcion || 'Sin descripción'}}</small></article>}@empty{<p>No hay puntos registrados para este proyecto.</p>}</section></div></app-shell>`,styles:[`:host{display:block}.page{max-width:1000px}h1{margin:0;color:#1e3844}.page>p,small{color:#64748b}section{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}article{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}strong,span,small{display:block}strong{color:#1e3844}span{color:#23a277;margin:7px 0;font-weight:700}@media(max-width:700px){section{grid-template-columns:1fr}}`]})
+export class PuntosMonitoreo implements OnInit {protected readonly navigation=inject(AppNavigation).items;protected readonly store=inject(ProjectManagementStore);private readonly route=inject(ActivatedRoute);ngOnInit():void{this.store.loadPuntos(this.route.snapshot.paramMap.get('id')??'PRY-003');}}
