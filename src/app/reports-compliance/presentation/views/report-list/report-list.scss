@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #f6f5ee;
+  color: #1e3844;
+}
+.page { max-width: 1120px; }
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 20px;
+}
+.heading-actions { display: flex; gap: 8px; align-items: center; }
+.heading-actions a { border-radius: 7px; background: #23a277; padding: 9px 12px; color: #fff; font-size: 12px; font-weight: 700; text-decoration: none; }
+h1 {
+  margin: 0;
+  font-size: 27px;
+}
+p {
+  color: #64748b;
+}
+.heading p {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.heading button,
+td button {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  padding: 8px 11px;
+  color: #1e3844;
+}
+.filter-menu {
+  display: flex;
+  gap: 8px;
+  margin: -8px 0 14px;
+}
+.filter-menu button {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  padding: 5px 10px;
+  color: #64748b;
+  font-size: 11px;
+}
+.filter-menu button.selected {
+  border-color: #23a277;
+  background: #e4f5ed;
+  color: #187a59;
+  font-weight: 700;
+}
+.card {
+  overflow: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  background: #fff;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+  font-size: 12px;
+}
+th {
+  text-align: left;
+  color: #64748b;
+  font-size: 10px;
+  padding: 13px;
+  border-bottom: 1px solid #e2e8f0;
+}
+td {
+  padding: 14px 13px;
+  border-bottom: 1px solid #edf0f1;
+  color: #53616a;
+}
+td strong,
+td small {
+  display: block;
+}
+td small {
+  margin-top: 4px;
+  color: #64748b;
+}
+td span {
+  border-radius: 14px;
+  padding: 4px 8px;
+  font-size: 10px;
+}
+.emitido {
+  background: #e2f2eb;
+  color: #167050;
+}
+.observado {
+  background: #fff4d8;
+  color: #9a762b;
+}
+.borrador {
+  background: #e2e8f0;
+  color: #64748b;
+}
+.empty {
+  text-align: center;
+  padding: 36px;
+}
+
+.notice{margin:0 0 12px;border:1px solid #23a277;border-radius:7px;background:#e4f5ed;padding:10px;color:#187a59;font-size:12px}.backdrop{position:fixed;inset:0;z-index:20;display:flex;justify-content:flex-end;background:rgba(30,56,68,.35)}.drawer{width:min(390px,100%);min-height:100%;background:#fff;padding:28px;box-shadow:-8px 0 24px rgba(30,56,68,.2);color:#1e3844}.drawer .close{float:right;border:0;border-radius:6px;background:#eef2f5;padding:5px 9px;font-size:18px}.drawer small{color:#64748b;font-weight:700;letter-spacing:.06em}.drawer h2{margin:10px 0 4px}.drawer p{font-size:12px}.drawer h3{margin-top:28px;font-size:14px}.drawer ul{padding-left:18px;color:#53616a;font-size:12px;line-height:1.8}.state{display:inline-block;margin-top:16px;border:1px solid #23a277;border-radius:14px;background:#e4f5ed;padding:4px 8px;color:#187a59;font-size:11px}.export{width:100%;margin-top:20px;border:0;border-radius:7px;background:#23a277;padding:11px;color:#fff;font-weight:600}.export:hover{background:#1d8b68}
+
+/* RoadWatch OS palette */
+.heading-actions a:hover { background: #1d8b68; }.emitido { background: #e4f5ed; color: #187a59; border: 1px solid #23a277; }.observado { background: #fff4d8; color: #9a6e08; border: 1px solid #e5a93c; }.borrador { background: #eef2f5; color: #64748b; border: 1px solid #e2e8f0; }.export:disabled { cursor: wait; opacity: .7; }

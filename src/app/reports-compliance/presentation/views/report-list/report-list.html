@@ -1,0 +1,56 @@
+<app-shell [navigation]="navigation()" breadcrumb="Fiscalización › Reportes">
+  <div class="page">
+    <div class="heading">
+      <div>
+        <h1>Reportes emitidos</h1>
+        <p>Expedientes de auditoría y reportes por proyecto.</p>
+      </div>
+      <div class="heading-actions"><button (click)="filtersOpen.set(!filtersOpen())">Filtrar: {{ statusFilter() }}</button><a routerLink="/reports/audit">Generar reporte</a></div>
+    </div>
+      @if (filtersOpen()) {
+        <div class="filter-menu">
+          @for (status of reportStatuses; track status) {
+            <button [class.selected]="statusFilter() === status" (click)="setStatusFilter(status)">{{ status }}</button>
+          }
+        </div>
+      }
+      @if(notification()){<p class="notice">{{notification()}}</p>}
+      <div class="card">
+      @if (store.loading()) {
+        <p class="empty">Cargando reportes...</p>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>REPORTE</th>
+              <th>PERÍODO</th>
+              <th>EMITIDO</th>
+              <th>ESTADO</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (report of filteredReports(); track report.id) {
+              <tr>
+                <td>
+                  <strong>{{ report.projectName }}</strong
+                  ><small>Expediente {{ report.id }}</small>
+                </td>
+                <td>{{ report.periodStart }} — {{ report.periodEnd }}</td>
+                <td>{{ report.issuedAt ?? 'Pendiente' }}</td>
+                <td>
+                  <span [class]="report.status.toLowerCase()">{{ report.status }}</span>
+                </td>
+                <td><button (click)="open(report)">Ver detalle</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        @if (!filteredReports().length) {
+          <p class="empty">No hay reportes con este estado.</p>
+        }
+      }
+      </div>
+      @if(selectedReport();as report){<div class="backdrop" (click)="close()"><aside class="drawer" (click)="$event.stopPropagation()"><button class="close" (click)="close()">×</button><small>REPORTE DE AUDITORÍA</small><h2>{{report.projectName}}</h2><p>{{report.periodStart}} — {{report.periodEnd}}</p><div class="state">{{report.status}}</div><h3>Contenido incluido</h3><ul>@for(section of report.sections;track section){<li>{{section}}</li>}</ul><button class="export" [disabled]="exportingReportId() === report.id" (click)="exportPdf(report)">@if (exportingReportId() === report.id) { Preparando PDF... } @else { Descargar PDF }</button></aside></div>}
+  </div>
+</app-shell>
