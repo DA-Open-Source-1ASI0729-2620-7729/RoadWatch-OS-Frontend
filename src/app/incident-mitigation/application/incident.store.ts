@@ -6,9 +6,7 @@ import { EnvironmentalIncident, IncidentStatus } from '../domain/model/incident.
  * Application state manager for the Incident Mitigation bounded context.
  * Utilizes Angular Signals to provide reactive state across the module's components.
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class IncidentStore {
   /** Injected gateway abstracting data access */
   private readonly incidentGateway = inject(IncidentGateway);
