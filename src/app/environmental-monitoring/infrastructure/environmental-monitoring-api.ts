@@ -18,7 +18,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       unit: 'µg/m³',
       warningLimit: 70,
       maximumLimit: 90,
-      referenceLabel: 'Referencia mock de demostración',
+      referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
       indicatorType: 'AIR',
@@ -26,7 +26,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       unit: 'µg/m³',
       warningLimit: 40,
       maximumLimit: 55,
-      referenceLabel: 'Referencia mock de demostración',
+      referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
       indicatorType: 'NOISE',
@@ -34,7 +34,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       unit: 'dB(A)',
       warningLimit: 75,
       maximumLimit: 85,
-      referenceLabel: 'Referencia mock de demostración',
+      referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
       indicatorType: 'WATER',
@@ -42,7 +42,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       unit: 'NTU',
       warningLimit: 80,
       maximumLimit: 100,
-      referenceLabel: 'Referencia mock de demostración',
+      referenceLabel: 'Parámetros de evaluación ambiental',
     },
   ];
   private measurements: EnvironmentalMeasurement[] = [
@@ -105,7 +105,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       indicatorType: 'AIR',
       indicatorName: 'PM2.5',
       status: 'NON_COMPLIANT',
-      message: 'Medición por encima de la referencia mock máxima.',
+      message: 'Medición por encima del nivel máximo.',
       createdAt: '2026-09-29T16:00:00',
     },
     {
@@ -115,7 +115,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       indicatorType: 'NOISE',
       indicatorName: 'Ruido',
       status: 'WARNING',
-      message: 'Medición en rango de advertencia según referencia mock.',
+      message: 'Medición en rango de advertencia.',
       createdAt: '2026-09-30T09:20:00',
     },
   ];
@@ -144,8 +144,8 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
           status,
           message:
             status === 'WARNING'
-              ? 'Medición en rango de advertencia según referencia mock.'
-              : 'Medición por encima de la referencia mock máxima.',
+              ? 'Medición en rango de advertencia.'
+              : 'Medición por encima del nivel máximo.',
           createdAt: measurement.measuredAt,
         },
         ...this.alerts,

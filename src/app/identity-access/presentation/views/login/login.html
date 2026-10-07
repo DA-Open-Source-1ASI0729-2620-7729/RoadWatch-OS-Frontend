@@ -11,7 +11,7 @@
     <p>Ingresa con tu correo corporativo.</p>
 
     <label class="demo-profile">
-      Perfil de demostración
+      Seleccionar perfil
       <select [value]="selectedProfileId()" (change)="selectProfile($any($event.target).value)">
         <optgroup label="Empresa constructora">
           @for (profile of profilesFor('CONSTRUCTION_COMPANY'); track profile.id) {
@@ -44,6 +44,5 @@
     <button [disabled]="store.loading()">
       {{ store.loading() ? 'Ingresando...' : 'Ingresar' }}
     </button>
-    <small class="demo-note">Acceso de demostración · datos simulados</small>
   </form>
 </main>

@@ -20,10 +20,6 @@ import { EnvironmentalIncident, IncidentStatus } from '../../domain/model/incide
         </div>
         <a routerLink="/incidents/list">Incidencias críticas</a>
       </header>
-      <p class="scope">
-        Las mediciones y alertas se consultan por referencia. Las evidencias pertenecen a Document &
-        Evidence.
-      </p>
       @if (store.loading()) {
         <p>Cargando incidencias...</p>
       } @else {

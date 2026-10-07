@@ -10,10 +10,7 @@ import { ProjectManagementStore } from '../../../application/project-management.
   template: `<app-shell [navigation]="navigation()" breadcrumb="Proyectos › Puntos de monitoreo"
     ><div class="page">
       <h1>Puntos de monitoreo</h1>
-      <p>
-        Ubicaciones de referencia del proyecto. Las mediciones y umbrales se gestionan en Monitoreo
-        Ambiental.
-      </p>
+      <p>Ubicaciones registradas para el proyecto.</p>
       <section>
         @for (point of store.puntos(); track point.id) {
           <article>

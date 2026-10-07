@@ -143,7 +143,7 @@ export class AuthApi extends AuthGateway {
           user: profile.user,
           token: { value: `mock-token-${profile.id}`, expiresAt: '2026-12-31T23:59:59Z' },
         })
-      : throwError(() => new Error('Credenciales de demostración inválidas'));
+      : throwError(() => new Error('Credenciales inválidas'));
   }
 
   currentUser(): Observable<User | null> {

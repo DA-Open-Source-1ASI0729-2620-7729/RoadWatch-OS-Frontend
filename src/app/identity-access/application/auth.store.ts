@@ -29,7 +29,7 @@ export class AuthStore {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Selecciona un perfil de demostración válido.');
+        this.error.set('Selecciona un perfil válido.');
         this.loading.set(false);
       },
     });

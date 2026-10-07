@@ -11,7 +11,7 @@
     <div class="layout">
       <section class="card trend">
         <h2>Evolución temporal</h2>
-        <p>Visualización de demostración basada en las mediciones disponibles.</p>
+        <p>Evolución de las mediciones disponibles.</p>
         <div class="bars">
           @for (item of history(); track item.id) {
             <div>
@@ -22,12 +22,12 @@
             <p>No hay datos para el filtro.</p>
           }
         </div>
-        <p class="legend">La altura representa el valor registrado, no una escala normativa.</p>
+        <p class="legend">Valores registrados durante el período.</p>
       </section>
       <aside>
         <article class="metric">
           <small>Promedio del período</small><strong>{{ average() }}</strong>
-          <p>valor mock calculado</p>
+          <p>promedio calculado</p>
         </article>
         <article class="metric">
           <small>Registros consultados</small><strong>{{ history().length }}</strong>

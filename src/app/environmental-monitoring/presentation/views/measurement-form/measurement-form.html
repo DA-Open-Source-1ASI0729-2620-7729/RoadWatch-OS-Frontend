@@ -5,14 +5,10 @@
       Registra una medición ambiental asociada a un punto existente del proyecto.
     </p>
     @if (readOnly()) {
-      <p class="readonly">
-        Perfil de consulta: el registro de mediciones está deshabilitado visualmente.
-      </p>
+      <p class="readonly">Perfil de consulta: no tienes permiso para registrar mediciones.</p>
     }
     @if (saved()) {
-      <p class="success">
-        Medición registrada. El estado se evaluó con una referencia mock de demostración.
-      </p>
+      <p class="success">Medición registrada.</p>
     }
     <div class="layout">
       <section class="card">
@@ -29,7 +25,7 @@
           }
         </div>
         <label
-          >Punto de monitoreo de referencia<input
+          >Punto de monitoreo<input
             [value]="monitoringPointId()"
             [disabled]="readOnly()"
             (input)="monitoringPointId.set($any($event.target).value)" /></label
@@ -60,16 +56,12 @@
               <dd>{{ item.warningLimit }} {{ item.unit }}</dd>
             </div>
             <div>
-              <dt>Máximo mock</dt>
+              <dt>Máximo</dt>
               <dd>{{ item.maximumLimit }} {{ item.unit }}</dd>
             </div>
           </dl>
-          <small
-            >Estos datos son simulados para el frontend y no representan límites normativos
-            oficiales.</small
-          >
         } @else {
-          <p>Cargando referencia mock...</p>
+          <p>Cargando parámetros...</p>
         }
       </aside>
     </div>
