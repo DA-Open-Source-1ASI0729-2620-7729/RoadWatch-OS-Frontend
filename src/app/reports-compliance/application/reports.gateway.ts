@@ -5,7 +5,6 @@ import { EnvironmentalKpi } from '../domain/model/environmental-kpi';
 import { ProjectReport } from '../domain/model/project-report';
 import { ReportExportRequest } from '../domain/model/report-export-request';
 
-/** Contract to be backed by the common HTTP infrastructure once backend contracts are approved. */
 export abstract class ReportsGateway {
   abstract listReports(): Observable<AuditReport[]>;
   abstract getReport(id: string): Observable<AuditReport>;

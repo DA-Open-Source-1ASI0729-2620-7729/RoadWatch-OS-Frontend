@@ -1,4 +1,3 @@
-/** Project-owned location referenced by Environmental Monitoring. It does not represent a device. */
 export interface PuntoMonitoreo {
   id: string;
   proyectoId: string;

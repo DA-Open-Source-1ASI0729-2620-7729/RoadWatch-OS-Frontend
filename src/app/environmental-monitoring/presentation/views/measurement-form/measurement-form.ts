@@ -15,7 +15,6 @@ export class MeasurementForm {
   protected readonly value = signal(0);
   protected readonly measuredAt = signal('2026-10-05T10:00');
   protected readonly saved = signal(false);
-  /** Temporary visual rule until Identity & Access provides the organization segment. */
   protected readonly readOnly = computed(() => this.auth.user()?.role.type === 'AUDITOR');
   protected readonly reference = computed(() => this.store.thresholds().find(item => item.indicatorName === this.indicatorName()));
 

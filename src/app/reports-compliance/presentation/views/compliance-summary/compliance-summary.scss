@@ -478,5 +478,4 @@ td small {
   }
 }
 
-/* RoadWatch OS palette: wireframes were neutral; these are the production visual states. */
 aside { background: #1e3844; color: #ffffff; }.brand, .brand small, .account, .account strong, aside > p, nav a, .profile, .profile small { color: #ffffff; }.account, .profile { background: rgba(255,255,255,.11); }.brand > b, .profile > b { background: #23a277; color: #ffffff; }nav .active { background: #23a277; }.title a, .review { background: #23a277; }.title a:hover, .review:hover { background: #1d8b68; }.status.warning { background: #fff4d8; color: #9a6e08; border: 1px solid #e5a93c; }.status.danger { background: #fbe9e8; color: #b92f29; border: 1px solid #d64545; }.status.success { background: #e4f5ed; color: #187a59; border: 1px solid #23a277; }

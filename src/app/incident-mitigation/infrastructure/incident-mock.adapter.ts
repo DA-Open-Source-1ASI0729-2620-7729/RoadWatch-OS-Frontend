@@ -3,17 +3,11 @@ import { Observable, of, delay } from 'rxjs';
 import { IncidentGateway } from '../domain/gateways/incident.gateway';
 import { EnvironmentalIncident, IncidentSeverity, IncidentStatus } from '../domain/model/incident.model';
 
-/**
- * Mock implementation of the IncidentGateway.
- * Provides hardcoded data mimicking a real backend response, useful for 
- * development and testing without a live API.
- */
 @Injectable({
   providedIn: 'root'
 })
 export class IncidentMockAdapter extends IncidentGateway {
   
-  /** Hardcoded list of incidents based on UI mockups */
   private mockIncidents: EnvironmentalIncident[] = [
     {
       id: 'INC-0142',
@@ -55,33 +49,15 @@ export class IncidentMockAdapter extends IncidentGateway {
     }
   ];
 
-  /**
-   * Retrieves all mock incidents with a simulated network delay.
-   * 
-   * @returns An Observable emitting the mock incidents array after 500ms.
-   */
   override getAllIncidents(): Observable<EnvironmentalIncident[]> {
     return of(this.mockIncidents).pipe(delay(500)); 
   }
 
-  /**
-   * Finds a specific mock incident by ID with a simulated network delay.
-   * 
-   * @param id The ID to search for.
-   * @returns An Observable emitting the matched incident or undefined after 300ms.
-   */
   override getIncidentById(id: string): Observable<EnvironmentalIncident | undefined> {
     const incident = this.mockIncidents.find(i => i.id === id);
     return of(incident).pipe(delay(300));
   }
 
-  /**
-   * Updates the status of a mock incident in the local array.
-   * 
-   * @param id The ID of the incident to modify.
-   * @param status The new status value.
-   * @returns An Observable emitting the modified incident after 400ms.
-   */
   override updateIncidentStatus(id: string, status: IncidentStatus): Observable<EnvironmentalIncident> {
     const incidentIndex = this.mockIncidents.findIndex(i => i.id === id);
     if (incidentIndex > -1) {

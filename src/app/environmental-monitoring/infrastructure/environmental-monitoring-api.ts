@@ -6,7 +6,6 @@ import { EnvironmentalMeasurement, EnvironmentalMeasurementDraft } from '../doma
 import { MeasurementStatus } from '../domain/model/measurement-status';
 import { NormativeThreshold } from '../domain/model/normative-threshold';
 
-/** Temporary frontend adapter. Values below are mock references, not legal limits. */
 @Injectable({ providedIn: 'root' })
 export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
   private readonly thresholds: NormativeThreshold[] = [

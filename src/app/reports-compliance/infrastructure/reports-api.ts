@@ -7,7 +7,6 @@ import { EnvironmentalKpi } from '../domain/model/environmental-kpi';
 import { ProjectReport } from '../domain/model/project-report';
 import { ReportExportRequest } from '../domain/model/report-export-request';
 
-/** Temporary mock adapter. Replace its methods with the approved HTTP client calls later. */
 @Injectable({ providedIn: 'root' })
 export class ReportsApi extends ReportsGateway {
   private readonly reports: AuditReport[] = [

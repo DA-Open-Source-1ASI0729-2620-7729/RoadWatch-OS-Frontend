@@ -1,7 +1,6 @@
 <app-shell [navigation]="navigation()" breadcrumb="Operación › Proyectos">
 <div class="portafolio-lista-container">
 
-  <!-- Header -->
   <div class="page-header">
     <div class="header-title">
       <mat-icon class="header-icon">view_list</mat-icon>
@@ -130,7 +129,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="proyecto-row"></tr>
     </table>
 
-    <!-- Empty state -->
     @if (dataSource.filteredData.length === 0) {
       <div class="empty-state">
         <mat-icon>search_off</mat-icon>
