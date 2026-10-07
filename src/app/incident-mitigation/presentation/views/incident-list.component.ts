@@ -4,5 +4,119 @@ import { AppNavigation } from '../../../app-navigation';
 import { AppShell } from '../../../shared/layout/app-shell/app-shell';
 import { IncidentStore } from '../../application/incident.store';
 
-@Component({ selector: 'app-incident-list', standalone: true, imports: [RouterLink, AppShell], template: `<app-shell [navigation]="navigation()" breadcrumb="Fiscalización › Incidencias críticas"><div class="page"><h1>Incidencias críticas</h1><p>Consulta de incidencias que requieren revisión prioritaria.</p><section><table><thead><tr><th>CÓDIGO</th><th>INDICADOR</th><th>PUNTO</th><th>RESPONSABLE</th><th>ESTADO</th><th></th></tr></thead><tbody>@for(item of critical();track item.id){<tr><td><strong>{{item.id}}</strong></td><td>{{item.indicator}} · {{item.observedValue}} {{item.unit}}</td><td>{{item.monitoringPointLabel}}</td><td>{{item.responsible}}</td><td><span>{{item.status}}</span></td><td><a [routerLink]="['/incidents',item.id]">Ver detalle</a></td></tr>}@empty{<tr><td colspan="6">No hay incidencias críticas.</td></tr>}</tbody></table></section></div></app-shell>`, styles: [`:host{display:block}.page{max-width:1180px}h1{margin:0;color:#1e3844;font-size:28px}.page>p{color:#64748b}section{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:auto;margin-top:20px}table{width:100%;min-width:760px;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #e2e8f0;font-size:13px}th{font-size:11px;color:#64748b}td{color:#1e3844}span{font-size:11px;padding:4px 8px;background:#fde8e7;color:#b42318;border-radius:15px;font-weight:700}a{color:#23a277;font-weight:700;text-decoration:none}`] })
-export class IncidentListComponent implements OnInit { protected readonly navigation=inject(AppNavigation).items; protected readonly store=inject(IncidentStore); protected readonly critical=computed(()=>this.store.incidents().filter(item=>item.severity==='CRITICAL'||item.severity==='HIGH')); ngOnInit():void{this.store.loadIncidents();} }
+@Component({
+  selector: 'app-incident-list',
+  standalone: true,
+  imports: [RouterLink, AppShell],
+  template: `<app-shell
+    [navigation]="navigation()"
+    breadcrumb="Fiscalización › Incidencias críticas"
+    ><div class="page">
+      <h1>Incidencias críticas</h1>
+      <p>Consulta de incidencias que requieren revisión prioritaria.</p>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>CÓDIGO</th>
+              <th>INDICADOR</th>
+              <th>PUNTO</th>
+              <th>RESPONSABLE</th>
+              <th>ESTADO</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of critical(); track item.id) {
+              <tr>
+                <td>
+                  <strong>{{ item.id }}</strong>
+                </td>
+                <td>{{ item.indicator }} · {{ item.observedValue }} {{ item.unit }}</td>
+                <td>{{ item.monitoringPointLabel }}</td>
+                <td>{{ item.responsible }}</td>
+                <td>
+                  <span>{{ item.status }}</span>
+                </td>
+                <td><a [routerLink]="['/incidents', item.id]">Ver detalle</a></td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">No hay incidencias críticas.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </section>
+    </div></app-shell
+  >`,
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+      .page {
+        max-width: 1180px;
+      }
+      h1 {
+        margin: 0;
+        color: #1e3844;
+        font-size: 28px;
+      }
+      .page > p {
+        color: #64748b;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: auto;
+        margin-top: 20px;
+      }
+      table {
+        width: 100%;
+        min-width: 760px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 13px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 13px;
+      }
+      th {
+        font-size: 11px;
+        color: #64748b;
+      }
+      td {
+        color: #1e3844;
+      }
+      span {
+        font-size: 11px;
+        padding: 4px 8px;
+        background: #fde8e7;
+        color: #b42318;
+        border-radius: 15px;
+        font-weight: 700;
+      }
+      a {
+        color: #23a277;
+        font-weight: 700;
+        text-decoration: none;
+      }
+    `,
+  ],
+})
+export class IncidentListComponent implements OnInit {
+  protected readonly navigation = inject(AppNavigation).items;
+  protected readonly store = inject(IncidentStore);
+  protected readonly critical = computed(() =>
+    this.store
+      .incidents()
+      .filter((item) => item.severity === 'CRITICAL' || item.severity === 'HIGH'),
+  );
+  ngOnInit(): void {
+    this.store.loadIncidents();
+  }
+}

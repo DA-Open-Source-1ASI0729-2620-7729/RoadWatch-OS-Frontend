@@ -1,3 +1,58 @@
 <app-shell [navigation]="navigation()" breadcrumb="Operación › Alertas ambientales">
-  <div class="page"><div class="heading"><div><h1>Centro de alertas</h1><p>Condiciones derivadas de la evaluación mock de mediciones ambientales.</p></div><span class="count">{{store.alerts().length}} activas</span></div><div class="filters"><button [class.active]="filter()==='ALL'" (click)="filter.set('ALL')">Todas</button><button [class.active]="filter()==='WARNING'" (click)="filter.set('WARNING')">Advertencias</button><button [class.active]="filter()==='NON_COMPLIANT'" (click)="filter.set('NON_COMPLIANT')">Críticas</button></div><section class="card"><table><thead><tr><th>SEVERIDAD</th><th>INDICADOR</th><th>PUNTO</th><th>MENSAJE</th><th>FECHA</th></tr></thead><tbody>@for(alert of visibleAlerts();track alert.id){<tr><td><span [class.critical]="alert.status==='NON_COMPLIANT'">{{alert.status==='NON_COMPLIANT'?'Crítico':'Advertencia'}}</span></td><td>{{alert.indicatorName}}</td><td>{{alert.monitoringPointId}}</td><td>{{alert.message}}</td><td>{{alert.createdAt | date:'dd/MM HH:mm'}}</td></tr>}@empty{<tr><td colspan="5">No hay alertas para este filtro.</td></tr>}</tbody></table></section><aside class="notice"><strong>Alcance del módulo</strong><p>Esta pantalla muestra alertas ambientales. La creación y seguimiento de incidencias pertenece a Incident &amp; Mitigation Management.</p></aside></div>
+  <div class="page">
+    <div class="heading">
+      <div>
+        <h1>Centro de alertas</h1>
+        <p>Condiciones derivadas de la evaluación mock de mediciones ambientales.</p>
+      </div>
+      <span class="count">{{ store.alerts().length }} activas</span>
+    </div>
+    <div class="filters">
+      <button [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">Todas</button
+      ><button [class.active]="filter() === 'WARNING'" (click)="filter.set('WARNING')">
+        Advertencias</button
+      ><button [class.active]="filter() === 'NON_COMPLIANT'" (click)="filter.set('NON_COMPLIANT')">
+        Críticas
+      </button>
+    </div>
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>SEVERIDAD</th>
+            <th>INDICADOR</th>
+            <th>PUNTO</th>
+            <th>MENSAJE</th>
+            <th>FECHA</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (alert of visibleAlerts(); track alert.id) {
+            <tr>
+              <td>
+                <span [class.critical]="alert.status === 'NON_COMPLIANT'">{{
+                  alert.status === 'NON_COMPLIANT' ? 'Crítico' : 'Advertencia'
+                }}</span>
+              </td>
+              <td>{{ alert.indicatorName }}</td>
+              <td>{{ alert.monitoringPointId }}</td>
+              <td>{{ alert.message }}</td>
+              <td>{{ alert.createdAt | date: 'dd/MM HH:mm' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5">No hay alertas para este filtro.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+    <aside class="notice">
+      <strong>Alcance del módulo</strong>
+      <p>
+        Esta pantalla muestra alertas ambientales. La creación y seguimiento de incidencias
+        pertenece a Incident &amp; Mitigation Management.
+      </p>
+    </aside>
+  </div>
 </app-shell>

@@ -6,5 +6,8 @@ export abstract class IncidentGateway {
 
   abstract getIncidentById(id: string): Observable<EnvironmentalIncident | undefined>;
 
-  abstract updateIncidentStatus(id: string, status: IncidentStatus): Observable<EnvironmentalIncident>;
+  abstract updateIncidentStatus(
+    id: string,
+    status: IncidentStatus,
+  ): Observable<EnvironmentalIncident>;
 }

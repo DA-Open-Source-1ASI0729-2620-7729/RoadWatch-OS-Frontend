@@ -1,1 +1,46 @@
-import{Injectable}from'@angular/core';import{Observable,of}from'rxjs';import{SubscriptionGateway}from'../application/subscription.gateway';import{Plan}from'../domain/model/plan';import{Subscription}from'../domain/model/subscription';@Injectable({providedIn:'root'})export class SubscriptionApi extends SubscriptionGateway{private currentValue:Subscription={plan:'PROFESSIONAL',status:'ACTIVE',renewalDate:'01/11/2026'};private readonly data:Plan[]=[{type:'BASE',name:'Base',monthlyPrice:490,annualMonthlyPrice:408,features:['Proyectos y documentos']},{type:'PROFESSIONAL',name:'Professional',monthlyPrice:1290,annualMonthlyPrice:1075,features:['Reportes PDF','Cumplimiento y KPIs']},{type:'ENTERPRISE',name:'Enterprise',monthlyPrice:2850,annualMonthlyPrice:2375,features:['Marca personalizada','Soporte prioritario']}];plans(){return of(this.data)}current(){return of(this.currentValue)}change(plan:Plan['type']):Observable<Subscription>{this.currentValue={...this.currentValue,plan};return of(this.currentValue)}}
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { SubscriptionGateway } from '../application/subscription.gateway';
+import { Plan } from '../domain/model/plan';
+import { Subscription } from '../domain/model/subscription';
+@Injectable({ providedIn: 'root' })
+export class SubscriptionApi extends SubscriptionGateway {
+  private currentValue: Subscription = {
+    plan: 'PROFESSIONAL',
+    status: 'ACTIVE',
+    renewalDate: '01/11/2026',
+  };
+  private readonly data: Plan[] = [
+    {
+      type: 'BASE',
+      name: 'Base',
+      monthlyPrice: 490,
+      annualMonthlyPrice: 408,
+      features: ['Proyectos y documentos'],
+    },
+    {
+      type: 'PROFESSIONAL',
+      name: 'Professional',
+      monthlyPrice: 1290,
+      annualMonthlyPrice: 1075,
+      features: ['Reportes PDF', 'Cumplimiento y KPIs'],
+    },
+    {
+      type: 'ENTERPRISE',
+      name: 'Enterprise',
+      monthlyPrice: 2850,
+      annualMonthlyPrice: 2375,
+      features: ['Marca personalizada', 'Soporte prioritario'],
+    },
+  ];
+  plans() {
+    return of(this.data);
+  }
+  current() {
+    return of(this.currentValue);
+  }
+  change(plan: Plan['type']): Observable<Subscription> {
+    this.currentValue = { ...this.currentValue, plan };
+    return of(this.currentValue);
+  }
+}

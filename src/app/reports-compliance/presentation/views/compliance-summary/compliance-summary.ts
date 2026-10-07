@@ -5,7 +5,12 @@ import { ComplianceStore } from '../../../application/compliance.store';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
-@Component({ selector: 'app-compliance-summary', imports: [RouterLink, AppShell], styleUrl: './compliance-summary.scss', templateUrl: './compliance-summary.html' })
+@Component({
+  selector: 'app-compliance-summary',
+  imports: [RouterLink, AppShell],
+  styleUrl: './compliance-summary.scss',
+  templateUrl: './compliance-summary.html',
+})
 export class ComplianceSummary {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(ComplianceStore);
@@ -13,14 +18,22 @@ export class ComplianceSummary {
   protected readonly notification = signal('');
   protected readonly filteredProjects = computed(() => {
     const filter = this.selectedFilter();
-    return this.store.projects().filter(project => {
+    return this.store.projects().filter((project) => {
       if (filter === 'pending') return project.pendingDocuments > 0;
       if (filter === 'critical') return project.criticalIncidents > 0;
       return true;
     });
   });
-  protected readonly statusClass = (project: ProjectReport): string => project.criticalIncidents > 0 ? 'danger' : project.pendingDocuments > 0 ? 'warning' : 'success';
-  protected readonly statusLabel = (project: ProjectReport): string => project.criticalIncidents > 0 ? 'Crítico' : project.pendingDocuments > 0 ? 'En observación' : 'En norma';
-  protected readonly selectFilter = (filter: 'all' | 'pending' | 'critical'): void => this.selectedFilter.set(filter);
-  protected readonly review = (project: ProjectReport): void => this.notification.set(`Resumen de ${project.projectName} listo para revisión.`);
+  protected readonly statusClass = (project: ProjectReport): string =>
+    project.criticalIncidents > 0 ? 'danger' : project.pendingDocuments > 0 ? 'warning' : 'success';
+  protected readonly statusLabel = (project: ProjectReport): string =>
+    project.criticalIncidents > 0
+      ? 'Crítico'
+      : project.pendingDocuments > 0
+        ? 'En observación'
+        : 'En norma';
+  protected readonly selectFilter = (filter: 'all' | 'pending' | 'critical'): void =>
+    this.selectedFilter.set(filter);
+  protected readonly review = (project: ProjectReport): void =>
+    this.notification.set(`Resumen de ${project.projectName} listo para revisión.`);
 }

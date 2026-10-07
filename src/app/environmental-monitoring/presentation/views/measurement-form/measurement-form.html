@@ -1,3 +1,77 @@
 <app-shell [navigation]="navigation()" breadcrumb="Operación › Registrar medición">
-  <div class="page"><h1>Registrar medición manual</h1><p class="subtitle">Registra una medición ambiental asociada a un punto existente del proyecto.</p>@if(readOnly()){<p class="readonly">Perfil de consulta: el registro de mediciones está deshabilitado visualmente.</p>}@if(saved()){<p class="success">Medición registrada. El estado se evaluó con una referencia mock de demostración.</p>}<div class="layout"><section class="card"><h2>Datos de la medición</h2><div class="indicator-grid">@for(item of store.thresholds();track item.indicatorName){<button [class.active]="indicatorName()===item.indicatorName" [disabled]="readOnly()" (click)="chooseIndicator(item.indicatorName)">{{item.indicatorName}}<small>{{item.indicatorType}}</small></button>}</div><label>Punto de monitoreo de referencia<input [value]="monitoringPointId()" [disabled]="readOnly()" (input)="monitoringPointId.set($any($event.target).value)" /></label><label>Valor medido<input type="number" [value]="value()" [disabled]="readOnly()" (input)="value.set($any($event.target).valueAsNumber)" /></label><label>Fecha y hora<input type="datetime-local" [value]="measuredAt()" [disabled]="readOnly()" (input)="measuredAt.set($any($event.target).value)" /></label><button class="save" [disabled]="readOnly() || !reference()" (click)="save()">Guardar medición</button></section><aside class="card reference"><h2>Referencia de evaluación</h2>@if(reference();as item){<strong>{{item.indicatorName}} · {{item.unit}}</strong><p>{{item.referenceLabel}}</p><dl><div><dt>Advertencia</dt><dd>{{item.warningLimit}} {{item.unit}}</dd></div><div><dt>Máximo mock</dt><dd>{{item.maximumLimit}} {{item.unit}}</dd></div></dl><small>Estos datos son simulados para el frontend y no representan límites normativos oficiales.</small>}@else{<p>Cargando referencia mock...</p>}</aside></div></div>
+  <div class="page">
+    <h1>Registrar medición manual</h1>
+    <p class="subtitle">
+      Registra una medición ambiental asociada a un punto existente del proyecto.
+    </p>
+    @if (readOnly()) {
+      <p class="readonly">
+        Perfil de consulta: el registro de mediciones está deshabilitado visualmente.
+      </p>
+    }
+    @if (saved()) {
+      <p class="success">
+        Medición registrada. El estado se evaluó con una referencia mock de demostración.
+      </p>
+    }
+    <div class="layout">
+      <section class="card">
+        <h2>Datos de la medición</h2>
+        <div class="indicator-grid">
+          @for (item of store.thresholds(); track item.indicatorName) {
+            <button
+              [class.active]="indicatorName() === item.indicatorName"
+              [disabled]="readOnly()"
+              (click)="chooseIndicator(item.indicatorName)"
+            >
+              {{ item.indicatorName }}<small>{{ item.indicatorType }}</small>
+            </button>
+          }
+        </div>
+        <label
+          >Punto de monitoreo de referencia<input
+            [value]="monitoringPointId()"
+            [disabled]="readOnly()"
+            (input)="monitoringPointId.set($any($event.target).value)" /></label
+        ><label
+          >Valor medido<input
+            type="number"
+            [value]="value()"
+            [disabled]="readOnly()"
+            (input)="value.set($any($event.target).valueAsNumber)" /></label
+        ><label
+          >Fecha y hora<input
+            type="datetime-local"
+            [value]="measuredAt()"
+            [disabled]="readOnly()"
+            (input)="measuredAt.set($any($event.target).value)" /></label
+        ><button class="save" [disabled]="readOnly() || !reference()" (click)="save()">
+          Guardar medición
+        </button>
+      </section>
+      <aside class="card reference">
+        <h2>Referencia de evaluación</h2>
+        @if (reference(); as item) {
+          <strong>{{ item.indicatorName }} · {{ item.unit }}</strong>
+          <p>{{ item.referenceLabel }}</p>
+          <dl>
+            <div>
+              <dt>Advertencia</dt>
+              <dd>{{ item.warningLimit }} {{ item.unit }}</dd>
+            </div>
+            <div>
+              <dt>Máximo mock</dt>
+              <dd>{{ item.maximumLimit }} {{ item.unit }}</dd>
+            </div>
+          </dl>
+          <small
+            >Estos datos son simulados para el frontend y no representan límites normativos
+            oficiales.</small
+          >
+        } @else {
+          <p>Cargando referencia mock...</p>
+        }
+      </aside>
+    </div>
+  </div>
 </app-shell>

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, delay } from 'rxjs';
 import { IncidentGateway } from '../domain/gateways/incident.gateway';
-import { EnvironmentalIncident, IncidentSeverity, IncidentStatus } from '../domain/model/incident.model';
+import {
+  EnvironmentalIncident,
+  IncidentSeverity,
+  IncidentStatus,
+} from '../domain/model/incident.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IncidentMockAdapter extends IncidentGateway {
-  
   private mockIncidents: EnvironmentalIncident[] = [
     {
       id: 'INC-0142',
@@ -26,7 +29,7 @@ export class IncidentMockAdapter extends IncidentGateway {
       mitigationCount: 1,
       dueDate: new Date(new Date().setHours(18, 0, 0, 0)),
       createdAt: new Date(new Date().setHours(9, 36, 0, 0)),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       id: 'INC-0231',
@@ -45,21 +48,24 @@ export class IncidentMockAdapter extends IncidentGateway {
       mitigationCount: 0,
       dueDate: new Date(new Date().setHours(20, 0, 0, 0)),
       createdAt: new Date(new Date().setHours(14, 0, 0, 0)),
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   ];
 
   override getAllIncidents(): Observable<EnvironmentalIncident[]> {
-    return of(this.mockIncidents).pipe(delay(500)); 
+    return of(this.mockIncidents).pipe(delay(500));
   }
 
   override getIncidentById(id: string): Observable<EnvironmentalIncident | undefined> {
-    const incident = this.mockIncidents.find(i => i.id === id);
+    const incident = this.mockIncidents.find((i) => i.id === id);
     return of(incident).pipe(delay(300));
   }
 
-  override updateIncidentStatus(id: string, status: IncidentStatus): Observable<EnvironmentalIncident> {
-    const incidentIndex = this.mockIncidents.findIndex(i => i.id === id);
+  override updateIncidentStatus(
+    id: string,
+    status: IncidentStatus,
+  ): Observable<EnvironmentalIncident> {
+    const incidentIndex = this.mockIncidents.findIndex((i) => i.id === id);
     if (incidentIndex > -1) {
       this.mockIncidents[incidentIndex].status = status;
       this.mockIncidents[incidentIndex].updatedAt = new Date();

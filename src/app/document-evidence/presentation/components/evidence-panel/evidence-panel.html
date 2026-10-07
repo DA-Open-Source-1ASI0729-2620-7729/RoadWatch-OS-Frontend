@@ -1,6 +1,37 @@
 <section class="evidence-panel">
-  <div class="panel-heading"><div><h2>Evidencias</h2><p>Archivos asociados a la incidencia, auditoría o proyecto.</p></div><label class="upload"><span class="material-symbols-outlined">upload</span>Agregar evidencia<input type="file" accept="image/*,.pdf,.doc,.docx" (change)="selectFile($event)" /></label></div>
+  <div class="panel-heading">
+    <div>
+      <h2>Evidencias</h2>
+      <p>Archivos asociados a la incidencia, auditoría o proyecto.</p>
+    </div>
+    <label class="upload"
+      ><span class="material-symbols-outlined">upload</span>Agregar evidencia<input
+        type="file"
+        accept="image/*,.pdf,.doc,.docx"
+        (change)="selectFile($event)"
+    /></label>
+  </div>
   <div class="evidence-grid">
-    @for (item of evidence(); track item.id) { <article class="evidence-card"><div class="preview" [class.document]="item.type === 'document'"><span class="material-symbols-outlined">{{ item.type === 'image' ? 'image' : 'description' }}</span></div><div class="evidence-info"><strong>{{ item.name }}</strong><span>{{ item.author }} · {{ item.createdAt }}</span><div><small [class.review]="item.status === 'En revisión'">{{ item.status }}</small><button (click)="downloadRequested.emit(item)" aria-label="Descargar evidencia"><span class="material-symbols-outlined">download</span></button></div></div></article> } @empty { <p class="empty">Aún no hay evidencias registradas.</p> }
+    @for (item of evidence(); track item.id) {
+      <article class="evidence-card">
+        <div class="preview" [class.document]="item.type === 'document'">
+          <span class="material-symbols-outlined">{{
+            item.type === 'image' ? 'image' : 'description'
+          }}</span>
+        </div>
+        <div class="evidence-info">
+          <strong>{{ item.name }}</strong
+          ><span>{{ item.author }} · {{ item.createdAt }}</span>
+          <div>
+            <small [class.review]="item.status === 'En revisión'">{{ item.status }}</small
+            ><button (click)="downloadRequested.emit(item)" aria-label="Descargar evidencia">
+              <span class="material-symbols-outlined">download</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    } @empty {
+      <p class="empty">Aún no hay evidencias registradas.</p>
+    }
   </div>
 </section>

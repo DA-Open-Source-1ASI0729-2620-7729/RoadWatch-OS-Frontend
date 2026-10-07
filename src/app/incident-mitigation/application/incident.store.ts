@@ -18,7 +18,7 @@ export class IncidentStore {
         this.incidents.set(data);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -30,7 +30,7 @@ export class IncidentStore {
         this.selectedIncident.set(data);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => this.loading.set(false),
     });
   }
 
@@ -38,13 +38,13 @@ export class IncidentStore {
     this.incidentGateway.updateIncidentStatus(id, newStatus).subscribe({
       // Se agregaron los tipos a los parámetros del callback
       next: (updatedIncident: EnvironmentalIncident) => {
-        this.incidents.update((current: EnvironmentalIncident[]) => 
-          current.map((inc: EnvironmentalIncident) => inc.id === id ? updatedIncident : inc)
+        this.incidents.update((current: EnvironmentalIncident[]) =>
+          current.map((inc: EnvironmentalIncident) => (inc.id === id ? updatedIncident : inc)),
         );
         if (this.selectedIncident()?.id === id) {
           this.selectedIncident.set(updatedIncident);
         }
-      }
+      },
     });
   }
 }

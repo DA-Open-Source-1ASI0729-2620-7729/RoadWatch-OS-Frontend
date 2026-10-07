@@ -5,7 +5,12 @@ import { AuditReport, AuditReportStatus } from '../../../domain/model/audit-repo
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
-@Component({ selector: 'app-report-list', imports: [RouterLink, AppShell], styleUrl: './report-list.scss', templateUrl: './report-list.html' })
+@Component({
+  selector: 'app-report-list',
+  imports: [RouterLink, AppShell],
+  styleUrl: './report-list.scss',
+  templateUrl: './report-list.html',
+})
 export class ReportList {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(ReportsStore);
@@ -24,18 +29,20 @@ export class ReportList {
     const status = this.statusFilter();
     return status === 'Todos'
       ? this.store.reports()
-      : this.store.reports().filter(report => report.status === status);
+      : this.store.reports().filter((report) => report.status === status);
   });
 
   protected open(report: AuditReport): void {
     this.notification.set('');
     this.store.getReport(report.id).subscribe({
-      next: detail => this.selectedReport.set(detail),
+      next: (detail) => this.selectedReport.set(detail),
       error: () => this.notification.set('No se pudo obtener el detalle del reporte.'),
     });
   }
 
-  protected close(): void { this.selectedReport.set(null); }
+  protected close(): void {
+    this.selectedReport.set(null);
+  }
 
   protected setStatusFilter(status: AuditReportStatus | 'Todos'): void {
     this.statusFilter.set(status);
@@ -45,7 +52,7 @@ export class ReportList {
   protected exportPdf(report: AuditReport): void {
     this.exportingReportId.set(report.id);
     this.store.exportPdf(report.id).subscribe({
-      next: pdf => {
+      next: (pdf) => {
         const url = URL.createObjectURL(pdf);
         const link = document.createElement('a');
         link.href = url;

@@ -13,13 +13,23 @@ export class ComplianceStore {
   readonly loading = signal(true);
 
   constructor() {
-    this.api.getProjectReports().subscribe(projects => this.projectsSignal.set(projects));
-    this.api.getEnvironmentalKpis().subscribe(kpis => { this.kpisSignal.set(kpis); this.loading.set(false); });
-    this.api.getComplianceSummary().subscribe(summary => this.summarySignal.set(summary));
+    this.api.getProjectReports().subscribe((projects) => this.projectsSignal.set(projects));
+    this.api.getEnvironmentalKpis().subscribe((kpis) => {
+      this.kpisSignal.set(kpis);
+      this.loading.set(false);
+    });
+    this.api.getComplianceSummary().subscribe((summary) => this.summarySignal.set(summary));
   }
 
   readonly projects = this.projectsSignal.asReadonly();
-  readonly averageHealth = computed(() => this.projects().length ? Math.round(this.projects().reduce((total, project) => total + project.compliancePercentage, 0) / this.projects().length) : 0);
+  readonly averageHealth = computed(() =>
+    this.projects().length
+      ? Math.round(
+          this.projects().reduce((total, project) => total + project.compliancePercentage, 0) /
+            this.projects().length,
+        )
+      : 0,
+  );
   readonly kpis = this.kpisSignal.asReadonly();
   readonly summary = this.summarySignal.asReadonly();
 }

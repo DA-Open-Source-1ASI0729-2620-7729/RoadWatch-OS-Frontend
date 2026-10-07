@@ -1,3 +1,49 @@
 <app-shell [navigation]="navigation()" breadcrumb="Fiscalización › Historial ambiental">
-  <div class="page"><h1>Historial de mediciones</h1><p>Consulta temporal de tendencias e indicadores ambientales registrados.</p><div class="filters"><button [class.active]="type()==='ALL'" (click)="type.set('ALL')">Todos</button><button [class.active]="type()==='AIR'" (click)="type.set('AIR')">Aire</button><button [class.active]="type()==='NOISE'" (click)="type.set('NOISE')">Ruido</button><button [class.active]="type()==='WATER'" (click)="type.set('WATER')">Agua</button></div><div class="layout"><section class="card trend"><h2>Evolución temporal</h2><p>Visualización de demostración basada en las mediciones disponibles.</p><div class="bars">@for(item of history();track item.id){<div><span [style.height.%]="item.value > 100 ? 100 : item.value"></span><small>{{item.indicatorName}}</small></div>}@empty{<p>No hay datos para el filtro.</p>}</div><p class="legend">La altura representa el valor registrado, no una escala normativa.</p></section><aside><article class="metric"><small>Promedio del período</small><strong>{{average()}}</strong><p>valor mock calculado</p></article><article class="metric"><small>Registros consultados</small><strong>{{history().length}}</strong><p>mediciones históricas</p></article></aside></div><section class="card list"><h2>Secuencia histórica</h2>@for(item of history();track item.id){<div><strong>{{item.measuredAt | date:'dd/MM HH:mm'}}</strong><span>{{item.monitoringPointId}} · {{item.indicatorName}}</span><b>{{item.value}} {{item.unit}}</b></div>}</section></div>
+  <div class="page">
+    <h1>Historial de mediciones</h1>
+    <p>Consulta temporal de tendencias e indicadores ambientales registrados.</p>
+    <div class="filters">
+      <button [class.active]="type() === 'ALL'" (click)="type.set('ALL')">Todos</button
+      ><button [class.active]="type() === 'AIR'" (click)="type.set('AIR')">Aire</button
+      ><button [class.active]="type() === 'NOISE'" (click)="type.set('NOISE')">Ruido</button
+      ><button [class.active]="type() === 'WATER'" (click)="type.set('WATER')">Agua</button>
+    </div>
+    <div class="layout">
+      <section class="card trend">
+        <h2>Evolución temporal</h2>
+        <p>Visualización de demostración basada en las mediciones disponibles.</p>
+        <div class="bars">
+          @for (item of history(); track item.id) {
+            <div>
+              <span [style.height.%]="item.value > 100 ? 100 : item.value"></span
+              ><small>{{ item.indicatorName }}</small>
+            </div>
+          } @empty {
+            <p>No hay datos para el filtro.</p>
+          }
+        </div>
+        <p class="legend">La altura representa el valor registrado, no una escala normativa.</p>
+      </section>
+      <aside>
+        <article class="metric">
+          <small>Promedio del período</small><strong>{{ average() }}</strong>
+          <p>valor mock calculado</p>
+        </article>
+        <article class="metric">
+          <small>Registros consultados</small><strong>{{ history().length }}</strong>
+          <p>mediciones históricas</p>
+        </article>
+      </aside>
+    </div>
+    <section class="card list">
+      <h2>Secuencia histórica</h2>
+      @for (item of history(); track item.id) {
+        <div>
+          <strong>{{ item.measuredAt | date: 'dd/MM HH:mm' }}</strong
+          ><span>{{ item.monitoringPointId }} · {{ item.indicatorName }}</span
+          ><b>{{ item.value }} {{ item.unit }}</b>
+        </div>
+      }
+    </section>
+  </div>
 </app-shell>

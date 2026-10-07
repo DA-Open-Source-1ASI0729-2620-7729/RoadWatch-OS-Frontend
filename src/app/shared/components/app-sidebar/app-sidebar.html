@@ -1,1 +1,33 @@
-<aside><div class="brand"><img src="/brand/RoadWatchLogo.jpeg" alt="RoadWatch OS" /><div><strong>RoadWatch OS</strong><small>by VíaNexo</small></div></div><div class="organization"><small>{{ moduleName() }}</small><strong>{{ organization() }}</strong></div>@for(section of sections();track section){<p>{{section}}</p><nav>@for(item of items();track item.route){@if((item.section ?? 'NAVEGACIÓN')===section){<a [routerLink]="item.route" routerLinkActive="active"><span class="material-symbols-outlined">{{item.icon}}</span>{{item.label}}@if(item.badge){<b>{{item.badge}}</b>}</a>}}</nav>}<div class="profile"><span>{{ profileInitials() }}</span><div><strong>{{ profileName() }}</strong><small>{{ profileRole() }}</small></div></div></aside>
+<aside>
+  <div class="brand">
+    <img src="/brand/RoadWatchLogo.jpeg" alt="RoadWatch OS" />
+    <div><strong>RoadWatch OS</strong><small>by VíaNexo</small></div>
+  </div>
+  <div class="organization">
+    <small>{{ moduleName() }}</small
+    ><strong>{{ organization() }}</strong>
+  </div>
+  @for (section of sections(); track section) {
+    <p>{{ section }}</p>
+    <nav>
+      @for (item of items(); track item.route) {
+        @if ((item.section ?? 'NAVEGACIÓN') === section) {
+          <a [routerLink]="item.route" routerLinkActive="active"
+            ><span class="material-symbols-outlined">{{ item.icon }}</span
+            >{{ item.label }}
+            @if (item.badge) {
+              <b>{{ item.badge }}</b>
+            }
+          </a>
+        }
+      }
+    </nav>
+  }
+  <div class="profile">
+    <span>{{ profileInitials() }}</span>
+    <div>
+      <strong>{{ profileName() }}</strong
+      ><small>{{ profileRole() }}</small>
+    </div>
+  </div>
+</aside>

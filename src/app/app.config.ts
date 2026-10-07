@@ -1,4 +1,9 @@
-import { ApplicationConfig, computed, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  computed,
+  inject,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProjectManagementGateway } from './project-management/application/project-management.gateway';
@@ -9,12 +14,13 @@ import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-pro
 
 const shellProfile = (user: User | null): AppShellProfile => {
   const isConstruction = user?.organizationSegment === 'CONSTRUCTION_COMPANY';
-  const initials = user?.name
-    .split(' ')
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase() ?? 'RW';
+  const initials =
+    user?.name
+      .split(' ')
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() ?? 'RW';
 
   return {
     organization: isConstruction ? 'Consorcio Vial Andino' : 'EcoAudit Consultores',

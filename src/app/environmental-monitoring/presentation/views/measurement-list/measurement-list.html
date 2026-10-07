@@ -1,3 +1,59 @@
 <app-shell [navigation]="navigation()" breadcrumb="Operación › Mediciones">
-  <div class="page"><div class="heading"><div><h1>Mediciones registradas</h1><p>Consulta operativa de lecturas ambientales recientes.</p></div><a routerLink="/monitoring/measurements/new">Registrar medición</a></div><div class="filters"><button [class.active]="filter()==='ALL'" (click)="filter.set('ALL')">Todas</button><button [class.active]="filter()==='COMPLIANT'" (click)="filter.set('COMPLIANT')">En rango</button><button [class.active]="filter()==='WARNING'" (click)="filter.set('WARNING')">Advertencia</button><button [class.active]="filter()==='NON_COMPLIANT'" (click)="filter.set('NON_COMPLIANT')">Críticas</button></div><section class="card"><table><thead><tr><th>FECHA</th><th>PUNTO</th><th>INDICADOR</th><th>VALOR</th><th>ESTADO</th></tr></thead><tbody>@for(item of filtered();track item.id){<tr><td>{{item.measuredAt | date:'dd/MM/yyyy HH:mm'}}</td><td>{{item.monitoringPointId}}</td><td>{{item.indicatorName}}</td><td>{{item.value}} {{item.unit}}</td><td><span [class.warning]="item.status==='WARNING'" [class.danger]="item.status==='NON_COMPLIANT'">{{store.labelFor(item.status)}}</span></td></tr>}@empty{<tr><td colspan="5">No hay mediciones para este filtro.</td></tr>}</tbody></table></section><p class="note">Listado operativo reciente. Para evolución temporal usa <a routerLink="/monitoring/history">Historial ambiental</a>.</p></div>
+  <div class="page">
+    <div class="heading">
+      <div>
+        <h1>Mediciones registradas</h1>
+        <p>Consulta operativa de lecturas ambientales recientes.</p>
+      </div>
+      <a routerLink="/monitoring/measurements/new">Registrar medición</a>
+    </div>
+    <div class="filters">
+      <button [class.active]="filter() === 'ALL'" (click)="filter.set('ALL')">Todas</button
+      ><button [class.active]="filter() === 'COMPLIANT'" (click)="filter.set('COMPLIANT')">
+        En rango</button
+      ><button [class.active]="filter() === 'WARNING'" (click)="filter.set('WARNING')">
+        Advertencia</button
+      ><button [class.active]="filter() === 'NON_COMPLIANT'" (click)="filter.set('NON_COMPLIANT')">
+        Críticas
+      </button>
+    </div>
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>FECHA</th>
+            <th>PUNTO</th>
+            <th>INDICADOR</th>
+            <th>VALOR</th>
+            <th>ESTADO</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of filtered(); track item.id) {
+            <tr>
+              <td>{{ item.measuredAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ item.monitoringPointId }}</td>
+              <td>{{ item.indicatorName }}</td>
+              <td>{{ item.value }} {{ item.unit }}</td>
+              <td>
+                <span
+                  [class.warning]="item.status === 'WARNING'"
+                  [class.danger]="item.status === 'NON_COMPLIANT'"
+                  >{{ store.labelFor(item.status) }}</span
+                >
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5">No hay mediciones para este filtro.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+    <p class="note">
+      Listado operativo reciente. Para evolución temporal usa
+      <a routerLink="/monitoring/history">Historial ambiental</a>.
+    </p>
+  </div>
 </app-shell>

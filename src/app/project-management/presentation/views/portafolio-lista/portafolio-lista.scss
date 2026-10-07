@@ -1,7 +1,7 @@
 .portafolio-lista-container {
   padding: 24px;
   font-family: 'Rubik', sans-serif;
-  background: #F6F5EE;
+  background: #f6f5ee;
   min-height: 100%;
 }
 
@@ -24,20 +24,20 @@
   font-size: 36px;
   width: 36px;
   height: 36px;
-  color: #23A277;
+  color: #23a277;
 }
 
 .page-title {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1E3844;
+  color: #1e3844;
 }
 
 .page-subtitle {
   margin: 2px 0 0;
   font-size: 0.875rem;
-  color: #64748B;
+  color: #64748b;
 }
 
 .header-actions {
@@ -47,8 +47,12 @@
   flex-wrap: wrap;
 }
 
-.search-field { width: 260px; }
-.filter-estado { width: 160px; }
+.search-field {
+  width: 260px;
+}
+.filter-estado {
+  width: 160px;
+}
 
 .view-toggle {
   display: flex;
@@ -56,11 +60,13 @@
   border-radius: 8px;
   overflow: hidden;
 
-  button { border-radius: 0; }
+  button {
+    border-radius: 0;
+  }
 }
 
 .toggle-active {
-  background: #1E3844;
+  background: #1e3844;
   color: white;
 }
 
@@ -74,8 +80,8 @@
 .proyecto-id {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #64748B;
-  background: #F1F5F9;
+  color: #64748b;
+  background: #f1f5f9;
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -88,7 +94,7 @@
 
 .nombre-text {
   font-weight: 500;
-  color: #1E3844;
+  color: #1e3844;
 }
 
 .ubicacion-text {
@@ -96,7 +102,7 @@
   align-items: center;
   gap: 2px;
   font-size: 0.8rem;
-  color: #64748B;
+  color: #64748b;
 }
 
 .loc-icon {
@@ -111,7 +117,10 @@
   gap: 8px;
   min-width: 120px;
 
-  mat-progress-bar { flex: 1; border-radius: 4px; }
+  mat-progress-bar {
+    flex: 1;
+    border-radius: 4px;
+  }
 }
 
 .salud-valor {
@@ -126,12 +135,12 @@
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 600;
-  background: #F1F5F9;
-  color: #1E3844;
+  background: #f1f5f9;
+  color: #1e3844;
 
   &.badge-danger {
-    background: #FEE2E2;
-    color: #D64545;
+    background: #fee2e2;
+    color: #d64545;
   }
 }
 
@@ -141,17 +150,35 @@
   font-size: 0.78rem;
   font-weight: 600;
 
-  &.estado-en_progreso { background: #D1FAE5; color: #23A277; }
-  &.estado-pausado     { background: #FEF3C7; color: #E5A93C; }
-  &.estado-completado  { background: #DBEAFE; color: #1E3844; }
+  &.estado-en_progreso {
+    background: #d1fae5;
+    color: #23a277;
+  }
+  &.estado-pausado {
+    background: #fef3c7;
+    color: #e5a93c;
+  }
+  &.estado-completado {
+    background: #dbeafe;
+    color: #1e3844;
+  }
 }
 
-.proyecto-row:hover { background: #F6F5EE; cursor: pointer; }
+.proyecto-row:hover {
+  background: #f6f5ee;
+  cursor: pointer;
+}
 
 .empty-state {
   text-align: center;
   padding: 48px 24px;
-  color: #64748B;
+  color: #64748b;
 
-  mat-icon { font-size: 48px; width: 48px; height: 48px; display: block; margin: 0 auto 16px; }
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    display: block;
+    margin: 0 auto 16px;
+  }
 }

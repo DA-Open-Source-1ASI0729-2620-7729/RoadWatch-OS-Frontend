@@ -1,5 +1,16 @@
-export enum IncidentSeverity { LOW = 'LOW', MEDIUM = 'MEDIUM', HIGH = 'HIGH', CRITICAL = 'CRITICAL' }
-export enum IncidentStatus { OPEN = 'OPEN', IN_PROGRESS = 'IN_PROGRESS', RESOLVED = 'RESOLVED', CLOSED = 'CLOSED', OVERDUE = 'OVERDUE' }
+export enum IncidentSeverity {
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
+  CRITICAL = 'CRITICAL',
+}
+export enum IncidentStatus {
+  OPEN = 'OPEN',
+  IN_PROGRESS = 'IN_PROGRESS',
+  RESOLVED = 'RESOLVED',
+  CLOSED = 'CLOSED',
+  OVERDUE = 'OVERDUE',
+}
 
 export interface EnvironmentalIncident {
   id: string;
@@ -21,4 +32,11 @@ export interface EnvironmentalIncident {
   updatedAt: Date;
 }
 
-export interface MitigationAction { id: string; incidentId: string; description: string; responsible: string; status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'; createdAt: Date; }
+export interface MitigationAction {
+  id: string;
+  incidentId: string;
+  description: string;
+  responsible: string;
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+  createdAt: Date;
+}

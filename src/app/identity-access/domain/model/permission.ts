@@ -1,1 +1,4 @@
-export interface Permission { code: string; label: string; }
+export interface Permission {
+  code: string;
+  label: string;
+}

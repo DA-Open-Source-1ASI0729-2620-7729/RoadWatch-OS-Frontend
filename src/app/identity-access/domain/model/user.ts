@@ -1,4 +1,5 @@
-import { Role } from './role'; import { UserStatus } from './user-status';
+import { Role } from './role';
+import { UserStatus } from './user-status';
 import { OrganizationSegment } from './organization-segment';
 export interface User {
   id: string;

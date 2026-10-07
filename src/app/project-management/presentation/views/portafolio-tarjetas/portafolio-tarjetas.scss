@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 
-
 .page-header {
   display: flex;
   align-items: flex-start;
@@ -221,12 +220,10 @@
   }
 }
 
-
 .proyecto-card mat-card-actions {
   padding: 0 16px 16px;
   justify-content: flex-end;
 }
-
 
 @media (max-width: 600px) {
   .portafolio-tarjetas-container {
