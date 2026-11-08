@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { toMonitoringPointViewModel } from '../../model/project-dashboard.vm';
 import { ActivatedRoute } from '@angular/router';
 import { AppNavigation } from '../../../../app-navigation';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
@@ -12,7 +13,7 @@ import { ProjectManagementStore } from '../../../application/project-management.
       <h1>Puntos de monitoreo</h1>
       <p>Ubicaciones registradas para el proyecto.</p>
       <section>
-        @for (point of store.puntos(); track point.id) {
+        @for (point of points(); track point.id) {
           <article>
             <strong>{{ point.id }} · {{ point.nombre }}</strong
             ><span>{{ point.progresiva }}</span
@@ -76,8 +77,11 @@ import { ProjectManagementStore } from '../../../application/project-management.
 export class PuntosMonitoreo implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(ProjectManagementStore);
+  protected readonly points = computed(() =>
+    this.store.monitoringPoints().map(toMonitoringPointViewModel),
+  );
   private readonly route = inject(ActivatedRoute);
   ngOnInit(): void {
-    this.store.loadPuntos(this.route.snapshot.paramMap.get('id') ?? 'PRY-003');
+    this.store.loadMonitoringPoints(this.route.snapshot.paramMap.get('id') ?? 'PRY-003');
   }
 }

@@ -3,8 +3,12 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AppNavigation } from '../../../../app-navigation';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { ProjectManagementStore } from '../../../application/project-management.store';
-import { Proyecto } from '../../../domain/model/proyecto.model';
-import { Responsable } from '../../../domain/model/responsable.model';
+import {
+  ProjectDashboardViewModel,
+  ResponsibleViewModel,
+  responsiblesForProject,
+  toProjectDashboardViewModel,
+} from '../../model/project-dashboard.vm';
 
 @Component({
   selector: 'app-project-detail',
@@ -197,11 +201,13 @@ export class ProjectDetail implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
   private readonly store = inject(ProjectManagementStore);
   private readonly route = inject(ActivatedRoute);
-  protected readonly project = signal<Proyecto | undefined>(undefined);
-  protected readonly responsables = signal<Responsable[]>([]);
+  protected readonly project = signal<ProjectDashboardViewModel | undefined>(undefined);
+  protected readonly responsables = signal<ResponsibleViewModel[]>([]);
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.store.getProyecto(id).subscribe((item) => this.project.set(item));
-    this.store.getResponsables(id).subscribe((items) => this.responsables.set(items));
+    this.store
+      .getProject(id)
+      .subscribe((item) => this.project.set(item && toProjectDashboardViewModel(item)));
+    this.responsables.set(responsiblesForProject(id));
   }
 }

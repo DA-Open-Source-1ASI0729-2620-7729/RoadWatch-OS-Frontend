@@ -1,41 +1,33 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { ProjectManagementGateway } from './project-management.gateway';
-import { Proyecto } from '../domain/model/proyecto.model';
-import { PuntoMonitoreo } from '../domain/model/punto-monitoreo.model';
+import { MonitoringPoint } from '../domain/model/monitoring-point';
+import { Project } from '../domain/model/project';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectManagementStore {
   private gateway = inject(ProjectManagementGateway);
 
-  readonly proyectos = signal<Proyecto[]>([]);
-  readonly puntos = signal<PuntoMonitoreo[]>([]);
+  readonly projects = signal<Project[]>([]);
+  readonly monitoringPoints = signal<MonitoringPoint[]>([]);
   readonly loading = signal(false);
 
-  loadProyectos(): void {
+  loadProjects(): void {
     this.loading.set(true);
-    this.gateway.getProyectos().subscribe((data) => {
-      this.proyectos.set(data);
+    this.gateway.getProjects().subscribe((data) => {
+      this.projects.set(data);
       this.loading.set(false);
     });
   }
 
-  loadPuntos(proyectoId: string): void {
+  loadMonitoringPoints(projectId: string): void {
     this.loading.set(true);
-    this.gateway.getPuntosMonitoreo(proyectoId).subscribe((data) => {
-      this.puntos.set(data);
+    this.gateway.getMonitoringPoints(projectId).subscribe((data) => {
+      this.monitoringPoints.set(data);
       this.loading.set(false);
     });
   }
 
-  getProyecto(id: string) {
-    return this.gateway.getProyectoById(id);
-  }
-
-  getResponsables(id: string) {
-    return this.gateway.getResponsables(id);
-  }
-
-  updatePunto(punto: PuntoMonitoreo): void {
-    this.puntos.update((lista) => lista.map((p) => (p.id === punto.id ? punto : p)));
+  getProject(id: string) {
+    return this.gateway.getProjectById(id);
   }
 }

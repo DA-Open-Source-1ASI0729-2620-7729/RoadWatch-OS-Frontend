@@ -13,7 +13,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 import { ProjectManagementStore } from '../../../application/project-management.store';
-import { Proyecto } from '../../../domain/model/proyecto.model';
+import {
+  ProjectDashboardViewModel,
+  toProjectDashboardViewModel,
+} from '../../model/project-dashboard.vm';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
@@ -58,22 +61,22 @@ export class PortafolioLista implements OnInit, AfterViewInit {
   ];
   filterEstado = '';
   searchQuery = '';
-  dataSource = new MatTableDataSource<Proyecto>([]);
+  dataSource = new MatTableDataSource<ProjectDashboardViewModel>([]);
 
   constructor() {
     effect(() => {
-      this.dataSource.data = this.store.proyectos();
+      this.dataSource.data = this.store.projects().map(toProjectDashboardViewModel);
     });
   }
 
   ngOnInit(): void {
-    this.store.loadProyectos();
+    this.store.loadProjects();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.dataSource.filterPredicate = (data: Proyecto, filter: string) => {
+    this.dataSource.filterPredicate = (data: ProjectDashboardViewModel, filter: string) => {
       const f = JSON.parse(filter);
       const matchSearch =
         !f.search ||

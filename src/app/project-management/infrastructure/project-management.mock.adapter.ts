@@ -1,113 +1,83 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProjectManagementGateway } from '../application/project-management.gateway';
-import { Proyecto } from '../domain/model/proyecto.model';
-import { PuntoMonitoreo } from '../domain/model/punto-monitoreo.model';
-import { Responsable } from '../domain/model/responsable.model';
+import { MonitoringPoint } from '../domain/model/monitoring-point';
+import { Project } from '../domain/model/project';
 
-const projects: Proyecto[] = [
+const projects: Project[] = [
   {
     id: 'PRY-003',
-    nombre: 'Carretera Central – Tramo 2',
-    ubicacion: 'Junín',
-    region: 'Junín',
-    constructora: 'Consorcio Vial Andino',
-    supervisor: 'Ing. Sofía Mendoza',
-    saludAmbiental: 87,
-    alertasActivas: 5,
-    incidentes: 7,
-    incidenciasCriticas: 2,
-    estado: 'en_progreso',
-    fechaInicio: '2026-03-01',
-    fechaFin: '2027-03-31',
+    name: 'Carretera Central – Tramo 2',
+    description: 'Tramo vial en ejecución.',
+    location: 'Junín',
+    status: 'ACTIVE',
+    responsibleUserId: 'u-e-02',
+    createdAt: '2026-03-01',
+    updatedAt: '2026-09-30',
   },
   {
     id: 'PRY-001',
-    nombre: 'Panamericana Sur – Chilca',
-    ubicacion: 'Chilca, Lima',
-    region: 'Lima',
-    constructora: 'Obras del Sur SA',
-    supervisor: 'Ing. María Torres',
-    saludAmbiental: 64,
-    alertasActivas: 9,
-    incidentes: 12,
-    incidenciasCriticas: 3,
-    estado: 'en_progreso',
-    fechaInicio: '2026-02-01',
-    fechaFin: '2027-02-28',
+    name: 'Panamericana Sur – Chilca',
+    description: 'Proyecto vial en seguimiento.',
+    location: 'Chilca, Lima',
+    status: 'ACTIVE',
+    responsibleUserId: 'u-e-02',
+    createdAt: '2026-02-01',
+    updatedAt: '2026-09-30',
   },
   {
     id: 'PRY-002',
-    nombre: 'Longitudinal de la Sierra – Tramo 3',
-    ubicacion: 'Cajamarca',
-    region: 'Cajamarca',
-    constructora: 'Vías del Norte SAC',
-    supervisor: 'Ing. Carlos Rivas',
-    saludAmbiental: 78,
-    alertasActivas: 4,
-    incidentes: 6,
-    incidenciasCriticas: 1,
-    estado: 'en_progreso',
-    fechaInicio: '2026-01-15',
-    fechaFin: '2027-06-15',
+    name: 'Longitudinal de la Sierra – Tramo 3',
+    description: 'Proyecto vial en seguimiento.',
+    location: 'Cajamarca',
+    status: 'ACTIVE',
+    responsibleUserId: 'u-e-02',
+    createdAt: '2026-01-15',
+    updatedAt: '2026-09-30',
   },
 ];
-const points: PuntoMonitoreo[] = [
+
+const monitoringPoints: MonitoringPoint[] = [
   {
     id: 'MP-01',
-    proyectoId: 'PRY-003',
-    nombre: 'Frente norte',
-    progresiva: 'Km 46+100',
-    latitud: -11.7612,
-    longitud: -75.5102,
-    descripcion: 'Zona de obra norte',
+    projectId: 'PRY-003',
+    name: 'Frente norte',
+    latitude: -11.7612,
+    longitude: -75.5102,
+    normativeThresholdId: 'threshold-air-pm10',
+    active: true,
   },
   {
     id: 'MP-02',
-    proyectoId: 'PRY-003',
-    nombre: 'Quebrada central',
-    progresiva: 'Km 51+400',
-    latitud: -11.7702,
-    longitud: -75.4981,
-    descripcion: 'Referencia de campo',
+    projectId: 'PRY-003',
+    name: 'Quebrada central',
+    latitude: -11.7702,
+    longitude: -75.4981,
+    normativeThresholdId: 'threshold-noise',
+    active: true,
   },
   {
     id: 'MP-03',
-    proyectoId: 'PRY-003',
-    nombre: 'Acopio sur',
-    progresiva: 'Km 62+800',
-    latitud: -11.7829,
-    longitud: -75.4769,
+    projectId: 'PRY-003',
+    name: 'Acopio sur',
+    latitude: -11.7829,
+    longitude: -75.4769,
+    normativeThresholdId: 'threshold-air-pm25',
+    active: true,
   },
 ];
-const responsables: Responsable[] = [
-  {
-    id: 'RES-003',
-    proyectoId: 'PRY-003',
-    nombre: 'Carlos Mendoza',
-    cargo: 'Jefe de Proyectos Viales',
-    correo: 'cmendoza@roadwatch.pe',
-  },
-  {
-    id: 'RES-004',
-    proyectoId: 'PRY-003',
-    nombre: 'Sofía Mendoza',
-    cargo: 'Supervisora ambiental',
-    correo: 'smendoza@roadwatch.pe',
-  },
-];
+
 @Injectable({ providedIn: 'root' })
 export class ProjectManagementMockAdapter extends ProjectManagementGateway {
-  getProyectos(): Observable<Proyecto[]> {
+  getProjects(): Observable<Project[]> {
     return of(projects);
   }
-  getProyectoById(id: string): Observable<Proyecto | undefined> {
-    return of(projects.find((item) => item.id === id));
+
+  getProjectById(id: string): Observable<Project | undefined> {
+    return of(projects.find((project) => project.id === id));
   }
-  getPuntosMonitoreo(projectId: string): Observable<PuntoMonitoreo[]> {
-    return of(points.filter((item) => item.proyectoId === projectId));
-  }
-  getResponsables(projectId: string): Observable<Responsable[]> {
-    return of(responsables.filter((item) => item.proyectoId === projectId));
+
+  getMonitoringPoints(projectId: string): Observable<MonitoringPoint[]> {
+    return of(monitoringPoints.filter((point) => point.projectId === projectId));
   }
 }

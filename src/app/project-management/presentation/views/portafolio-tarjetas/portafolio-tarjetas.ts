@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, computed, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { ProjectManagementStore } from '../../../application/project-management.store';
-import { Proyecto } from '../../../domain/model/proyecto.model';
+import {
+  ProjectDashboardViewModel,
+  toProjectDashboardViewModel,
+} from '../../model/project-dashboard.vm';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
@@ -37,15 +40,15 @@ export class PortafolioTarjetas implements OnInit {
   private store = inject(ProjectManagementStore);
   protected readonly navigation = inject(AppNavigation).items;
 
-  readonly proyectos = this.store.proyectos;
+  readonly proyectos = computed(() => this.store.projects().map(toProjectDashboardViewModel));
   readonly loading = this.store.loading;
   searchQuery = '';
 
   ngOnInit(): void {
-    this.store.loadProyectos();
+    this.store.loadProjects();
   }
 
-  get proyectosFiltrados(): Proyecto[] {
+  get proyectosFiltrados(): ProjectDashboardViewModel[] {
     const q = this.searchQuery.toLowerCase().trim();
     if (!q) return this.proyectos();
     return this.proyectos().filter(
