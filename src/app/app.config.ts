@@ -16,6 +16,8 @@ import { AuthGateway } from './identity-access/application/auth.gateway';
 import { AuthMockAdapter } from './identity-access/infrastructure/auth-mock.adapter';
 import { ReportsGateway } from './reports-compliance/application/reports.gateway';
 import { ReportsMockAdapter } from './reports-compliance/infrastructure/reports-mock.adapter';
+import { DocumentEvidenceGateway } from './document-evidence/application/document-evidence.gateway';
+import { DocumentEvidenceMockAdapter } from './document-evidence/infrastructure/document-evidence-mock.adapter';
 import { AuthStore } from './identity-access/application/auth.store';
 import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
@@ -69,6 +71,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: ReportsGateway,
       useClass: ReportsMockAdapter,
+    },
+    {
+      provide: DocumentEvidenceGateway,
+      useClass: DocumentEvidenceMockAdapter,
     },
   ],
 };
