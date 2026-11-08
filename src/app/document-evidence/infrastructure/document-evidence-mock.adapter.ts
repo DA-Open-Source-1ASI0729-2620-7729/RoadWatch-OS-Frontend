@@ -26,7 +26,7 @@ export class DocumentEvidenceMockAdapter extends DocumentEvidenceGateway {
       uploadedAt: '2026-09-12',
     },
   ];
-  private readonly normativeDocuments: NormativeDocument[] = [
+  private normativeDocuments: NormativeDocument[] = [
     {
       id: 'DOC-01',
       projectId: 'PRY-003',
@@ -65,5 +65,11 @@ export class DocumentEvidenceMockAdapter extends DocumentEvidenceGateway {
   uploadEvidence(evidence: Evidence): Observable<Evidence> {
     this.evidence = [evidence, ...this.evidence];
     return of(evidence);
+  }
+  updateNormativeDocument(document: NormativeDocument): Observable<NormativeDocument> {
+    this.normativeDocuments = this.normativeDocuments.map((item) =>
+      item.id === document.id ? document : item,
+    );
+    return of(document);
   }
 }

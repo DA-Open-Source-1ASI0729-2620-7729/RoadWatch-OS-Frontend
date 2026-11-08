@@ -22,4 +22,14 @@ export class DocumentEvidenceStore {
       .uploadEvidence(evidence)
       .subscribe((item) => this.evidence.update((items) => [item, ...items]));
   }
+
+  updateNormativeDocument(document: NormativeDocument): void {
+    this.gateway
+      .updateNormativeDocument(document)
+      .subscribe((item) =>
+        this.normativeDocuments.update((items) =>
+          items.map((current) => (current.id === item.id ? item : current)),
+        ),
+      );
+  }
 }

@@ -8,4 +8,5 @@ export abstract class DocumentEvidenceGateway {
   abstract listNormativeDocuments(): Observable<NormativeDocument[]>;
   abstract listRequiredDocuments(): Observable<RequiredDocument[]>;
   abstract uploadEvidence(evidence: Evidence): Observable<Evidence>;
+  abstract updateNormativeDocument(document: NormativeDocument): Observable<NormativeDocument>;
 }
