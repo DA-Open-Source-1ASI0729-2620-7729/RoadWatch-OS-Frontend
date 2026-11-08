@@ -17,7 +17,7 @@ interface NormativeDocument {
 @Component({
   selector: 'app-normative-documents',
   imports: [EvidencePanel, RouterLink, RouterLinkActive, AppShell],
-  styleUrl: './normative-documents.scss',
+  styleUrl: './normative-documents.css',
   templateUrl: './normative-documents.html',
 })
 export class NormativeDocuments {

@@ -7,7 +7,7 @@ import { APP_SHELL_PROFILE } from '../../model/app-shell-profile';
 @Component({
   selector: 'app-shell',
   imports: [AppSidebar, AppTopbar],
-  styleUrl: './app-shell.scss',
+  styleUrl: './app-shell.css',
   templateUrl: './app-shell.html',
 })
 export class AppShell {

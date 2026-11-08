@@ -8,7 +8,7 @@ import { EnvironmentalMonitoringStore } from '../../../application/environmental
   selector: 'app-monitoring-dashboard',
   imports: [AppShell, RouterLink],
   templateUrl: './monitoring-dashboard.html',
-  styleUrl: './monitoring-dashboard.scss',
+  styleUrl: './monitoring-dashboard.css',
 })
 export class MonitoringDashboard {
   protected readonly navigation = inject(AppNavigation).items;

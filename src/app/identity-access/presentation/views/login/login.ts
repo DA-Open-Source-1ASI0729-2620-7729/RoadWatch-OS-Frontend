@@ -5,7 +5,7 @@ import { OrganizationSegment } from '../../../domain/model/organization-segment'
 
 @Component({
   selector: 'app-login',
-  styleUrl: './login.scss',
+  styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login implements OnInit {

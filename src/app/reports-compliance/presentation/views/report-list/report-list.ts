@@ -8,7 +8,7 @@ import { AppNavigation } from '../../../../app-navigation';
 @Component({
   selector: 'app-report-list',
   imports: [RouterLink, AppShell],
-  styleUrl: './report-list.scss',
+  styleUrl: './report-list.css',
   templateUrl: './report-list.html',
 })
 export class ReportList {

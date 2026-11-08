@@ -15,7 +15,7 @@ interface EvidenceRecord {
 @Component({
   selector: 'app-evidence-library',
   imports: [AppShell],
-  styleUrl: './evidence-library.scss',
+  styleUrl: './evidence-library.css',
   templateUrl: './evidence-library.html',
 })
 export class EvidenceLibrary {

@@ -9,7 +9,7 @@ import { IndicatorType } from '../../../domain/model/indicator-type';
   selector: 'app-measurement-form',
   imports: [AppShell],
   templateUrl: './measurement-form.html',
-  styleUrl: './measurement-form.scss',
+  styleUrl: './measurement-form.css',
 })
 export class MeasurementForm {
   protected readonly navigation = inject(AppNavigation).items;

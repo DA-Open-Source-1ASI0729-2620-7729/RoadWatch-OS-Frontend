@@ -9,7 +9,7 @@ import { IndicatorType } from '../../../domain/model/indicator-type';
   selector: 'app-measurement-history',
   imports: [AppShell, DatePipe],
   templateUrl: './measurement-history.html',
-  styleUrl: './measurement-history.scss',
+  styleUrl: './measurement-history.css',
 })
 export class MeasurementHistory {
   protected readonly navigation = inject(AppNavigation).items;

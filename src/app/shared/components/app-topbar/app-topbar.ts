@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-topbar',
-  styleUrl: './app-topbar.scss',
+  styleUrl: './app-topbar.css',
   templateUrl: './app-topbar.html',
 })
 export class AppTopbar {

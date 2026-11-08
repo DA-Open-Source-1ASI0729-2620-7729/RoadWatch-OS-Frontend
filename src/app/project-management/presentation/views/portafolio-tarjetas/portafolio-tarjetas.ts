@@ -31,7 +31,7 @@ import { AppNavigation } from '../../../../app-navigation';
     AppShell,
   ],
   templateUrl: './portafolio-tarjetas.html',
-  styleUrl: './portafolio-tarjetas.scss',
+  styleUrl: './portafolio-tarjetas.css',
 })
 export class PortafolioTarjetas implements OnInit {
   private store = inject(ProjectManagementStore);

@@ -10,7 +10,7 @@ import { MeasurementStatus } from '../../../domain/model/measurement-status';
   selector: 'app-measurement-list',
   imports: [AppShell, RouterLink, DatePipe],
   templateUrl: './measurement-list.html',
-  styleUrl: './measurement-list.scss',
+  styleUrl: './measurement-list.css',
 })
 export class MeasurementList {
   protected readonly navigation = inject(AppNavigation).items;

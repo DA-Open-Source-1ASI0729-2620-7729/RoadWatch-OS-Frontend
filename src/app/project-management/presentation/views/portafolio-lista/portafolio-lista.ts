@@ -37,7 +37,7 @@ import { AppNavigation } from '../../../../app-navigation';
     AppShell,
   ],
   templateUrl: './portafolio-lista.html',
-  styleUrl: './portafolio-lista.scss',
+  styleUrl: './portafolio-lista.css',
 })
 export class PortafolioLista implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;

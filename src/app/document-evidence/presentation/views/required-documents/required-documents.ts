@@ -13,7 +13,7 @@ interface RequiredDocument {
 @Component({
   selector: 'app-required-documents',
   imports: [AppShell],
-  styleUrl: './required-documents.scss',
+  styleUrl: './required-documents.css',
   templateUrl: './required-documents.html',
 })
 export class RequiredDocuments {

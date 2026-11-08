@@ -8,7 +8,7 @@ import { EnvironmentalMonitoringStore } from '../../../application/environmental
   selector: 'app-alert-center',
   imports: [AppShell, DatePipe],
   templateUrl: './alert-center.html',
-  styleUrl: './alert-center.scss',
+  styleUrl: './alert-center.css',
 })
 export class AlertCenter {
   protected readonly navigation = inject(AppNavigation).items;

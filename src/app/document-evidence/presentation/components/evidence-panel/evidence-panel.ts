@@ -11,7 +11,7 @@ export interface EvidenceItem {
 
 @Component({
   selector: 'app-evidence-panel',
-  styleUrl: './evidence-panel.scss',
+  styleUrl: './evidence-panel.css',
   templateUrl: './evidence-panel.html',
 })
 export class EvidencePanel {

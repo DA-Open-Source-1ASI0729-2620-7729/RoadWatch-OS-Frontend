@@ -5,7 +5,7 @@ import { NavigationItem } from '../../model/navigation-item';
 @Component({
   selector: 'app-sidebar',
   imports: [RouterLink, RouterLinkActive],
-  styleUrl: './app-sidebar.scss',
+  styleUrl: './app-sidebar.css',
   templateUrl: './app-sidebar.html',
 })
 export class AppSidebar {

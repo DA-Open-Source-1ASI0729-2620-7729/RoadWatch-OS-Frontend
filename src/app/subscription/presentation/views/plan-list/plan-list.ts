@@ -8,7 +8,7 @@ import { Plan } from '../../../domain/model/plan';
 @Component({
   selector: 'app-plan-list',
   imports: [AppShell],
-  styleUrl: './plan-list.scss',
+  styleUrl: './plan-list.css',
   templateUrl: './plan-list.html',
 })
 export class PlanList {

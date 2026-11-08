@@ -6,7 +6,7 @@ import { AppNavigation } from '../../../../app-navigation';
 @Component({
   selector: 'app-subscription-summary',
   imports: [RouterLink, AppShell],
-  styleUrl: './subscription-summary.scss',
+  styleUrl: './subscription-summary.css',
   templateUrl: './subscription-summary.html',
 })
 export class SubscriptionSummary {

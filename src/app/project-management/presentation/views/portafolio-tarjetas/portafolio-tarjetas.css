@@ -80,7 +80,7 @@
 .proyecto-card {
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-top: 4px solid #23a277; // se sobrescribe con el color de salud
+  border-top: 4px solid #23a277;
   border-radius: 12px;
   box-shadow: none;
   display: flex;

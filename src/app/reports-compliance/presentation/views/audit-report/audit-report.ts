@@ -14,7 +14,7 @@ interface ReportSection {
 @Component({
   selector: 'app-audit-report',
   imports: [AppShell],
-  styleUrl: './audit-report.scss',
+  styleUrl: './audit-report.css',
   templateUrl: './audit-report.html',
 })
 export class AuditReport {

@@ -8,7 +8,7 @@ import { AppNavigation } from '../../../../app-navigation';
 @Component({
   selector: 'app-compliance-summary',
   imports: [RouterLink, AppShell],
-  styleUrl: './compliance-summary.scss',
+  styleUrl: './compliance-summary.css',
   templateUrl: './compliance-summary.html',
 })
 export class ComplianceSummary {
