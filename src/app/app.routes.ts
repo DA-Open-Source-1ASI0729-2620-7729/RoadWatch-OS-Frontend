@@ -45,5 +45,5 @@ export const routes: Routes = [
   { path: 'projects/:id/monitoring-points', loadComponent: monitoringPoints },
   { path: 'projects/:id', loadComponent: projectDetail },
   { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
-  { path: '**', redirectTo: 'documents' },
+  { path: '**', redirectTo: 'auth/login' },
 ];
