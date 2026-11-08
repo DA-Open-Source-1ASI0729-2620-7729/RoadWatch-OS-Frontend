@@ -36,7 +36,7 @@ export interface MitigationAction {
   id: string;
   incidentId: string;
   description: string;
-  responsible: string;
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+  responsibleUserId: string;
   createdAt: Date;
+  completedAt?: Date;
 }
