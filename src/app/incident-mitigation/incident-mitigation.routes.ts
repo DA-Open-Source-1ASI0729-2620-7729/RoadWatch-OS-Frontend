@@ -6,11 +6,7 @@ import { IncidentStore } from './application/incident.store';
 export const INCIDENT_MITIGATION_ROUTES: Routes = [
   {
     path: '',
-    providers: [
-      // Aquí indicamos que use el Mock Adapter cada vez que se pida el Gateway
-      { provide: IncidentGateway, useClass: IncidentMockAdapter },
-      IncidentStore,
-    ],
+    providers: [{ provide: IncidentGateway, useClass: IncidentMockAdapter }, IncidentStore],
     children: [
       {
         path: 'kanban',
@@ -27,7 +23,7 @@ export const INCIDENT_MITIGATION_ROUTES: Routes = [
           ),
       },
       {
-        path: ':id', // Ej: /incidencias/INC-0142
+        path: ':id',
         loadComponent: () =>
           import('./presentation/views/incident-detail.component').then(
             (m) => m.IncidentDetailComponent,
