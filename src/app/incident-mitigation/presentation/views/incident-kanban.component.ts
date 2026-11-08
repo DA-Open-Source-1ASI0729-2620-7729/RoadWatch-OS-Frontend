@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RouterLink } from '@angular/router';
@@ -6,6 +6,7 @@ import { AppNavigation } from '../../../app-navigation';
 import { AppShell } from '../../../shared/layout/app-shell/app-shell';
 import { IncidentStore } from '../../application/incident.store';
 import { EnvironmentalIncident, IncidentStatus } from '../../domain/model/incident.model';
+import { AuthStore } from '../../../identity-access/application/auth.store';
 
 @Component({
   selector: 'app-incident-kanban',
@@ -34,6 +35,7 @@ import { EnvironmentalIncident, IncidentStatus } from '../../domain/model/incide
                 class="drop"
                 [id]="column.status"
                 cdkDropList
+                [cdkDropListDisabled]="!canWrite()"
                 [cdkDropListData]="items(column.status)"
                 (cdkDropListDropped)="onDrop($event)"
               >
@@ -199,6 +201,10 @@ import { EnvironmentalIncident, IncidentStatus } from '../../domain/model/incide
 export class IncidentKanbanComponent implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(IncidentStore);
+  private readonly auth = inject(AuthStore);
+  protected readonly canWrite = computed(() =>
+    this.auth.user()?.role.permissions.some((permission) => permission.code === 'incidents.write'),
+  );
   protected readonly columns = [
     { status: IncidentStatus.OPEN, label: 'Abiertas' },
     { status: IncidentStatus.IN_PROGRESS, label: 'En revisión' },
@@ -210,6 +216,7 @@ export class IncidentKanbanComponent implements OnInit {
     this.store.loadIncidents();
   }
   protected onDrop(event: CdkDragDrop<EnvironmentalIncident[]>): void {
+    if (!this.canWrite()) return;
     if (event.previousContainer !== event.container)
       this.store.updateStatus(
         event.previousContainer.data[event.previousIndex].id,

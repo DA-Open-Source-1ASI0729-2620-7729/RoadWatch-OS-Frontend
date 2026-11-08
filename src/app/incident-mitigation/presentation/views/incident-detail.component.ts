@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AppNavigation } from '../../../app-navigation';
 import { AppShell } from '../../../shared/layout/app-shell/app-shell';
 import { IncidentStore } from '../../application/incident.store';
+import { AuthStore } from '../../../identity-access/application/auth.store';
 
 @Component({
   selector: 'app-incident-detail',
@@ -42,7 +43,9 @@ import { IncidentStore } from '../../application/incident.store';
                 <dd>{{ incident.mitigationCount }} registradas</dd>
               </div>
             </dl>
-            <button>Registrar acción de mitigación</button>
+            @if (canWrite()) {
+              <button>Registrar acción de mitigación</button>
+            }
           </section>
           <aside>
             <h2>Evidencias vinculadas</h2>
@@ -164,6 +167,10 @@ import { IncidentStore } from '../../application/incident.store';
 export class IncidentDetailComponent implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(IncidentStore);
+  private readonly auth = inject(AuthStore);
+  protected readonly canWrite = computed(() =>
+    this.auth.user()?.role.permissions.some((permission) => permission.code === 'incidents.write'),
+  );
   private readonly route = inject(ActivatedRoute);
   ngOnInit(): void {
     this.store.loadIncidentById(this.route.snapshot.paramMap.get('id') ?? '');

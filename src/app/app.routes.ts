@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { requireAuthenticatedUser } from './identity-access/application/auth.guard';
 
 const documentEvidenceRoutes = () =>
   import('./document-evidence/document-evidence.routes').then((m) => m.documentEvidenceRoutes);
@@ -35,15 +36,39 @@ const projectDetail = () =>
 
 export const routes: Routes = [
   { path: 'auth', loadChildren: identityAccessRoutes },
-  { path: 'subscription', loadChildren: subscriptionRoutes },
-  { path: 'monitoring', loadChildren: environmentalMonitoringRoutes },
-  { path: 'documents', loadChildren: documentEvidenceRoutes },
-  { path: 'reports', loadChildren: reportsComplianceRoutes },
-  { path: 'incidents', loadChildren: incidentMitigationRoutes },
-  { path: 'projects', loadComponent: projectList },
-  { path: 'projects/cards', loadComponent: projectCards },
-  { path: 'projects/:id/monitoring-points', loadComponent: monitoringPoints },
-  { path: 'projects/:id', loadComponent: projectDetail },
+  {
+    path: 'subscription',
+    loadChildren: subscriptionRoutes,
+    canActivate: [requireAuthenticatedUser],
+  },
+  {
+    path: 'monitoring',
+    loadChildren: environmentalMonitoringRoutes,
+    canActivate: [requireAuthenticatedUser],
+  },
+  {
+    path: 'documents',
+    loadChildren: documentEvidenceRoutes,
+    canActivate: [requireAuthenticatedUser],
+  },
+  {
+    path: 'reports',
+    loadChildren: reportsComplianceRoutes,
+    canActivate: [requireAuthenticatedUser],
+  },
+  {
+    path: 'incidents',
+    loadChildren: incidentMitigationRoutes,
+    canActivate: [requireAuthenticatedUser],
+  },
+  { path: 'projects', loadComponent: projectList, canActivate: [requireAuthenticatedUser] },
+  { path: 'projects/cards', loadComponent: projectCards, canActivate: [requireAuthenticatedUser] },
+  {
+    path: 'projects/:id/monitoring-points',
+    loadComponent: monitoringPoints,
+    canActivate: [requireAuthenticatedUser],
+  },
+  { path: 'projects/:id', loadComponent: projectDetail, canActivate: [requireAuthenticatedUser] },
   { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
   { path: '**', redirectTo: 'auth/login' },
 ];
