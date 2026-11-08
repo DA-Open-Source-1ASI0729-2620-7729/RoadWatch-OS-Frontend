@@ -1,8 +1,7 @@
 export interface EnvironmentalKpi {
   code: string;
-  label: string;
+  metricName: string;
   value: string;
-  detail: string;
-  icon: string;
-  tone: 'success' | 'warning' | 'danger' | 'neutral';
+  unit: string;
+  calculatedAt: string;
 }

@@ -4,6 +4,7 @@ import { ProjectReport } from '../../../domain/model/project-report';
 import { ComplianceStore } from '../../../application/compliance.store';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
+import { toEnvironmentalKpiViewModel } from '../../models/environmental-kpi-view-model';
 
 @Component({
   selector: 'app-compliance-summary',
@@ -24,6 +25,7 @@ export class ComplianceSummary {
       return true;
     });
   });
+  protected readonly kpis = computed(() => this.store.kpis().map(toEnvironmentalKpiViewModel));
   protected readonly statusClass = (project: ProjectReport): string =>
     project.criticalIncidents > 0 ? 'danger' : project.pendingDocuments > 0 ? 'warning' : 'success';
   protected readonly statusLabel = (project: ProjectReport): string =>

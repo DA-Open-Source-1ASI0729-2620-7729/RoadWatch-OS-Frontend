@@ -8,7 +8,7 @@ import { ProjectReport } from '../domain/model/project-report';
 import { ReportExportRequest } from '../domain/model/report-export-request';
 
 @Injectable({ providedIn: 'root' })
-export class ReportsApi extends ReportsGateway {
+export class ReportsMockAdapter extends ReportsGateway {
   private readonly reports: AuditReport[] = [
     {
       id: 'r-001',
@@ -65,35 +65,31 @@ export class ReportsApi extends ReportsGateway {
     return of([
       {
         code: 'compliance',
-        label: 'Cumplimiento ambiental',
+        metricName: 'Environmental compliance',
         value: '82%',
-        detail: 'promedio de proyectos supervisados',
-        icon: 'verified_user',
-        tone: 'success',
+        unit: 'percentage',
+        calculatedAt: '2026-11-08T00:00:00Z',
       },
       {
         code: 'documents',
-        label: 'Documentos obligatorios',
+        metricName: 'Required documents',
         value: '20 / 24',
-        detail: '4 documentos pendientes',
-        icon: 'folder_open',
-        tone: 'warning',
+        unit: 'documents',
+        calculatedAt: '2026-11-08T00:00:00Z',
       },
       {
         code: 'incidents',
-        label: 'Hallazgos abiertos',
+        metricName: 'Open incidents',
         value: '4',
-        detail: '1 requiere atención inmediata',
-        icon: 'fact_check',
-        tone: 'danger',
+        unit: 'incidents',
+        calculatedAt: '2026-11-08T00:00:00Z',
       },
       {
         code: 'reports',
-        label: 'Reportes emitidos',
+        metricName: 'Generated reports',
         value: '14',
-        detail: 'durante septiembre',
-        icon: 'description',
-        tone: 'neutral',
+        unit: 'reports',
+        calculatedAt: '2026-11-08T00:00:00Z',
       },
     ]);
   }

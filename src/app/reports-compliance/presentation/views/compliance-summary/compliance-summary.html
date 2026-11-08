@@ -37,7 +37,7 @@
           <p class="notice">{{ notification() }}</p>
         }
         <div class="kpis">
-          @for (kpi of store.kpis(); track kpi.code) {
+          @for (kpi of kpis(); track kpi.code) {
             <article [class]="kpi.tone">
               <span class="material-symbols-outlined">{{ kpi.icon }}</span>
               <div>
