@@ -1,12 +1,12 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { AuthApi } from '../infrastructure/auth-api';
+import { AuthGateway } from './auth.gateway';
 import { AuthToken } from '../domain/model/auth-token';
 import { DemoProfile } from '../domain/model/demo-profile';
 import { User } from '../domain/model/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-  private readonly api = inject(AuthApi);
+  private readonly gateway = inject(AuthGateway);
 
   readonly user = signal<User | null>(null);
   readonly token = signal<AuthToken | null>(null);
@@ -16,13 +16,13 @@ export class AuthStore {
   readonly authenticated = computed(() => !!this.user() && !!this.token());
 
   loadDemoProfiles(): void {
-    this.api.getDemoProfiles().subscribe((profiles) => this.demoProfiles.set(profiles));
+    this.gateway.getDemoProfiles().subscribe((profiles) => this.demoProfiles.set(profiles));
   }
 
   login(email: string, password: string): void {
     this.loading.set(true);
     this.error.set('');
-    this.api.login(email, password).subscribe({
+    this.gateway.login(email, password).subscribe({
       next: (session) => {
         this.user.set(session.user);
         this.token.set(session.token);

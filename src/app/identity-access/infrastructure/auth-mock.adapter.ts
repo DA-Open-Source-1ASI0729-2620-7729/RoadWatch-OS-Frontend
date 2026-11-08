@@ -5,7 +5,7 @@ import { DemoProfile } from '../domain/model/demo-profile';
 import { User } from '../domain/model/user';
 
 @Injectable({ providedIn: 'root' })
-export class AuthApi extends AuthGateway {
+export class AuthMockAdapter extends AuthGateway {
   private readonly profiles: Array<DemoProfile & { user: User }> = [
     {
       id: 'e-admin',
