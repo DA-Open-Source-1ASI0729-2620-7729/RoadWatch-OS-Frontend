@@ -10,6 +10,8 @@ import { ProjectManagementGateway } from './project-management/application/proje
 import { ProjectManagementMockAdapter } from './project-management/infrastructure/project-management.mock.adapter';
 import { SubscriptionGateway } from './subscription/application/subscription.gateway';
 import { SubscriptionMockAdapter } from './subscription/infrastructure/subscription-mock.adapter';
+import { EnvironmentalMonitoringGateway } from './environmental-monitoring/application/environmental-monitoring.gateway';
+import { EnvironmentalMonitoringMockAdapter } from './environmental-monitoring/infrastructure/environmental-monitoring-mock.adapter';
 import { AuthStore } from './identity-access/application/auth.store';
 import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
@@ -51,6 +53,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: SubscriptionGateway,
       useClass: SubscriptionMockAdapter,
+    },
+    {
+      provide: EnvironmentalMonitoringGateway,
+      useClass: EnvironmentalMonitoringMockAdapter,
     },
   ],
 };

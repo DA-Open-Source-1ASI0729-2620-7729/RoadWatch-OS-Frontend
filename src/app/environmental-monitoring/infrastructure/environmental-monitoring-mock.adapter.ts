@@ -10,9 +10,10 @@ import { MeasurementStatus } from '../domain/model/measurement-status';
 import { NormativeThreshold } from '../domain/model/normative-threshold';
 
 @Injectable({ providedIn: 'root' })
-export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
+export class EnvironmentalMonitoringMockAdapter extends EnvironmentalMonitoringGateway {
   private readonly thresholds: NormativeThreshold[] = [
     {
+      id: 'threshold-air-pm10',
       indicatorType: 'AIR',
       indicatorName: 'PM10',
       unit: 'µg/m³',
@@ -21,6 +22,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
+      id: 'threshold-air-pm25',
       indicatorType: 'AIR',
       indicatorName: 'PM2.5',
       unit: 'µg/m³',
@@ -29,6 +31,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
+      id: 'threshold-noise',
       indicatorType: 'NOISE',
       indicatorName: 'Ruido',
       unit: 'dB(A)',
@@ -37,6 +40,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       referenceLabel: 'Parámetros de evaluación ambiental',
     },
     {
+      id: 'threshold-water',
       indicatorType: 'WATER',
       indicatorName: 'Turbidez',
       unit: 'NTU',
@@ -107,6 +111,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       status: 'NON_COMPLIANT',
       message: 'Medición por encima del nivel máximo.',
       createdAt: '2026-09-29T16:00:00',
+      acknowledged: false,
     },
     {
       id: 'a-002',
@@ -117,6 +122,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
       status: 'WARNING',
       message: 'Medición en rango de advertencia.',
       createdAt: '2026-09-30T09:20:00',
+      acknowledged: false,
     },
   ];
   listMeasurements(): Observable<EnvironmentalMeasurement[]> {
@@ -147,6 +153,7 @@ export class EnvironmentalMonitoringApi extends EnvironmentalMonitoringGateway {
               ? 'Medición en rango de advertencia.'
               : 'Medición por encima del nivel máximo.',
           createdAt: measurement.measuredAt,
+          acknowledged: false,
         },
         ...this.alerts,
       ];

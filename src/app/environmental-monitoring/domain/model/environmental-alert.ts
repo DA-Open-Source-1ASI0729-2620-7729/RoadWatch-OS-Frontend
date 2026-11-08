@@ -10,4 +10,5 @@ export interface EnvironmentalAlert {
   status: Extract<MeasurementStatus, 'WARNING' | 'NON_COMPLIANT'>;
   message: string;
   createdAt: string;
+  acknowledged: boolean;
 }

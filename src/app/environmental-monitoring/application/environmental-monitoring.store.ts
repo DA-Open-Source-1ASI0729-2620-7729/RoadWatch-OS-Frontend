@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { EnvironmentalMonitoringApi } from '../infrastructure/environmental-monitoring-api';
+import { EnvironmentalMonitoringGateway } from './environmental-monitoring.gateway';
 import { EnvironmentalAlert } from '../domain/model/environmental-alert';
 import {
   EnvironmentalMeasurement,
@@ -10,7 +10,7 @@ import { MeasurementStatus } from '../domain/model/measurement-status';
 
 @Injectable({ providedIn: 'root' })
 export class EnvironmentalMonitoringStore {
-  private readonly api = inject(EnvironmentalMonitoringApi);
+  private readonly gateway = inject(EnvironmentalMonitoringGateway);
   readonly measurements = signal<EnvironmentalMeasurement[]>([]);
   readonly thresholds = signal<NormativeThreshold[]>([]);
   readonly alerts = signal<EnvironmentalAlert[]>([]);
@@ -26,18 +26,20 @@ export class EnvironmentalMonitoringStore {
   }
   refresh(): void {
     this.loading.set(true);
-    this.api.listMeasurements().subscribe((measurements) => this.measurements.set(measurements));
-    this.api.listThresholds().subscribe((thresholds) => this.thresholds.set(thresholds));
-    this.api.listAlerts().subscribe((alerts) => {
+    this.gateway
+      .listMeasurements()
+      .subscribe((measurements) => this.measurements.set(measurements));
+    this.gateway.listThresholds().subscribe((thresholds) => this.thresholds.set(thresholds));
+    this.gateway.listAlerts().subscribe((alerts) => {
       this.alerts.set(alerts);
       this.loading.set(false);
     });
   }
   registerMeasurement(draft: EnvironmentalMeasurementDraft): void {
-    this.api.registerMeasurement(draft).subscribe((measurement) => {
+    this.gateway.registerMeasurement(draft).subscribe((measurement) => {
       this.measurements.update((items) => [measurement, ...items]);
       if (measurement.status !== 'COMPLIANT')
-        this.api.listAlerts().subscribe((alerts) => this.alerts.set(alerts));
+        this.gateway.listAlerts().subscribe((alerts) => this.alerts.set(alerts));
     });
   }
   labelFor(status: MeasurementStatus): string {
