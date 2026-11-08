@@ -34,7 +34,9 @@
               </td>
               <td>
                 @if (document.status === 'Pendiente') {
-                  <button (click)="upload(document)">Marcar cargado</button>
+                  <button [disabled]="!canWrite()" (click)="upload(document)">
+                    Marcar cargado
+                  </button>
                 }
               </td>
             </tr>

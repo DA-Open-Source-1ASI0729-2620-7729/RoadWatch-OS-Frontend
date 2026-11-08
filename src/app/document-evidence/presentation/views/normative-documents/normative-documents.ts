@@ -3,16 +3,13 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 import { EvidenceItem, EvidencePanel } from '../../components/evidence-panel/evidence-panel';
-
-type DocumentStatus = 'Cargado' | 'Falta';
-interface NormativeDocument {
-  name: string;
-  type: string;
-  version: string;
-  uploadedBy: string;
-  required: boolean;
-  status: DocumentStatus;
-}
+import { AuthStore } from '../../../../identity-access/application/auth.store';
+import { DocumentEvidenceStore } from '../../../application/document-evidence.store';
+import {
+  NormativeDocumentViewModel,
+  toEvidenceViewModel,
+  toNormativeDocumentViewModel,
+} from '../../models/document-view-models';
 
 @Component({
   selector: 'app-normative-documents',
@@ -22,87 +19,40 @@ interface NormativeDocument {
 })
 export class NormativeDocuments {
   protected readonly navigation = inject(AppNavigation).items;
+  private readonly store = inject(DocumentEvidenceStore);
+  private readonly auth = inject(AuthStore);
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal('');
   protected readonly pendingCount = computed(
     () => this.documents().filter((document) => document.status === 'Falta').length,
   );
-  protected readonly selectedDocument = signal<NormativeDocument | null>(null);
-  protected readonly evidence = signal<EvidenceItem[]>([
-    {
-      id: 'ev-01',
-      name: 'Foto frente de obra N-04.jpg',
-      type: 'image',
-      author: 'Jorge Ramos',
-      createdAt: '12/09',
-      status: 'Cargada',
-    },
-    {
-      id: 'ev-02',
-      name: 'Acta de verificación.pdf',
-      type: 'document',
-      author: 'EcoAudit',
-      createdAt: '12/09',
-      status: 'En revisión',
-    },
-  ]);
+  protected readonly selectedDocument = signal<NormativeDocumentViewModel | null>(null);
+  protected readonly evidence = computed<EvidenceItem[]>(() =>
+    this.store.evidence().map((item) => {
+      const viewModel = toEvidenceViewModel(item);
+      return {
+        id: viewModel.id,
+        name: viewModel.name,
+        type: viewModel.type === 'Fotografía' ? 'image' : 'document',
+        author: viewModel.author,
+        createdAt: viewModel.date,
+        status: viewModel.status,
+      };
+    }),
+  );
   protected readonly milestones = [
     { name: 'Línea base ambiental', progress: '5/5 documentos', complete: true },
     { name: 'Auditoría mensual - Septiembre', progress: '4/5 documentos', complete: false },
     { name: 'Auditoría mensual - Octubre', progress: '0/5 documentos', complete: false },
     { name: 'Cierre de obra', progress: '0/8 documentos', complete: false },
   ];
-  protected readonly documents = signal<NormativeDocument[]>([
-    {
-      name: 'EIA-sd Carretera Central Tramo 2.pdf',
-      type: 'IGA',
-      version: 'v3',
-      uploadedBy: 'EcoAudit · 12/09',
-      required: true,
-      status: 'Cargado',
-    },
-    {
-      name: 'Plan de Manejo Ambiental.pdf',
-      type: 'IGA',
-      version: 'v2',
-      uploadedBy: 'EcoAudit · 02/09',
-      required: true,
-      status: 'Cargado',
-    },
-    {
-      name: 'Informe de monitoreo agosto.pdf',
-      type: 'Reporte',
-      version: 'v1',
-      uploadedBy: 'RoadWatch · 01/09',
-      required: true,
-      status: 'Cargado',
-    },
-    {
-      name: 'Certificado calibración N-01–N-07.pdf',
-      type: 'Certificado',
-      version: 'v1',
-      uploadedBy: 'VíaNexo · 15/07',
-      required: true,
-      status: 'Cargado',
-    },
-    {
-      name: 'Certificado calibración N-08.pdf',
-      type: 'Certificado',
-      version: '—',
-      uploadedBy: '—',
-      required: true,
-      status: 'Falta',
-    },
-    {
-      name: 'Acta de visita de campo.pdf',
-      type: 'Acta',
-      version: 'v1',
-      uploadedBy: 'EcoAudit · 20/09',
-      required: false,
-      status: 'Cargado',
-    },
-  ]);
+  protected readonly documents = computed(() =>
+    this.store.normativeDocuments().map(toNormativeDocumentViewModel),
+  );
+  protected readonly canWrite = computed(() =>
+    this.auth.user()?.role.permissions.some((permission) => permission.code === 'documents.write'),
+  );
   protected chooseMilestone(name: string): void {
     this.selectedMilestone.set(name);
   }
@@ -115,52 +65,36 @@ export class NormativeDocuments {
   }
   protected registerSelectedFile(): void {
     const name = this.selectedFile();
-    if (!name) return;
-    this.documents.update((items) => [
-      {
-        name,
-        type: 'Documento',
-        version: 'v1',
-        uploadedBy: 'EcoAudit · hoy',
-        required: false,
-        status: 'Cargado',
-      },
-      ...items,
-    ]);
+    if (!name || !this.canWrite()) return;
     this.selectedFile.set('');
     this.notification.set(`${name} fue registrado correctamente.`);
   }
-  protected uploadMissing(document: NormativeDocument): void {
-    this.documents.update((items) =>
-      items.map((item) =>
-        item.name === document.name
-          ? { ...item, version: 'v1', uploadedBy: 'EcoAudit · hoy', status: 'Cargado' }
-          : item,
-      ),
-    );
+  protected uploadMissing(document: NormativeDocumentViewModel): void {
+    if (!this.canWrite()) return;
+    const source = this.store.normativeDocuments().find((item) => item.id === document.id);
+    if (source)
+      this.store.updateNormativeDocument({ ...source, status: 'UPLOADED', currentVersion: 1 });
     this.notification.set(`${document.name} fue cargado correctamente.`);
   }
-  protected download(document: NormativeDocument): void {
+  protected download(document: NormativeDocumentViewModel): void {
     this.notification.set(`Preparando la descarga de ${document.name}.`);
   }
-  protected openDocument(document: NormativeDocument): void {
+  protected openDocument(document: NormativeDocumentViewModel): void {
     this.selectedDocument.set(document);
   }
   protected closeDocument(): void {
     this.selectedDocument.set(null);
   }
   protected addEvidence(file: File): void {
-    this.evidence.update((items) => [
-      ...items,
-      {
-        id: crypto.randomUUID(),
-        name: file.name,
-        type: file.type.startsWith('image/') ? 'image' : 'document',
-        author: 'EcoAudit',
-        createdAt: 'hoy',
-        status: 'En revisión',
-      },
-    ]);
+    if (!this.canWrite()) return;
+    this.store.uploadEvidence({
+      id: crypto.randomUUID(),
+      fileName: file.name,
+      fileUrl: '',
+      fileType: file.type,
+      uploadedByUserId: this.auth.user()?.id ?? 'unknown',
+      uploadedAt: new Date().toISOString(),
+    });
     this.notification.set(`Evidencia “${file.name}” agregada para revisión.`);
   }
   protected downloadEvidence(item: EvidenceItem): void {
