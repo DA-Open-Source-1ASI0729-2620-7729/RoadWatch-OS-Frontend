@@ -2,32 +2,22 @@
   <div class="page">
     <h1>Planes disponibles</h1>
     <p>Selecciona el plan que mejor se ajuste a tu operación.</p>
-    <div class="billing">
-      <button [class.active]="billing() === 'MONTHLY'" (click)="billing.set('MONTHLY')">
-        Facturación mensual
-      </button>
-      <button [class.active]="billing() === 'ANNUAL'" (click)="billing.set('ANNUAL')">
-        Anual (2 meses gratis)
-      </button>
-    </div>
     <div class="plans">
       @for (plan of store.plans(); track plan.type) {
-        <article [class.current]="store.subscription()?.plan === plan.type">
+        <article [class.current]="store.subscription()?.plan.id === plan.id">
           <h2>{{ plan.name }}</h2>
-          <strong>${{ price(plan) | number }} <small>/ mes</small></strong>
-          @if (billing() === 'ANNUAL') {
-            <p>Facturación anual · 2 meses gratis</p>
-          }
+          <p>{{ plan.description }}</p>
           <ul>
-            @for (feature of plan.features; track feature) {
-              <li>{{ feature }}</li>
-            }
+            <li>Proyectos: {{ plan.maxProjects ?? 'Sin límite' }}</li>
+            <li>Usuarios: {{ plan.maxUsers ?? 'Sin límite' }}</li>
           </ul>
           <button
-            [disabled]="!canChangePlan() || store.subscription()?.plan === plan.type"
+            [disabled]="
+              !canChangePlan() || store.subscription()?.plan.id === plan.id || !plan.active
+            "
             (click)="select(plan)"
           >
-            @if (store.subscription()?.plan === plan.type) {
+            @if (store.subscription()?.plan.id === plan.id) {
               Plan actual
             } @else if (canChangePlan()) {
               Cambiar a este plan

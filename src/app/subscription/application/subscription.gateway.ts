@@ -4,5 +4,5 @@ import { Subscription } from '../domain/model/subscription';
 export abstract class SubscriptionGateway {
   abstract plans(): Observable<Plan[]>;
   abstract current(): Observable<Subscription>;
-  abstract change(type: Plan['type']): Observable<Subscription>;
+  abstract change(planId: Plan['id']): Observable<Subscription>;
 }

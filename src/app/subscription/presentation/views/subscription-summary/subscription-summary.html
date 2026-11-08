@@ -6,9 +6,9 @@
       <section>
         <div>
           <small>PLAN ACTUAL</small>
-          <h2>{{ subscription.plan }}</h2>
-          <span>{{ subscription.status === 'ACTIVE' ? 'Activa' : 'Requiere atención' }}</span>
-          <p>Renueva el {{ subscription.renewalDate }}</p>
+          <h2>{{ subscription.plan.name }}</h2>
+          <span>{{ subscription.status === 'ACTIVE' ? 'Activa' : subscription.status }}</span>
+          <p>Actualizada el {{ subscription.updatedAt }}</p>
           <a routerLink="/subscription/plans">Ver planes</a>
         </div>
       </section>

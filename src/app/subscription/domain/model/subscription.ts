@@ -1,6 +1,12 @@
-import { PlanType } from './plan';
+import { Plan } from './plan';
+
+export type SubscriptionStatus = 'ACTIVE' | 'INACTIVE' | 'CANCELLED';
+
 export interface Subscription {
-  plan: PlanType;
-  status: 'ACTIVE' | 'PAST_DUE';
-  renewalDate: string;
+  id: string;
+  accountId: string;
+  plan: Plan;
+  status: SubscriptionStatus;
+  startDate: string;
+  updatedAt: string;
 }

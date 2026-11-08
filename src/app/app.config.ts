@@ -8,6 +8,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProjectManagementGateway } from './project-management/application/project-management.gateway';
 import { ProjectManagementMockAdapter } from './project-management/infrastructure/project-management.mock.adapter';
+import { SubscriptionGateway } from './subscription/application/subscription.gateway';
+import { SubscriptionMockAdapter } from './subscription/infrastructure/subscription-mock.adapter';
 import { AuthStore } from './identity-access/application/auth.store';
 import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
@@ -45,6 +47,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: ProjectManagementGateway,
       useClass: ProjectManagementMockAdapter,
+    },
+    {
+      provide: SubscriptionGateway,
+      useClass: SubscriptionMockAdapter,
     },
   ],
 };

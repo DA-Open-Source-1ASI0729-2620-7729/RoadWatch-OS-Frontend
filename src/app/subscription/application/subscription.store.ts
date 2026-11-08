@@ -1,17 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { SubscriptionApi } from '../infrastructure/subscription-api';
+import { SubscriptionGateway } from './subscription.gateway';
 import { Plan } from '../domain/model/plan';
 import { Subscription } from '../domain/model/subscription';
 @Injectable({ providedIn: 'root' })
 export class SubscriptionStore {
-  private api = inject(SubscriptionApi);
+  private readonly gateway = inject(SubscriptionGateway);
   readonly plans = signal<Plan[]>([]);
   readonly subscription = signal<Subscription | null>(null);
   constructor() {
-    this.api.plans().subscribe((x) => this.plans.set(x));
-    this.api.current().subscribe((x) => this.subscription.set(x));
+    this.gateway.plans().subscribe((plans) => this.plans.set(plans));
+    this.gateway.current().subscribe((subscription) => this.subscription.set(subscription));
   }
-  change(type: Plan['type']) {
-    this.api.change(type).subscribe((x) => this.subscription.set(x));
+  change(planId: Plan['id']): void {
+    this.gateway.change(planId).subscribe((subscription) => this.subscription.set(subscription));
   }
 }

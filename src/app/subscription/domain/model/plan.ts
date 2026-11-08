@@ -1,9 +1,10 @@
 export type PlanType = 'BASE' | 'PROFESSIONAL' | 'ENTERPRISE';
-export type BillingCycle = 'MONTHLY' | 'ANNUAL';
 export interface Plan {
+  id: string;
   type: PlanType;
   name: string;
-  monthlyPrice: number;
-  annualMonthlyPrice: number;
-  features: string[];
+  description: string;
+  maxProjects: number | null;
+  maxUsers: number | null;
+  active: boolean;
 }
