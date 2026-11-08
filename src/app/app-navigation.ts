@@ -89,14 +89,14 @@ export const APP_NAVIGATION: NavigationItem[] = [
     route: '/subscription',
     icon: 'card_membership',
     section: 'ORGANIZACIÓN',
-    roles: ['ADMIN', 'MANAGER'],
+    roles: ['ADMIN'],
   },
   {
     label: 'Planes',
     route: '/subscription/plans',
     icon: 'workspace_premium',
     section: 'ORGANIZACIÓN',
-    roles: ['ADMIN', 'MANAGER'],
+    roles: ['ADMIN'],
   },
 ];
 
