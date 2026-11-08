@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { requirePermission } from '../identity-access/application/permission.guard';
 const dashboard = () =>
   import('./presentation/views/monitoring-dashboard/monitoring-dashboard').then(
     (m) => m.MonitoringDashboard,
@@ -18,6 +19,7 @@ export const environmentalMonitoringRoutes: Routes = [
     path: 'measurements/new',
     loadComponent: newMeasurement,
     title: 'Registrar medición | RoadWatch OS',
+    canActivate: [requirePermission('monitoring.write')],
   },
   { path: 'measurements', loadComponent: measurements, title: 'Mediciones | RoadWatch OS' },
   { path: 'history', loadComponent: history, title: 'Historial ambiental | RoadWatch OS' },
