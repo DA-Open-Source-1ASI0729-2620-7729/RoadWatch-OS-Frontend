@@ -4,6 +4,7 @@ import {
   inject,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProjectManagementGateway } from './project-management/application/project-management.gateway';
@@ -13,7 +14,7 @@ import { SubscriptionMockAdapter } from './subscription/infrastructure/subscript
 import { EnvironmentalMonitoringGateway } from './environmental-monitoring/application/environmental-monitoring.gateway';
 import { EnvironmentalMonitoringMockAdapter } from './environmental-monitoring/infrastructure/environmental-monitoring-mock.adapter';
 import { AuthGateway } from './identity-access/application/auth.gateway';
-import { AuthMockAdapter } from './identity-access/infrastructure/auth-mock.adapter';
+import { AuthHttpAdapter } from './identity-access/infrastructure/auth-http.adapter';
 import { ReportsGateway } from './reports-compliance/application/reports.gateway';
 import { ReportsMockAdapter } from './reports-compliance/infrastructure/reports-mock.adapter';
 import { DocumentEvidenceGateway } from './document-evidence/application/document-evidence.gateway';
@@ -23,7 +24,6 @@ import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
 
 const shellProfile = (user: User | null): AppShellProfile => {
-  const isConstruction = user?.organizationSegment === 'CONSTRUCTION_COMPANY';
   const initials =
     user?.name
       .split(' ')
@@ -33,10 +33,10 @@ const shellProfile = (user: User | null): AppShellProfile => {
       .toUpperCase() ?? 'RW';
 
   return {
-    organization: isConstruction ? 'Consorcio Vial Andino' : 'EcoAudit Consultores',
-    moduleName: isConstruction ? 'Módulo Operativo' : 'Módulo de Fiscalización',
+    organization: 'RoadWatch OS',
+    moduleName: 'Plataforma de gestión ambiental',
     name: user?.name ?? 'Usuario RoadWatch',
-    role: user?.role.label ?? 'Sesión no iniciada',
+    role: user?.role?.label ?? 'Sesión no iniciada',
     initials,
   };
 };
@@ -44,6 +44,7 @@ const shellProfile = (user: User | null): AppShellProfile => {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideHttpClient(),
     provideRouter(routes),
     {
       provide: APP_SHELL_PROFILE,
@@ -66,7 +67,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: AuthGateway,
-      useClass: AuthMockAdapter,
+      useClass: AuthHttpAdapter,
     },
     {
       provide: ReportsGateway,

@@ -1,6 +1,5 @@
 import { Role } from './role';
 import { UserStatus } from './user-status';
-import { OrganizationSegment } from './organization-segment';
 export interface User {
   id: string;
   firstName?: string;
@@ -9,8 +8,7 @@ export interface User {
   email: string;
   passwordHash?: string;
   status: UserStatus;
-  organizationSegment: OrganizationSegment;
-  role: Role;
+  role: Role | null;
   createdAt?: string;
   updatedAt?: string;
 }

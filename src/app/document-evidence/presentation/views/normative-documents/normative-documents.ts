@@ -51,7 +51,7 @@ export class NormativeDocuments {
     this.store.normativeDocuments().map(toNormativeDocumentViewModel),
   );
   protected readonly canWrite = computed(() =>
-    this.auth.user()?.role.permissions.some((permission) => permission.code === 'documents.write'),
+    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'documents.write'),
   );
   protected chooseMilestone(name: string): void {
     this.selectedMilestone.set(name);

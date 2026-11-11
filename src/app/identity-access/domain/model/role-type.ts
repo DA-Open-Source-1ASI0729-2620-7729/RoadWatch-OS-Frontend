@@ -1,1 +1,1 @@
-export type RoleType = 'ADMIN' | 'ENVIRONMENTAL_MANAGER' | 'AUDITOR';
+export type RoleType = 'ADMIN' | 'MANAGER' | 'ENVIRONMENTAL_OFFICER' | 'AUDITOR';

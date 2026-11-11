@@ -23,7 +23,7 @@ export class RequiredDocuments {
     this.store.requiredDocuments().map(toRequiredDocumentViewModel),
   );
   protected readonly canWrite = computed(() =>
-    this.auth.user()?.role.permissions.some((permission) => permission.code === 'documents.write'),
+    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'documents.write'),
   );
   protected readonly visibleDocuments = computed(() =>
     this.filter() === 'Todos'

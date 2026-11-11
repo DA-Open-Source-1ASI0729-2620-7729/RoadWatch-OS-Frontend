@@ -18,7 +18,7 @@ export class EvidenceLibrary {
   protected readonly notification = signal('');
   protected readonly evidence = computed(() => this.store.evidence().map(toEvidenceViewModel));
   protected readonly canWrite = computed(() =>
-    this.auth.user()?.role.permissions.some((permission) => permission.code === 'documents.write'),
+    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'documents.write'),
   );
 
   protected upload(event: Event): void {

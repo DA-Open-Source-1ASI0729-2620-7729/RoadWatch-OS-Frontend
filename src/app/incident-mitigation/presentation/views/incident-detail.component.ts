@@ -169,7 +169,7 @@ export class IncidentDetailComponent implements OnInit {
   protected readonly store = inject(IncidentStore);
   private readonly auth = inject(AuthStore);
   protected readonly canWrite = computed(() =>
-    this.auth.user()?.role.permissions.some((permission) => permission.code === 'incidents.write'),
+    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'incidents.write'),
   );
   private readonly route = inject(ActivatedRoute);
   ngOnInit(): void {

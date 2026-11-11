@@ -10,9 +10,7 @@ export const requirePermission =
     const user = auth.user();
 
     if (!user) return router.createUrlTree(['/auth/login']);
-    if (user.role.permissions.some((item) => item.code === permission)) return true;
+    if (user.role?.permissions.some((item) => item.code === permission)) return true;
 
-    return router.createUrlTree([
-      user.organizationSegment === 'CONSTRUCTION_COMPANY' ? '/projects' : '/reports',
-    ]);
+    return router.createUrlTree([user.role?.type === 'AUDITOR' ? '/reports' : '/projects']);
   };
