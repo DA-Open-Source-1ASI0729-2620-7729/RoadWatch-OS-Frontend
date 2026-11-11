@@ -23,7 +23,8 @@ export class NormativeDocuments {
   private readonly auth = inject(AuthStore);
   protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
   protected readonly notification = signal('');
-  protected readonly selectedFile = signal('');
+  protected readonly selectedFile = signal<File | null>(null);
+  protected readonly projectId = signal('');
   protected readonly pendingCount = computed(
     () => this.documents().filter((document) => document.status === 'Falta').length,
   );
@@ -60,22 +61,34 @@ export class NormativeDocuments {
   protected onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.selectedFile.set(file.name);
+      this.selectedFile.set(file);
       this.notification.set(`Archivo “${file.name}” listo para registrar.`);
     }
   }
   protected registerSelectedFile(): void {
-    const name = this.selectedFile();
-    if (!name || !this.canWrite()) return;
-    this.selectedFile.set('');
-    this.notification.set(`${name} fue registrado correctamente.`);
+    const file = this.selectedFile();
+    const uploadedByUserId = this.auth.user()?.id;
+    if (!file || !this.projectId() || !uploadedByUserId || !this.canWrite()) return;
+
+    this.store.createNormativeDocument(this.projectId(), file, uploadedByUserId).subscribe({
+      next: () => {
+        this.selectedFile.set(null);
+        this.projectId.set('');
+        this.notification.set(`${file.name} fue registrado correctamente.`);
+      },
+      error: () => this.notification.set('No se pudo registrar el documento.'),
+    });
   }
-  protected uploadMissing(document: NormativeDocumentViewModel): void {
-    if (!this.canWrite()) return;
+  protected uploadMissing(document: NormativeDocumentViewModel, event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    const uploadedByUserId = this.auth.user()?.id;
+    if (!file || !uploadedByUserId || !this.canWrite()) return;
     const source = this.store.normativeDocuments().find((item) => item.id === document.id);
     if (source)
-      this.store.updateNormativeDocument({ ...source, status: 'UPLOADED', currentVersion: 1 });
-    this.notification.set(`${document.name} fue cargado correctamente.`);
+      this.store.uploadNormativeDocumentVersion(source.id, file, uploadedByUserId).subscribe({
+        next: () => this.notification.set(`${document.name} fue cargado correctamente.`),
+        error: () => this.notification.set('No se pudo cargar la versión del documento.'),
+      });
   }
   protected download(document: NormativeDocumentViewModel): void {
     this.notification.set(`Preparando la descarga de ${document.name}.`);

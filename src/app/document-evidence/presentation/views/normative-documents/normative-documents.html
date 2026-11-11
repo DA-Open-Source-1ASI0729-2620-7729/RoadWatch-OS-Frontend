@@ -69,12 +69,19 @@
               (change)="onFileSelected($event)"
           /></label>
         </div>
-        @if (selectedFile()) {
+        @if (selectedFile(); as file) {
           <div class="file-ready">
-            <span class="material-symbols-outlined">attach_file</span>{{ selectedFile() }}
+            <span class="material-symbols-outlined">attach_file</span>{{ file.name }}
+            <label
+              >Proyecto ID<input
+                type="number"
+                min="1"
+                [value]="projectId()"
+                (input)="projectId.set($any($event.target).value)"
+            /></label>
             <button class="register-file" (click)="registerSelectedFile()">
               Registrar documento</button
-            ><button (click)="selectedFile.set('')">Quitar</button>
+            ><button (click)="selectedFile.set(null)">Quitar</button>
           </div>
         }
         <div class="documents-layout">
@@ -152,7 +159,14 @@
                       </td>
                       <td>
                         @if (document.status === 'Falta') {
-                          <button class="small-action" (click)="uploadMissing(document)">
+                          <input
+                            #missingFile
+                            type="file"
+                            hidden
+                            accept=".pdf,.doc,.docx,.xlsx"
+                            (change)="uploadMissing(document, $event)"
+                          />
+                          <button class="small-action" (click)="missingFile.click()">
                             Subir
                           </button>
                         } @else {

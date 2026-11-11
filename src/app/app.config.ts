@@ -21,6 +21,8 @@ import { DocumentEvidenceGateway } from './document-evidence/application/documen
 import { DocumentEvidenceMockAdapter } from './document-evidence/infrastructure/document-evidence-mock.adapter';
 import { EvidenceGateway } from './document-evidence/application/evidence.gateway';
 import { EvidenceHttpAdapter } from './document-evidence/infrastructure/evidence-http.adapter';
+import { NormativeDocumentGateway } from './document-evidence/application/normative-document.gateway';
+import { NormativeDocumentHttpAdapter } from './document-evidence/infrastructure/normative-document-http.adapter';
 import { AuthStore } from './identity-access/application/auth.store';
 import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
@@ -82,6 +84,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: EvidenceGateway,
       useClass: EvidenceHttpAdapter,
+    },
+    {
+      provide: NormativeDocumentGateway,
+      useClass: NormativeDocumentHttpAdapter,
     },
   ],
 };
