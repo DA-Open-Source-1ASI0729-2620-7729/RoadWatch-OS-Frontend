@@ -16,7 +16,7 @@ import { EnvironmentalMonitoringHttpAdapter } from './environmental-monitoring/i
 import { AuthGateway } from './identity-access/application/auth.gateway';
 import { AuthHttpAdapter } from './identity-access/infrastructure/auth-http.adapter';
 import { ReportsGateway } from './reports-compliance/application/reports.gateway';
-import { ReportsMockAdapter } from './reports-compliance/infrastructure/reports-mock.adapter';
+import { ReportsHttpAdapter } from './reports-compliance/infrastructure/reports-http.adapter';
 import { EvidenceGateway } from './document-evidence/application/evidence.gateway';
 import { EvidenceHttpAdapter } from './document-evidence/infrastructure/evidence-http.adapter';
 import { NormativeDocumentGateway } from './document-evidence/application/normative-document.gateway';
@@ -75,7 +75,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: ReportsGateway,
-      useClass: ReportsMockAdapter,
+      useClass: ReportsHttpAdapter,
     },
     {
       provide: EvidenceGateway,

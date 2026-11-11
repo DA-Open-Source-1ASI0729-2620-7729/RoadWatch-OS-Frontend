@@ -102,15 +102,15 @@ td span {
   padding: 4px 8px;
   font-size: 10px;
 }
-.emitido {
+.generated {
   background: #e2f2eb;
   color: #167050;
 }
-.observado {
+.failed {
   background: #fff4d8;
   color: #9a762b;
 }
-.borrador {
+.requested {
   background: #e2e8f0;
   color: #64748b;
 }
@@ -200,17 +200,17 @@ td span {
 .heading-actions a:hover {
   background: #1d8b68;
 }
-.emitido {
+.generated {
   background: #e4f5ed;
   color: #187a59;
   border: 1px solid #23a277;
 }
-.observado {
+.failed {
   background: #fff4d8;
   color: #9a6e08;
   border: 1px solid #e5a93c;
 }
-.borrador {
+.requested {
   background: #eef2f5;
   color: #64748b;
   border: 1px solid #e2e8f0;

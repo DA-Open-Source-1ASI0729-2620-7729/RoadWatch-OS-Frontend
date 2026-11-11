@@ -47,13 +47,13 @@
               </div>
             </article>
           }
-          @if (store.summary(); as summary) {
+          @for (summary of store.summaries(); track summary.id) {
             <article class="neutral">
-              <span class="material-symbols-outlined">schedule</span>
+              <span class="material-symbols-outlined">analytics</span>
               <div>
-                <p>Tiempo de resolución</p>
-                <strong>{{ summary.averageResolutionHours }} h</strong
-                ><small>promedio de incidencias cerradas</small>
+                <p>Mediciones · proyecto #{{ summary.projectId }}</p>
+                <strong>{{ summary.compliantMeasurements }} / {{ summary.compliantMeasurements + summary.nonCompliantMeasurements }}</strong
+                ><small>{{ summary.compliancePercentage }}% en cumplimiento</small>
               </div>
             </article>
           }

@@ -14,7 +14,7 @@
       <div class="filter-menu">
         @for (status of reportStatuses; track status) {
           <button [class.selected]="statusFilter() === status" (click)="setStatusFilter(status)">
-            {{ status }}
+            {{ status === 'Todos' ? status : statusLabel(status) }}
           </button>
         }
       </div>
@@ -46,7 +46,7 @@
                 <td>{{ report.periodStart }} — {{ report.periodEnd }}</td>
                 <td>{{ report.issuedAt ?? 'Pendiente' }}</td>
                 <td>
-                  <span [class]="report.status.toLowerCase()">{{ report.status }}</span>
+                  <span [class]="report.status.toLowerCase()">{{ statusLabel(report.status) }}</span>
                 </td>
                 <td><button (click)="open(report)">Ver detalle</button></td>
               </tr>
@@ -64,7 +64,7 @@
           <button class="close" (click)="close()">×</button><small>REPORTE DE AUDITORÍA</small>
           <h2>{{ report.projectName }}</h2>
           <p>{{ report.periodStart }} — {{ report.periodEnd }}</p>
-          <div class="state">{{ report.status }}</div>
+          <div class="state">{{ statusLabel(report.status) }}</div>
           <h3>Contenido incluido</h3>
           <ul>
             @for (section of report.sections; track section) {

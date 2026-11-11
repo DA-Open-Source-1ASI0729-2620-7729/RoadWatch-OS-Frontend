@@ -1,13 +1,12 @@
 import { ReportStatus } from './report-status';
 
-export type AuditReportStatus = 'Borrador' | 'Emitido' | 'Observado';
+export type AuditReportStatus = ReportStatus;
 
 export interface AuditReport {
   id: string;
   projectId: string;
   generatedAt?: string;
   fileUrl?: string;
-  reportStatus?: ReportStatus;
   projectName: string;
   periodStart: string;
   periodEnd: string;

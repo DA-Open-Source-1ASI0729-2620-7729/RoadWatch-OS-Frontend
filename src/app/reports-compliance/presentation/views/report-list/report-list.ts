@@ -21,9 +21,9 @@ export class ReportList {
   protected readonly statusFilter = signal<AuditReportStatus | 'Todos'>('Todos');
   protected readonly reportStatuses: Array<AuditReportStatus | 'Todos'> = [
     'Todos',
-    'Borrador',
-    'Emitido',
-    'Observado',
+    'REQUESTED',
+    'GENERATED',
+    'FAILED',
   ];
   protected readonly filteredReports = computed(() => {
     const status = this.statusFilter();
@@ -47,6 +47,10 @@ export class ReportList {
   protected setStatusFilter(status: AuditReportStatus | 'Todos'): void {
     this.statusFilter.set(status);
     this.filtersOpen.set(false);
+  }
+
+  protected statusLabel(status: AuditReportStatus): string {
+    return status === 'REQUESTED' ? 'Solicitado' : status === 'GENERATED' ? 'Generado' : 'Fallido';
   }
 
   protected exportPdf(report: AuditReport): void {

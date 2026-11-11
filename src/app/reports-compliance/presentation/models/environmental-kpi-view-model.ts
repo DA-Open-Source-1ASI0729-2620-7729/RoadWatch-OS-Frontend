@@ -9,38 +9,39 @@ export interface EnvironmentalKpiViewModel {
   tone: 'success' | 'warning' | 'danger' | 'neutral';
 }
 
-const displayMetadata: Record<
-  EnvironmentalKpi['code'],
-  Pick<EnvironmentalKpiViewModel, 'label' | 'detail' | 'icon' | 'tone'>
-> = {
-  compliance: {
-    label: 'Cumplimiento ambiental',
-    detail: 'promedio de proyectos supervisados',
+export const toEnvironmentalKpiViewModels = (
+  kpi: EnvironmentalKpi,
+): EnvironmentalKpiViewModel[] => [
+  {
+    code: `${kpi.id}-compliance`,
+    label: `Cumplimiento · proyecto #${kpi.projectId}`,
+    value: `${kpi.compliancePercentage}%`,
+    detail: `Calculado: ${kpi.calculatedAt}`,
     icon: 'verified_user',
     tone: 'success',
   },
-  documents: {
-    label: 'Documentos obligatorios',
-    detail: '4 documentos pendientes',
-    icon: 'folder_open',
-    tone: 'warning',
-  },
-  incidents: {
-    label: 'Hallazgos abiertos',
-    detail: '1 requiere atención inmediata',
-    icon: 'fact_check',
-    tone: 'danger',
-  },
-  reports: {
-    label: 'Reportes emitidos',
-    detail: 'durante septiembre',
-    icon: 'description',
+  {
+    code: `${kpi.id}-resolution`,
+    label: `Resolución · proyecto #${kpi.projectId}`,
+    value: `${kpi.averageResolutionTime} h`,
+    detail: 'Promedio de resolución',
+    icon: 'schedule',
     tone: 'neutral',
   },
-};
-
-export const toEnvironmentalKpiViewModel = (kpi: EnvironmentalKpi): EnvironmentalKpiViewModel => ({
-  code: kpi.code,
-  value: kpi.value,
-  ...displayMetadata[kpi.code],
-});
+  {
+    code: `${kpi.id}-open-incidents`,
+    label: `Incidencias abiertas · proyecto #${kpi.projectId}`,
+    value: String(kpi.openIncidents),
+    detail: 'Incidencias activas',
+    icon: 'fact_check',
+    tone: 'warning',
+  },
+  {
+    code: `${kpi.id}-critical-incidents`,
+    label: `Incidencias críticas · proyecto #${kpi.projectId}`,
+    value: String(kpi.criticalIncidents),
+    detail: 'Requieren atención prioritaria',
+    icon: 'crisis_alert',
+    tone: 'danger',
+  },
+];

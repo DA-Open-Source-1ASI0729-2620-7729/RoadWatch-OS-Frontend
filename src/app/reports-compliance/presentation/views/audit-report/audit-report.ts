@@ -21,8 +21,9 @@ export class AuditReport {
   protected readonly navigation = inject(AppNavigation).items;
   private readonly reportsStore = inject(ReportsStore);
 
-  protected readonly project = signal('Carretera Central – Tramo 2');
-  protected readonly period = signal('01/09/2026 — 30/09/2026');
+  protected readonly projectId = signal('');
+  protected readonly periodStart = signal('');
+  protected readonly periodEnd = signal('');
   protected readonly generated = signal(false);
   protected readonly loading = signal(false);
   protected readonly generatedReport = signal<AuditReportModel | null>(null);
@@ -50,14 +51,19 @@ export class AuditReport {
   }
   protected generate(): void {
     const request: ReportExportRequest = {
-      projectId: 'p-01',
-      periodStart: '2026-09-01',
-      periodEnd: '2026-09-30',
+      projectId: this.projectId(),
+      periodStart: this.periodStart(),
+      periodEnd: this.periodEnd(),
       sections: this.sections()
         .filter((section) => section.checked)
         .map((section) => section.id),
       format: 'PDF',
     };
+
+    if (!request.projectId || !request.periodStart || !request.periodEnd || !request.sections.length) {
+      this.notification.set('Completa el proyecto, el periodo y al menos una sección.');
+      return;
+    }
 
     this.loading.set(true);
     this.notification.set('');

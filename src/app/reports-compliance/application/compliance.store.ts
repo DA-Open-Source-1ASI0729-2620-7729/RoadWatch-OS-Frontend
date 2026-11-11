@@ -9,7 +9,7 @@ export class ComplianceStore {
   private readonly gateway = inject(ReportsGateway);
   private readonly projectsSignal = signal<ProjectReport[]>([]);
   private readonly kpisSignal = signal<EnvironmentalKpi[]>([]);
-  private readonly summarySignal = signal<ComplianceSummary | null>(null);
+  private readonly summariesSignal = signal<ComplianceSummary[]>([]);
   readonly loading = signal(true);
 
   constructor() {
@@ -18,7 +18,7 @@ export class ComplianceStore {
       this.kpisSignal.set(kpis);
       this.loading.set(false);
     });
-    this.gateway.getComplianceSummary().subscribe((summary) => this.summarySignal.set(summary));
+    this.gateway.getComplianceSummaries().subscribe((summaries) => this.summariesSignal.set(summaries));
   }
 
   readonly projects = this.projectsSignal.asReadonly();
@@ -31,5 +31,5 @@ export class ComplianceStore {
       : 0,
   );
   readonly kpis = this.kpisSignal.asReadonly();
-  readonly summary = this.summarySignal.asReadonly();
+  readonly summaries = this.summariesSignal.asReadonly();
 }

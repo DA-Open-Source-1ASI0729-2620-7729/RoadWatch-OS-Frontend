@@ -61,19 +61,30 @@
               <span>1</span>
               <div>
                 <h2>Proyecto</h2>
-                <button class="select-control">
-                  <span class="material-symbols-outlined">route</span>{{ project()
-                  }}<span class="material-symbols-outlined">expand_more</span>
-                </button>
+                <label class="select-control"
+                  ><span class="material-symbols-outlined">route</span><input
+                    type="number"
+                    min="1"
+                    placeholder="ID del proyecto"
+                    [value]="projectId()"
+                    (input)="projectId.set($any($event.target).value)"
+                /></label>
               </div>
             </div>
             <div class="step">
               <span>2</span>
               <div>
                 <h2>Periodo</h2>
-                <button class="select-control">
-                  <span class="material-symbols-outlined">calendar_month</span>{{ period() }}
-                </button>
+                <label class="select-control"
+                  ><span class="material-symbols-outlined">calendar_month</span><input
+                    type="date"
+                    [value]="periodStart()"
+                    (input)="periodStart.set($any($event.target).value)"
+                  /><input
+                    type="date"
+                    [value]="periodEnd()"
+                    (input)="periodEnd.set($any($event.target).value)"
+                /></label>
               </div>
             </div>
             <div class="step content-step">
@@ -102,13 +113,6 @@
                 </div>
               </div>
             </div>
-            <div class="missing-document">
-              <span class="material-symbols-outlined">warning</span>
-              <div>
-                <strong>Falta 1 documento obligatorio del hito</strong>
-                <p>Certificado de calibración N-08</p>
-              </div>
-            </div>
             <button class="generate" [disabled]="loading()" (click)="generate()">
               <span class="material-symbols-outlined">file_download</span>
               @if (loading()) {
@@ -126,8 +130,8 @@
               </div>
               @if (generated()) {
                 <div class="paper-content">
-                  <h2>{{ project() }}</h2>
-                  <p>{{ period() }}</p>
+                  <h2>Proyecto #{{ projectId() }}</h2>
+                  <p>{{ periodStart() }} — {{ periodEnd() }}</p>
                   <div class="paper-rule"></div>
                   <p>{{ selectedCount() }} secciones incluidas</p>
                   @if (generatedReport(); as report) {

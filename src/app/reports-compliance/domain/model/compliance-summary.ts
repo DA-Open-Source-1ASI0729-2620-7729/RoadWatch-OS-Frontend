@@ -1,9 +1,8 @@
 export interface ComplianceSummary {
-  projectId?: string;
+  id: string;
+  projectId: string;
+  compliantMeasurements: number;
+  nonCompliantMeasurements: number;
   compliancePercentage: number;
-  requiredDocuments: number;
-  pendingDocuments: number;
-  openIncidents: number;
-  criticalIncidents: number;
-  averageResolutionHours?: number;
+  calculatedAt: string;
 }

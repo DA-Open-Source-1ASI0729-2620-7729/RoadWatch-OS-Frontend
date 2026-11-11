@@ -9,7 +9,7 @@ export abstract class ReportsGateway {
   abstract listReports(): Observable<AuditReport[]>;
   abstract getReport(id: string): Observable<AuditReport>;
   abstract generateReport(request: ReportExportRequest): Observable<AuditReport>;
-  abstract getComplianceSummary(): Observable<ComplianceSummary>;
+  abstract getComplianceSummaries(): Observable<ComplianceSummary[]>;
   abstract getEnvironmentalKpis(): Observable<EnvironmentalKpi[]>;
   abstract getProjectReports(): Observable<ProjectReport[]>;
   abstract exportPdf(reportId: string): Observable<Blob>;

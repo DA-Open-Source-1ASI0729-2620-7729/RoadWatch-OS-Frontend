@@ -1,7 +1,9 @@
 export interface EnvironmentalKpi {
-  code: string;
-  metricName: string;
-  value: string;
-  unit: string;
+  id: string;
+  projectId: string;
+  compliancePercentage: number;
+  averageResolutionTime: number;
+  openIncidents: number;
+  criticalIncidents: number;
   calculatedAt: string;
 }
