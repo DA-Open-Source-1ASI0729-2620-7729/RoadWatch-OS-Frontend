@@ -50,9 +50,10 @@ export class NormativeDocuments {
   protected readonly documents = computed(() =>
     this.store.normativeDocuments().map(toNormativeDocumentViewModel),
   );
-  protected readonly canWrite = computed(() =>
-    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'documents.write'),
-  );
+  protected readonly canWrite = computed(() => {
+    const roleType = this.auth.user()?.role?.type;
+    return roleType === 'ADMIN' || roleType === 'MANAGER' || roleType === 'ENVIRONMENTAL_OFFICER';
+  });
   protected chooseMilestone(name: string): void {
     this.selectedMilestone.set(name);
   }
@@ -87,14 +88,7 @@ export class NormativeDocuments {
   }
   protected addEvidence(file: File): void {
     if (!this.canWrite()) return;
-    this.store.uploadEvidence({
-      id: crypto.randomUUID(),
-      fileName: file.name,
-      fileUrl: '',
-      fileType: file.type,
-      uploadedByUserId: this.auth.user()?.id ?? 'unknown',
-      uploadedAt: new Date().toISOString(),
-    });
+    this.store.uploadEvidence(file, this.auth.user()?.id ?? '');
     this.notification.set(`Evidencia “${file.name}” agregada para revisión.`);
   }
   protected downloadEvidence(item: EvidenceItem): void {

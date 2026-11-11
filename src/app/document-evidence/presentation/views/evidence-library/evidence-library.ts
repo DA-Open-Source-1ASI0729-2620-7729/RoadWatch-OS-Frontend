@@ -17,21 +17,15 @@ export class EvidenceLibrary {
   private readonly auth = inject(AuthStore);
   protected readonly notification = signal('');
   protected readonly evidence = computed(() => this.store.evidence().map(toEvidenceViewModel));
-  protected readonly canWrite = computed(() =>
-    this.auth.user()?.role?.permissions.some((permission) => permission.code === 'documents.write'),
-  );
+  protected readonly canWrite = computed(() => {
+    const roleType = this.auth.user()?.role?.type;
+    return roleType === 'ADMIN' || roleType === 'MANAGER' || roleType === 'ENVIRONMENTAL_OFFICER';
+  });
 
   protected upload(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file || !this.canWrite()) return;
-    this.store.uploadEvidence({
-      id: crypto.randomUUID(),
-      fileName: file.name,
-      fileUrl: '',
-      fileType: file.type,
-      uploadedByUserId: this.auth.user()?.id ?? 'unknown',
-      uploadedAt: new Date().toISOString(),
-    });
+    this.store.uploadEvidence(file, this.auth.user()?.id ?? '');
     this.notification.set(`Evidencia “${file.name}” registrada para revisión.`);
   }
 
