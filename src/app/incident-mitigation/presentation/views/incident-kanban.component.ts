@@ -48,11 +48,9 @@ import { AuthStore } from '../../../identity-access/application/auth.store';
                       }}</b>
                     </div>
                     <h3>{{ incident.title }}</h3>
-                    <p>{{ incident.monitoringPointLabel }} · {{ incident.indicator }}</p>
-                    <strong>{{ incident.observedValue }} {{ incident.unit }}</strong>
+                    <p>Medición asociada: #{{ incident.measurementId }}</p>
                     <footer>
-                      <span>{{ incident.responsible }}</span
-                      ><span>{{ incident.evidenceCount }} evidencias</span>
+                      <span>Actualizada</span><span>{{ incident.updatedAt | date: 'dd/MM HH:mm' }}</span>
                     </footer></a
                   >
                 }

@@ -18,10 +18,7 @@ import { AuthStore } from '../../../identity-access/application/auth.store';
           <div>
             <span>INCIDENCIA {{ incident.id }}</span>
             <h1>{{ incident.title }}</h1>
-            <p>
-              {{ incident.monitoringPointLabel }} · {{ incident.indicator }} ·
-              {{ incident.observedValue }} {{ incident.unit }}
-            </p>
+            <p>Medición ambiental asociada: #{{ incident.measurementId }}</p>
           </div>
           <b>{{ incident.status }}</b>
         </header>
@@ -31,16 +28,12 @@ import { AuthStore } from '../../../identity-access/application/auth.store';
             <p>{{ incident.description }}</p>
             <dl>
               <div>
-                <dt>Responsable</dt>
-                <dd>{{ incident.responsible }}</dd>
+                <dt>Registrada</dt>
+                <dd>{{ incident.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
               </div>
               <div>
-                <dt>Fecha límite</dt>
-                <dd>{{ incident.dueDate | date: 'dd/MM/yyyy' }}</dd>
-              </div>
-              <div>
-                <dt>Acciones de mitigación</dt>
-                <dd>{{ incident.mitigationCount }} registradas</dd>
+                <dt>Última actualización</dt>
+                <dd>{{ incident.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
               </div>
             </dl>
             @if (canWrite()) {
@@ -48,9 +41,9 @@ import { AuthStore } from '../../../identity-access/application/auth.store';
             }
           </section>
           <aside>
-            <h2>Evidencias vinculadas</h2>
-            <strong>{{ incident.evidenceCount }} evidencias</strong>
-            <p>Las evidencias se administran en Document &amp; Evidence Management.</p>
+            <h2>Seguimiento</h2>
+            <strong>{{ incident.severity }}</strong>
+            <p>Las evidencias y acciones de mitigación se administran en sus módulos respectivos.</p>
             <a routerLink="/documents/evidence">Abrir evidencias</a>
           </aside>
         </div>

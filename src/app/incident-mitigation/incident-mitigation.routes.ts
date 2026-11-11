@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { IncidentGateway } from './domain/gateways/incident.gateway';
-import { IncidentMockAdapter } from './infrastructure/incident-mock.adapter';
+import { IncidentHttpAdapter } from './infrastructure/incident-http.adapter';
 import { IncidentStore } from './application/incident.store';
 
 export const INCIDENT_MITIGATION_ROUTES: Routes = [
   {
     path: '',
-    providers: [{ provide: IncidentGateway, useClass: IncidentMockAdapter }, IncidentStore],
+    providers: [{ provide: IncidentGateway, useClass: IncidentHttpAdapter }, IncidentStore],
     children: [
       {
         path: 'kanban',

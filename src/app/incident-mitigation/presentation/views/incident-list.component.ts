@@ -19,9 +19,8 @@ import { IncidentStore } from '../../application/incident.store';
           <thead>
             <tr>
               <th>CÓDIGO</th>
-              <th>INDICADOR</th>
-              <th>PUNTO</th>
-              <th>RESPONSABLE</th>
+              <th>MEDICIÓN</th>
+              <th>SEVERIDAD</th>
               <th>ESTADO</th>
               <th></th>
             </tr>
@@ -32,9 +31,8 @@ import { IncidentStore } from '../../application/incident.store';
                 <td>
                   <strong>{{ item.id }}</strong>
                 </td>
-                <td>{{ item.indicator }} · {{ item.observedValue }} {{ item.unit }}</td>
-                <td>{{ item.monitoringPointLabel }}</td>
-                <td>{{ item.responsible }}</td>
+                <td>#{{ item.measurementId }}</td>
+                <td>{{ item.severity }}</td>
                 <td>
                   <span>{{ item.status }}</span>
                 </td>
@@ -42,7 +40,7 @@ import { IncidentStore } from '../../application/incident.store';
               </tr>
             } @empty {
               <tr>
-                <td colspan="6">No hay incidencias críticas.</td>
+              <td colspan="5">No hay incidencias críticas.</td>
               </tr>
             }
           </tbody>

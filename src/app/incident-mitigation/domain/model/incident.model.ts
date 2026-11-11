@@ -15,28 +15,10 @@ export enum IncidentStatus {
 export interface EnvironmentalIncident {
   id: string;
   measurementId: string;
-  alertId?: string;
   title: string;
   description: string;
   status: IncidentStatus;
   severity: IncidentSeverity;
-  monitoringPointLabel: string;
-  indicator: string;
-  observedValue: number;
-  unit: string;
-  responsible: string;
-  evidenceCount: number;
-  mitigationCount: number;
-  dueDate: Date;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface MitigationAction {
-  id: string;
-  incidentId: string;
-  description: string;
-  responsibleUserId: string;
-  createdAt: Date;
-  completedAt?: Date;
 }
