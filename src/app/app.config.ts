@@ -8,7 +8,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProjectManagementGateway } from './project-management/application/project-management.gateway';
-import { ProjectManagementMockAdapter } from './project-management/infrastructure/project-management.mock.adapter';
+import { ProjectManagementHttpAdapter } from './project-management/infrastructure/project-management-http.adapter';
 import { SubscriptionGateway } from './subscription/application/subscription.gateway';
 import { SubscriptionMockAdapter } from './subscription/infrastructure/subscription-mock.adapter';
 import { EnvironmentalMonitoringGateway } from './environmental-monitoring/application/environmental-monitoring.gateway';
@@ -55,7 +55,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: ProjectManagementGateway,
-      useClass: ProjectManagementMockAdapter,
+      useClass: ProjectManagementHttpAdapter,
     },
     {
       provide: SubscriptionGateway,

@@ -4,6 +4,6 @@ export interface MonitoringPoint {
   name: string;
   latitude: number;
   longitude: number;
-  normativeThresholdId: string;
+  normativeThresholdId: string | null;
   active: boolean;
 }

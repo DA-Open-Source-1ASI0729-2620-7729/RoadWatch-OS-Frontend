@@ -6,7 +6,7 @@ export interface Project {
   description: string;
   location: string;
   status: ProjectStatus;
-  responsibleUserId: string;
+  responsibleUserId: string | null;
   createdAt: string;
   updatedAt: string;
 }
