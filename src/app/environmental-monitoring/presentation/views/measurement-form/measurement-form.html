@@ -26,6 +26,8 @@
         </div>
         <label
           >Punto de monitoreo<input
+            type="number"
+            min="1"
             [value]="monitoringPointId()"
             [disabled]="readOnly()"
             (input)="monitoringPointId.set($any($event.target).value)" /></label
@@ -41,7 +43,11 @@
             [value]="measuredAt()"
             [disabled]="readOnly()"
             (input)="measuredAt.set($any($event.target).value)" /></label
-        ><button class="save" [disabled]="readOnly() || !reference()" (click)="save()">
+        ><button
+          class="save"
+          [disabled]="readOnly() || !reference() || !monitoringPointId()"
+          (click)="save()"
+        >
           Guardar medición
         </button>
       </section>

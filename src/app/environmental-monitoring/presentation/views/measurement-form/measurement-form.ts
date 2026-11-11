@@ -15,8 +15,8 @@ export class MeasurementForm {
   protected readonly navigation = inject(AppNavigation).items;
   protected readonly store = inject(EnvironmentalMonitoringStore);
   private readonly auth = inject(AuthStore);
-  protected readonly monitoringPointId = signal('MP-01');
-  protected readonly indicatorName = signal('PM10');
+  protected readonly monitoringPointId = signal('');
+  protected readonly indicatorName = signal('Aire');
   protected readonly value = signal(0);
   protected readonly measuredAt = signal('2026-10-05T10:00');
   protected readonly saved = signal(false);
