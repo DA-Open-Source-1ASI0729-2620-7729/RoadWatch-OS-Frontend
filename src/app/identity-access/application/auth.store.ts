@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { Observable, catchError, finalize, map, of } from 'rxjs';
 import { AuthGateway } from './auth.gateway';
 import { AuthToken } from '../domain/model/auth-token';
 import { User } from '../domain/model/user';
@@ -13,20 +14,21 @@ export class AuthStore {
   readonly error = signal('');
   readonly authenticated = computed(() => !!this.user() && !!this.token());
 
-  login(email: string, password: string): void {
+  login(email: string, password: string): Observable<User | null> {
     this.loading.set(true);
     this.error.set('');
-    this.gateway.login(email, password).subscribe({
-      next: (session) => {
+    return this.gateway.login(email, password).pipe(
+      map((session) => {
         this.user.set(session.user);
         this.token.set(session.token);
-        this.loading.set(false);
-      },
-      error: () => {
+        return session.user;
+      }),
+      catchError(() => {
         this.error.set('Correo o contraseña inválidos.');
-        this.loading.set(false);
-      },
-    });
+        return of(null);
+      }),
+      finalize(() => this.loading.set(false)),
+    );
   }
 
   logout(): void {

@@ -14,11 +14,9 @@ export class Login {
   protected readonly password = signal('');
 
   protected submit(): void {
-    this.store.login(this.email(), this.password());
-    setTimeout(() => {
-      const user = this.store.user();
-      if (!this.store.authenticated() || !user) return;
+    this.store.login(this.email(), this.password()).subscribe((user) => {
+      if (!user) return;
       this.router.navigateByUrl(user.role?.type === 'AUDITOR' ? '/reports' : '/projects');
-    }, 0);
+    });
   }
 }
