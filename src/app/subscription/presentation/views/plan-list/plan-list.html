@@ -12,16 +12,32 @@
             <li>Usuarios: {{ plan.maxUsers ?? 'Sin límite' }}</li>
           </ul>
           <button
-            [disabled]="true"
+            [disabled]="
+              !canChangePlan() ||
+              !store.subscription() ||
+              store.subscription()?.plan.id === plan.id ||
+              !plan.active ||
+              store.changing()
+            "
+            (click)="select(plan)"
           >
             @if (store.subscription()?.plan.id === plan.id) {
               Plan actual
+            } @else if (store.changing()) {
+              Cambiando plan...
+            } @else if (!store.subscription()) {
+              Suscripción no disponible
+            } @else if (canChangePlan()) {
+              Cambiar a este plan
             } @else {
-              Cambio de plan no disponible
+              Solo administradores pueden cambiar el plan
             }
           </button>
         </article>
       }
     </div>
+    @if (store.error()) {
+      <p class="error-message">{{ store.error() }}</p>
+    }
   </div>
 </app-shell>

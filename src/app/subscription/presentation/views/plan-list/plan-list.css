@@ -68,6 +68,10 @@ button:disabled {
   background: #aab4b0;
   color: #f6f5ee;
 }
+.error-message {
+  color: #b42318;
+  font-weight: 600;
+}
 @media (max-width: 800px) {
   .plans {
     grid-template-columns: 1fr;

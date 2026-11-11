@@ -41,13 +41,27 @@ export class SubscriptionHttpAdapter extends SubscriptionGateway {
     if (!token) return of(null);
 
     return forkJoin({
-      subscription: this.http.get<SubscriptionResponse>(`${this.apiUrl}/subscriptions/current`, {
-        headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
-      }),
+      subscription: this.http.get<SubscriptionResponse>(`${this.apiUrl}/subscriptions/current`, this.authorization(token)),
       plans: this.plans(),
     }).pipe(
       map(({ subscription, plans }) => this.toSubscription(subscription, plans)),
       catchError(() => of(null)),
+    );
+  }
+
+  change(planId: Plan['id']): Observable<Subscription | null> {
+    const token = this.auth.token()?.value;
+    if (!token) return of(null);
+
+    return forkJoin({
+      subscription: this.http.patch<SubscriptionResponse>(
+        `${this.apiUrl}/subscriptions/current/plan/${planId}`,
+        {},
+        this.authorization(token),
+      ),
+      plans: this.plans(),
+    }).pipe(
+      map(({ subscription, plans }) => this.toSubscription(subscription, plans)),
     );
   }
 
@@ -83,5 +97,9 @@ export class SubscriptionHttpAdapter extends SubscriptionGateway {
       startDate: response.startDate,
       updatedAt: response.updatedAt,
     };
+  }
+
+  private authorization(token: string): { headers: HttpHeaders } {
+    return { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) };
   }
 }
