@@ -3,15 +3,15 @@ import { Observable, switchMap, tap } from 'rxjs';
 import { Evidence } from '../domain/model/evidence';
 import { NormativeDocument } from '../domain/model/normative-document';
 import { RequiredDocument } from '../domain/model/required-document';
-import { DocumentEvidenceGateway } from './document-evidence.gateway';
 import { EvidenceGateway } from './evidence.gateway';
 import { NormativeDocumentGateway } from './normative-document.gateway';
+import { RequiredDocumentGateway } from './required-document.gateway';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentEvidenceStore {
-  private readonly gateway = inject(DocumentEvidenceGateway);
   private readonly evidenceGateway = inject(EvidenceGateway);
   private readonly normativeDocumentGateway = inject(NormativeDocumentGateway);
+  private readonly requiredDocumentGateway = inject(RequiredDocumentGateway);
   readonly evidence = signal<Evidence[]>([]);
   readonly normativeDocuments = signal<NormativeDocument[]>([]);
   readonly requiredDocuments = signal<RequiredDocument[]>([]);
@@ -21,7 +21,9 @@ export class DocumentEvidenceStore {
     this.normativeDocumentGateway
       .listNormativeDocuments()
       .subscribe((items) => this.normativeDocuments.set(items));
-    this.gateway.listRequiredDocuments().subscribe((items) => this.requiredDocuments.set(items));
+    this.requiredDocumentGateway
+      .listRequiredDocuments()
+      .subscribe((items) => this.requiredDocuments.set(items));
   }
 
   uploadEvidence(file: File, uploadedByUserId: string): void {
@@ -59,5 +61,17 @@ export class DocumentEvidenceStore {
           ),
         ),
       );
+  }
+
+  createRequiredDocument(
+    projectId: string,
+    milestoneName: string,
+    documentName: string,
+    mandatory: boolean,
+    dueDate: string | null,
+  ): Observable<RequiredDocument> {
+    return this.requiredDocumentGateway
+      .createRequiredDocument(projectId, milestoneName, documentName, mandatory, dueDate)
+      .pipe(tap((document) => this.requiredDocuments.update((items) => [document, ...items])));
   }
 }

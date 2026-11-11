@@ -27,7 +27,7 @@ export interface RequiredDocumentViewModel {
   name: string;
   milestone: string;
   type: string;
-  status: 'Cargado' | 'Pendiente';
+  status: 'Obligatorio' | 'Opcional';
   dueDate: string;
 }
 
@@ -60,6 +60,6 @@ export const toRequiredDocumentViewModel = (
   name: document.documentName,
   milestone: document.milestoneName,
   type: 'Documento',
-  status: document.mandatory ? 'Pendiente' : 'Cargado',
-  dueDate: document.mandatory ? '30/09/2026' : 'Completado',
+  status: document.mandatory ? 'Obligatorio' : 'Opcional',
+  dueDate: document.dueDate ?? 'Sin fecha',
 });

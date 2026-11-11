@@ -21,6 +21,54 @@ h1 {
   gap: 8px;
   margin-bottom: 16px;
 }
+.create {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+.create h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.fields label {
+  display: grid;
+  gap: 5px;
+  color: #64748b;
+  font-size: 11px;
+}
+.fields input {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px;
+  color: #1e3844;
+}
+.fields .mandatory {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 8px;
+}
+.fields .mandatory input {
+  width: auto;
+}
+.fields button {
+  border: 0;
+  border-radius: 6px;
+  background: #23a277;
+  padding: 9px 12px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.notice {
+  color: #187a59;
+  font-size: 13px;
+}
 .filters button {
   border: 1px solid #e2e8f0;
   border-radius: 16px;
@@ -79,4 +127,9 @@ td button {
 .empty {
   text-align: center;
   color: #64748b;
+}
+@media (max-width: 760px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
 }

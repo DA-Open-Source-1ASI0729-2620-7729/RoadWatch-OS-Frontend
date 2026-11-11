@@ -4,4 +4,5 @@ export interface RequiredDocument {
   milestoneName: string;
   documentName: string;
   mandatory: boolean;
+  dueDate: string | null;
 }

@@ -17,12 +17,12 @@ import { AuthGateway } from './identity-access/application/auth.gateway';
 import { AuthHttpAdapter } from './identity-access/infrastructure/auth-http.adapter';
 import { ReportsGateway } from './reports-compliance/application/reports.gateway';
 import { ReportsMockAdapter } from './reports-compliance/infrastructure/reports-mock.adapter';
-import { DocumentEvidenceGateway } from './document-evidence/application/document-evidence.gateway';
-import { DocumentEvidenceMockAdapter } from './document-evidence/infrastructure/document-evidence-mock.adapter';
 import { EvidenceGateway } from './document-evidence/application/evidence.gateway';
 import { EvidenceHttpAdapter } from './document-evidence/infrastructure/evidence-http.adapter';
 import { NormativeDocumentGateway } from './document-evidence/application/normative-document.gateway';
 import { NormativeDocumentHttpAdapter } from './document-evidence/infrastructure/normative-document-http.adapter';
+import { RequiredDocumentGateway } from './document-evidence/application/required-document.gateway';
+import { RequiredDocumentHttpAdapter } from './document-evidence/infrastructure/required-document-http.adapter';
 import { AuthStore } from './identity-access/application/auth.store';
 import { User } from './identity-access/domain/model/user';
 import { APP_SHELL_PROFILE, AppShellProfile } from './shared/model/app-shell-profile';
@@ -78,16 +78,16 @@ export const appConfig: ApplicationConfig = {
       useClass: ReportsMockAdapter,
     },
     {
-      provide: DocumentEvidenceGateway,
-      useClass: DocumentEvidenceMockAdapter,
-    },
-    {
       provide: EvidenceGateway,
       useClass: EvidenceHttpAdapter,
     },
     {
       provide: NormativeDocumentGateway,
       useClass: NormativeDocumentHttpAdapter,
+    },
+    {
+      provide: RequiredDocumentGateway,
+      useClass: RequiredDocumentHttpAdapter,
     },
   ],
 };
