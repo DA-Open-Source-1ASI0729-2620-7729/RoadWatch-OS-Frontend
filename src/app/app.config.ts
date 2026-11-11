@@ -10,7 +10,7 @@ import { routes } from './app.routes';
 import { ProjectManagementGateway } from './project-management/application/project-management.gateway';
 import { ProjectManagementHttpAdapter } from './project-management/infrastructure/project-management-http.adapter';
 import { SubscriptionGateway } from './subscription/application/subscription.gateway';
-import { SubscriptionMockAdapter } from './subscription/infrastructure/subscription-mock.adapter';
+import { SubscriptionHttpAdapter } from './subscription/infrastructure/subscription-http.adapter';
 import { EnvironmentalMonitoringGateway } from './environmental-monitoring/application/environmental-monitoring.gateway';
 import { EnvironmentalMonitoringHttpAdapter } from './environmental-monitoring/infrastructure/environmental-monitoring-http.adapter';
 import { AuthGateway } from './identity-access/application/auth.gateway';
@@ -63,7 +63,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: SubscriptionGateway,
-      useClass: SubscriptionMockAdapter,
+      useClass: SubscriptionHttpAdapter,
     },
     {
       provide: EnvironmentalMonitoringGateway,

@@ -3,6 +3,5 @@ import { Plan } from '../domain/model/plan';
 import { Subscription } from '../domain/model/subscription';
 export abstract class SubscriptionGateway {
   abstract plans(): Observable<Plan[]>;
-  abstract current(): Observable<Subscription>;
-  abstract change(planId: Plan['id']): Observable<Subscription>;
+  abstract current(): Observable<Subscription | null>;
 }

@@ -11,7 +11,4 @@ export class SubscriptionStore {
     this.gateway.plans().subscribe((plans) => this.plans.set(plans));
     this.gateway.current().subscribe((subscription) => this.subscription.set(subscription));
   }
-  change(planId: Plan['id']): void {
-    this.gateway.change(planId).subscribe((subscription) => this.subscription.set(subscription));
-  }
 }
