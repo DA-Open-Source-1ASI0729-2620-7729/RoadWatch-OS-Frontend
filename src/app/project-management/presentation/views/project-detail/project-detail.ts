@@ -2,13 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AppNavigation } from '../../../../app-navigation';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
-import { ProjectManagementStore } from '../../../application/project-management.store';
-import {
-  ProjectDashboardViewModel,
-  ResponsibleViewModel,
-  responsiblesForProject,
-  toProjectDashboardViewModel,
-} from '../../model/project-dashboard.vm';
+import { ProjectPortfolioHttpService } from '../../../infrastructure/project-portfolio-http.service';
+import { ProjectDashboardViewModel } from '../../model/project-dashboard.vm';
 
 @Component({
   selector: 'app-project-detail',
@@ -59,16 +54,10 @@ import {
             </dl>
           </section>
           <section>
-            <h2>Responsables asignados</h2>
-            @for (person of responsables(); track person.id) {
-              <div class="person">
-                <strong>{{ person.nombre }}</strong
-                ><span>{{ person.cargo }}</span
-                ><small>{{ person.correo }}</small>
-              </div>
-            } @empty {
-              <p>Sin responsables asignados.</p>
-            }
+            <h2>Responsable asignado</h2>
+            <div class="person">
+              <strong>{{ item.supervisor }}</strong><span>Responsable del proyecto</span>
+            </div>
           </section>
         </div>
         <section class="actions">
@@ -199,15 +188,11 @@ import {
 })
 export class ProjectDetail implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
-  private readonly store = inject(ProjectManagementStore);
+  private readonly portfolio = inject(ProjectPortfolioHttpService);
   private readonly route = inject(ActivatedRoute);
   protected readonly project = signal<ProjectDashboardViewModel | undefined>(undefined);
-  protected readonly responsables = signal<ResponsibleViewModel[]>([]);
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.store
-      .getProject(id)
-      .subscribe((item) => this.project.set(item && toProjectDashboardViewModel(item)));
-    this.responsables.set(responsiblesForProject(id));
+    this.portfolio.load().subscribe((projects) => this.project.set(projects.find((project) => project.id === id)));
   }
 }

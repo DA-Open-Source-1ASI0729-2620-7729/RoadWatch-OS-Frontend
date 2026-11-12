@@ -82,6 +82,7 @@ export class PuntosMonitoreo implements OnInit {
   );
   private readonly route = inject(ActivatedRoute);
   ngOnInit(): void {
-    this.store.loadMonitoringPoints(this.route.snapshot.paramMap.get('id') ?? 'PRY-003');
+    const projectId = this.route.snapshot.paramMap.get('id');
+    if (projectId) this.store.loadMonitoringPoints(projectId);
   }
 }

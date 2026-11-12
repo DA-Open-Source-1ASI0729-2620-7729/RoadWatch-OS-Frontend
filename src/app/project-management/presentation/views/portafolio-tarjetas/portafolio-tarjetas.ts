@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -9,11 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
-import { ProjectManagementStore } from '../../../application/project-management.store';
-import {
-  ProjectDashboardViewModel,
-  toProjectDashboardViewModel,
-} from '../../model/project-dashboard.vm';
+import { ProjectDashboardViewModel } from '../../model/project-dashboard.vm';
+import { ProjectPortfolioHttpService } from '../../../infrastructure/project-portfolio-http.service';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
@@ -37,15 +34,20 @@ import { AppNavigation } from '../../../../app-navigation';
   styleUrl: './portafolio-tarjetas.css',
 })
 export class PortafolioTarjetas implements OnInit {
-  private store = inject(ProjectManagementStore);
+  private readonly portfolio = inject(ProjectPortfolioHttpService);
   protected readonly navigation = inject(AppNavigation).items;
 
-  readonly proyectos = computed(() => this.store.projects().map(toProjectDashboardViewModel));
-  readonly loading = this.store.loading;
+  readonly proyectos = signal<ProjectDashboardViewModel[]>([]);
+  readonly loading = signal(false);
   searchQuery = '';
 
   ngOnInit(): void {
-    this.store.loadProjects();
+    this.loading.set(true);
+    this.portfolio.load().subscribe({
+      next: (projects) => this.proyectos.set(projects),
+      error: () => this.proyectos.set([]),
+      complete: () => this.loading.set(false),
+    });
   }
 
   get proyectosFiltrados(): ProjectDashboardViewModel[] {
