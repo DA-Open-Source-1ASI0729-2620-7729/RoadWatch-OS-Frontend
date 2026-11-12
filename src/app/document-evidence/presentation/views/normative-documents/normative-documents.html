@@ -187,15 +187,15 @@
             <div class="version-history">
               <span class="material-symbols-outlined">history</span>
               <div>
-                <strong>Versiones de “EIA-sd ...pdf”</strong>
-                <p>
-                  v3 · 12/09 (actual) · v2 · 28/08 · v1 · 10/08 · ninguna versión se sobrescribe
-                </p>
+                <strong>Versiones del documento seleccionado</strong>
+                <p>La versión actual se muestra en la tabla y las versiones previas se conservan.</p>
               </div>
             </div>
             <div class="card-footer">
-              <button class="view-detail" (click)="openDocument(documents()[0])">Ver detalle</button
-              ><button class="close-button" (click)="closeMilestone()">
+              @if (documents()[0]; as firstDocument) {
+                <button class="view-detail" (click)="openDocument(firstDocument)">Ver detalle</button>
+              }
+              <button class="close-button" (click)="closeMilestone()">
                 <span class="material-symbols-outlined">lock</span>Cerrar hito
               </button>
             </div>
@@ -237,11 +237,8 @@
               </dl>
               <section class="detail-versions">
                 <h3>Historial de versiones</h3>
-                <p>
-                  <strong>{{ document.version }}</strong> · versión actual · 12/09/2026
-                </p>
-                <p>v2 · documento reemplazado · 28/08/2026</p>
-                <p>v1 · primera carga · 10/08/2026</p>
+                <p><strong>{{ document.version }}</strong> · versión actual</p>
+                <p>Las versiones anteriores permanecen registradas en el servicio documental.</p>
               </section>
               <app-evidence-panel
                 [evidence]="evidence()"

@@ -11,6 +11,11 @@ import {
   toNormativeDocumentViewModel,
 } from '../../models/document-view-models';
 
+interface MilestoneDocumentViewModel extends NormativeDocumentViewModel {
+  projectId: string;
+  sourceDocumentId?: string;
+}
+
 @Component({
   selector: 'app-normative-documents',
   imports: [EvidencePanel, RouterLink, RouterLinkActive, AppShell],
@@ -26,7 +31,9 @@ export class NormativeDocuments {
   protected readonly selectedFile = signal<File | null>(null);
   protected readonly projectId = signal('');
   protected readonly pendingCount = computed(
-    () => this.documents().filter((document) => document.status === 'Falta').length,
+    () =>
+      this.documents().filter((document) => document.required && document.status === 'Falta')
+        .length,
   );
   protected readonly selectedDocument = signal<NormativeDocumentViewModel | null>(null);
   protected readonly evidence = computed<EvidenceItem[]>(() =>
@@ -72,9 +79,41 @@ export class NormativeDocuments {
       ? selected
       : (this.milestones()[0]?.name ?? 'Sin hitos registrados');
   });
-  protected readonly documents = computed(() =>
-    this.store.normativeDocuments().map(toNormativeDocumentViewModel),
-  );
+  protected readonly documents = computed<MilestoneDocumentViewModel[]>(() => {
+    const milestone = this.currentMilestone();
+    const documents = this.store.normativeDocuments();
+
+    return this.store
+      .requiredDocuments()
+      .filter((requirement) => requirement.milestoneName === milestone)
+      .map((requirement) => {
+        const source = documents.find(
+          (document) =>
+            document.projectId === requirement.projectId &&
+            document.name.toLocaleLowerCase() === requirement.documentName.toLocaleLowerCase(),
+        );
+
+        if (source) {
+          return {
+            ...toNormativeDocumentViewModel(source),
+            required: requirement.mandatory,
+            projectId: requirement.projectId,
+            sourceDocumentId: source.id,
+          };
+        }
+
+        return {
+          id: `required-${requirement.id}`,
+          name: requirement.documentName,
+          type: 'Documento',
+          version: '—',
+          uploadedBy: '—',
+          required: requirement.mandatory,
+          status: 'Falta',
+          projectId: requirement.projectId,
+        };
+      });
+  });
   protected readonly canWrite = computed(() => {
     const roleType = this.auth.user()?.role?.type;
     return roleType === 'ADMIN' || roleType === 'MANAGER' || roleType === 'ENVIRONMENTAL_OFFICER';
@@ -103,16 +142,24 @@ export class NormativeDocuments {
       error: () => this.notification.set('No se pudo registrar el documento.'),
     });
   }
-  protected uploadMissing(document: NormativeDocumentViewModel, event: Event): void {
+  protected uploadMissing(document: MilestoneDocumentViewModel, event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     const uploadedByUserId = this.auth.user()?.id;
     if (!file || !uploadedByUserId || !this.canWrite()) return;
-    const source = this.store.normativeDocuments().find((item) => item.id === document.id);
-    if (source)
-      this.store.uploadNormativeDocumentVersion(source.id, file, uploadedByUserId).subscribe({
+    if (document.sourceDocumentId) {
+      this.store
+        .uploadNormativeDocumentVersion(document.sourceDocumentId, file, uploadedByUserId)
+        .subscribe({
         next: () => this.notification.set(`${document.name} fue cargado correctamente.`),
         error: () => this.notification.set('No se pudo cargar la versión del documento.'),
       });
+      return;
+    }
+
+    this.store.createNormativeDocument(document.projectId, file, uploadedByUserId).subscribe({
+      next: () => this.notification.set(`${document.name} fue cargado correctamente.`),
+      error: () => this.notification.set('No se pudo registrar el documento.'),
+    });
   }
   protected download(document: NormativeDocumentViewModel): void {
     this.notification.set(`Preparando la descarga de ${document.name}.`);
