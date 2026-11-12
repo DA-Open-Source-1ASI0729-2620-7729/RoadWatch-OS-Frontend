@@ -62,13 +62,16 @@
               <div>
                 <h2>Proyecto</h2>
                 <label class="select-control"
-                  ><span class="material-symbols-outlined">route</span><input
-                    type="number"
-                    min="1"
-                    placeholder="ID del proyecto"
+                  ><span class="material-symbols-outlined">route</span><select
                     [value]="projectId()"
-                    (input)="projectId.set($any($event.target).value)"
-                /></label>
+                    (change)="projectId.set($any($event.target).value)"
+                  >
+                    <option value="" disabled>Selecciona un proyecto</option>
+                    @for (project of projects(); track project.id) {
+                      <option [value]="project.id">{{ project.name }} · {{ project.location }}</option>
+                    }
+                  </select></label
+                >
               </div>
             </div>
             <div class="step">
@@ -130,7 +133,7 @@
               </div>
               @if (generated()) {
                 <div class="paper-content">
-                  <h2>Proyecto #{{ projectId() }}</h2>
+                  <h2>{{ selectedProject()?.name ?? 'Proyecto' }}</h2>
                   <p>{{ periodStart() }} — {{ periodEnd() }}</p>
                   <div class="paper-rule"></div>
                   <p>{{ selectedCount() }} secciones incluidas</p>

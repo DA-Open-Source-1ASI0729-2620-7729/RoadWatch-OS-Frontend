@@ -1,7 +1,9 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AuditReport as AuditReportModel } from '../../../domain/model/audit-report';
 import { ReportExportRequest } from '../../../domain/model/report-export-request';
 import { ReportsStore } from '../../../application/reports.store';
+import { ProjectManagementGateway } from '../../../../project-management/application/project-management.gateway';
+import { Project } from '../../../../project-management/domain/model/project';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
@@ -17,11 +19,13 @@ interface ReportSection {
   styleUrl: './audit-report.css',
   templateUrl: './audit-report.html',
 })
-export class AuditReport {
+export class AuditReport implements OnInit {
   protected readonly navigation = inject(AppNavigation).items;
   private readonly reportsStore = inject(ReportsStore);
+  private readonly projectGateway = inject(ProjectManagementGateway);
 
   protected readonly projectId = signal('');
+  protected readonly projects = signal<Project[]>([]);
   protected readonly periodStart = signal('');
   protected readonly periodEnd = signal('');
   protected readonly generated = signal(false);
@@ -43,6 +47,13 @@ export class AuditReport {
   protected readonly selectedCount = computed(
     () => this.sections().filter((section) => section.checked).length,
   );
+  protected readonly selectedProject = computed(() =>
+    this.projects().find((project) => project.id === this.projectId()),
+  );
+
+  ngOnInit(): void {
+    this.projectGateway.getProjects().subscribe((projects) => this.projects.set(projects));
+  }
 
   protected toggleSection(id: string): void {
     this.sections.update((items) =>
