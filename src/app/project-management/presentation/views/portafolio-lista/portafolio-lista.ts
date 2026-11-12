@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, inject, effect } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -12,11 +12,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
-import { ProjectManagementStore } from '../../../application/project-management.store';
-import {
-  ProjectDashboardViewModel,
-  toProjectDashboardViewModel,
-} from '../../model/project-dashboard.vm';
+import { ProjectDashboardViewModel } from '../../model/project-dashboard.vm';
+import { ProjectPortfolioHttpService } from '../../../infrastructure/project-portfolio-http.service';
 import { AppShell } from '../../../../shared/layout/app-shell/app-shell';
 import { AppNavigation } from '../../../../app-navigation';
 
@@ -46,7 +43,7 @@ export class PortafolioLista implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  private store = inject(ProjectManagementStore);
+  private readonly portfolio = inject(ProjectPortfolioHttpService);
   protected readonly navigation = inject(AppNavigation).items;
 
   displayedColumns = [
@@ -63,14 +60,11 @@ export class PortafolioLista implements OnInit, AfterViewInit {
   searchQuery = '';
   dataSource = new MatTableDataSource<ProjectDashboardViewModel>([]);
 
-  constructor() {
-    effect(() => {
-      this.dataSource.data = this.store.projects().map(toProjectDashboardViewModel);
-    });
-  }
-
   ngOnInit(): void {
-    this.store.loadProjects();
+    this.portfolio.load().subscribe((projects) => {
+      this.dataSource.data = projects;
+      this.applyFilter();
+    });
   }
 
   ngAfterViewInit(): void {
