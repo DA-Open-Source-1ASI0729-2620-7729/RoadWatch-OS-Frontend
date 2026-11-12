@@ -63,6 +63,10 @@ export class DocumentEvidenceStore {
       );
   }
 
+  downloadNormativeDocument(documentId: string): Observable<Blob> {
+    return this.normativeDocumentGateway.downloadDocumentFile(documentId);
+  }
+
   createRequiredDocument(
     projectId: string,
     milestoneName: string,

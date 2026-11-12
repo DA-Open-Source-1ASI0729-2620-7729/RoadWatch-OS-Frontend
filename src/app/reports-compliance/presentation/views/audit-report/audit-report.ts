@@ -83,8 +83,22 @@ export class AuditReport implements OnInit {
       next: (report) => {
         this.generatedReport.set(report);
         this.generated.set(true);
-        this.loading.set(false);
-        this.notification.set('Expediente generado en formato PDF.');
+        this.reportsStore.exportPdf(report.id).subscribe({
+          next: (file) => {
+            const url = URL.createObjectURL(file);
+            const link = window.document.createElement('a');
+            link.href = url;
+            link.download = `expediente-${report.id}.pdf`;
+            link.click();
+            URL.revokeObjectURL(url);
+            this.loading.set(false);
+            this.notification.set('Expediente generado y descargado en formato PDF.');
+          },
+          error: () => {
+            this.loading.set(false);
+            this.notification.set('El expediente fue creado, pero no se pudo descargar el PDF.');
+          },
+        });
       },
       error: () => {
         this.loading.set(false);

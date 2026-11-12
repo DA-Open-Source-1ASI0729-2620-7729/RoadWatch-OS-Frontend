@@ -45,6 +45,10 @@ export class NormativeDocumentHttpAdapter extends NormativeDocumentGateway {
       .pipe(map((document) => this.toDocument(document)));
   }
 
+  downloadDocumentFile(documentId: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${documentId}/file`, { responseType: 'blob' });
+  }
+
   private toDocument(response: NormativeDocumentResponse): NormativeDocument {
     return {
       id: String(response.id),

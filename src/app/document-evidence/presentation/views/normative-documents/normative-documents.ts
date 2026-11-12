@@ -162,7 +162,18 @@ export class NormativeDocuments {
     });
   }
   protected download(document: NormativeDocumentViewModel): void {
-    this.notification.set(`Preparando la descarga de ${document.name}.`);
+    this.store.downloadNormativeDocument(document.id).subscribe({
+      next: (file) => {
+        const url = URL.createObjectURL(file);
+        const link = window.document.createElement('a');
+        link.href = url;
+        link.download = document.name;
+        link.click();
+        URL.revokeObjectURL(url);
+        this.notification.set(`${document.name} fue descargado correctamente.`);
+      },
+      error: () => this.notification.set('No se pudo descargar el documento.'),
+    });
   }
   protected openDocument(document: NormativeDocumentViewModel): void {
     this.selectedDocument.set(document);

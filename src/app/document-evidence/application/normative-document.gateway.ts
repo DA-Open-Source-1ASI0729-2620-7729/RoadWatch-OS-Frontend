@@ -9,4 +9,5 @@ export abstract class NormativeDocumentGateway {
     file: File,
     uploadedByUserId: string,
   ): Observable<NormativeDocument>;
+  abstract downloadDocumentFile(documentId: string): Observable<Blob>;
 }
