@@ -6,6 +6,7 @@
     [profileName]="profile().name"
     [profileRole]="profile().role"
     [profileInitials]="profile().initials"
+    (logoutRequested)="logout()"
   />
   <main>
     <app-topbar [breadcrumb]="breadcrumb()" />

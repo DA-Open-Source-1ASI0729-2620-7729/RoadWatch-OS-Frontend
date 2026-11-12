@@ -29,5 +29,8 @@
       <strong>{{ profileName() }}</strong
       ><small>{{ profileRole() }}</small>
     </div>
+    <button type="button" aria-label="Cerrar sesión" title="Cerrar sesión" (click)="logoutRequested.emit()">
+      <span class="material-symbols-outlined">logout</span>
+    </button>
   </div>
 </aside>

@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NavigationItem } from '../../model/navigation-item';
 
@@ -15,6 +15,7 @@ export class AppSidebar {
   readonly profileRole = input('Sesión no iniciada');
   readonly profileInitials = input('RW');
   readonly items = input<NavigationItem[]>([]);
+  readonly logoutRequested = output<void>();
   readonly sections = computed(() => [
     ...new Set(this.items().map((item) => item.section ?? 'NAVEGACIÓN')),
   ]);
