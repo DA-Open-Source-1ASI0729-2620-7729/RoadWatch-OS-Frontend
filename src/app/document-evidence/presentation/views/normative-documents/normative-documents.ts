@@ -21,7 +21,7 @@ export class NormativeDocuments {
   protected readonly navigation = inject(AppNavigation).items;
   private readonly store = inject(DocumentEvidenceStore);
   private readonly auth = inject(AuthStore);
-  protected readonly selectedMilestone = signal('Auditoría mensual - Septiembre');
+  protected readonly selectedMilestone = signal('');
   protected readonly notification = signal('');
   protected readonly selectedFile = signal<File | null>(null);
   protected readonly projectId = signal('');
@@ -42,12 +42,36 @@ export class NormativeDocuments {
       };
     }),
   );
-  protected readonly milestones = [
-    { name: 'Línea base ambiental', progress: '5/5 documentos', complete: true },
-    { name: 'Auditoría mensual - Septiembre', progress: '4/5 documentos', complete: false },
-    { name: 'Auditoría mensual - Octubre', progress: '0/5 documentos', complete: false },
-    { name: 'Cierre de obra', progress: '0/8 documentos', complete: false },
-  ];
+  protected readonly milestones = computed(() => {
+    const uploadedDocuments = new Set(
+      this.store
+        .normativeDocuments()
+        .filter((document) => document.status === 'UPLOADED')
+        .map((document) => `${document.projectId}:${document.name}`.toLowerCase()),
+    );
+    const milestones = new Map<string, { total: number; uploaded: number }>();
+
+    for (const requirement of this.store.requiredDocuments()) {
+      const current = milestones.get(requirement.milestoneName) ?? { total: 0, uploaded: 0 };
+      current.total += 1;
+      if (uploadedDocuments.has(`${requirement.projectId}:${requirement.documentName}`.toLowerCase())) {
+        current.uploaded += 1;
+      }
+      milestones.set(requirement.milestoneName, current);
+    }
+
+    return [...milestones.entries()].map(([name, progress]) => ({
+      name,
+      progress: `${progress.uploaded}/${progress.total} documentos`,
+      complete: progress.uploaded === progress.total,
+    }));
+  });
+  protected readonly currentMilestone = computed(() => {
+    const selected = this.selectedMilestone();
+    return this.milestones().some((milestone) => milestone.name === selected)
+      ? selected
+      : (this.milestones()[0]?.name ?? 'Sin hitos registrados');
+  });
   protected readonly documents = computed(() =>
     this.store.normativeDocuments().map(toNormativeDocumentViewModel),
   );

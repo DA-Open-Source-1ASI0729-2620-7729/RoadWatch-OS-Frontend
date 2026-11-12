@@ -87,10 +87,10 @@
         <div class="documents-layout">
           <section class="milestones card">
             <h2>Hitos de auditoría</h2>
-            @for (milestone of milestones; track milestone.name) {
+            @for (milestone of milestones(); track milestone.name) {
               <button
                 class="milestone"
-                [class.selected]="selectedMilestone() === milestone.name"
+                [class.selected]="currentMilestone() === milestone.name"
                 (click)="chooseMilestone(milestone.name)"
               >
                 <span class="milestone-icon" [class.done]="milestone.complete">{{
@@ -106,7 +106,7 @@
           <section class="document-card card">
             <div class="card-heading">
               <div>
-                <h2>{{ selectedMilestone() }}</h2>
+                <h2>{{ currentMilestone() }}</h2>
                 <p>
                   El hito no se puede cerrar mientras falten documentos marcados como “Requerido”.
                 </p>
